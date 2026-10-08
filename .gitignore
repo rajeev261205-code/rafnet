@@ -1,0 +1,15 @@
+# Python / backend
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+!.env.example
+# Large ML artifacts (WavLM downloads, datasets) — checkpoints in
+# experiments/checkpoints are small and intentionally committed.
+*.pt
+!experiments/embeddings.pt
+*.bin
+*.onnx
+.DS_Store

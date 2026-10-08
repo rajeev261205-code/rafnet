@@ -1,0 +1,93 @@
+{
+  "M1_audio_only": {
+    "model_name": "M1_audio_only",
+    "status": "failed",
+    "metrics": {},
+    "bootstrap_ci": {},
+    "latency_stats": {},
+    "model_size": {},
+    "training_time_sec": 4.76837158203125e-06,
+    "fitting_details": {
+      "traceback": "Traceback (most recent call last):\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 453, in run_ablation_on_embeddings\n    for batch in test_loader:\n                 ^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/utils/data/dataloader.py\", line 505, in __iter__\n    return self._get_iterator()\n           ~~~~~~~~~~~~~~~~~~^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/utils/data/dataloader.py\", line 438, in _get_iterator\n    return _MultiProcessingDataLoaderIter(self)\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/utils/data/dataloader.py\", line 1178, in __init__\n    w.start()\n    ~~~~~~~^^\n  File \"/usr/lib/python3.14/multiprocessing/process.py\", line 121, in start\n    self._popen = self._Popen(self)\n                  ~~~~~~~~~~~^^^^^^\n  File \"/usr/lib/python3.14/multiprocessing/context.py\", line 230, in _Popen\n    return _default_context.get_context().Process._Popen(process_obj)\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\n  File \"/usr/lib/python3.14/multiprocessing/context.py\", line 306, in _Popen\n    return Popen(process_obj)\n  File \"/usr/lib/python3.14/multiprocessing/popen_forkserver.py\", line 35, in __init__\n    super().__init__(process_obj)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\n  File \"/usr/lib/python3.14/multiprocessing/popen_fork.py\", line 17, in __init__\n    util._flush_std_streams()\n    ~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"/usr/lib/python3.14/multiprocessing/util.py\", line 506, in _flush_std_streams\n    sys.stdout.flush()\n    ~~~~~~~~~~~~~~~~^^\nBrokenPipeError: [Errno 32] Broken pipe\n"
+    },
+    "error": "[Errno 32] Broken pipe"
+  },
+  "M2_network_only": {
+    "model_name": "M2_network_only",
+    "status": "failed",
+    "metrics": {},
+    "bootstrap_ci": {},
+    "latency_stats": {},
+    "model_size": {},
+    "training_time_sec": 4.5299530029296875e-06,
+    "fitting_details": {
+      "traceback": "Traceback (most recent call last):\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 453, in run_ablation_on_embeddings\n    for batch in test_loader:\n                 ^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/utils/data/dataloader.py\", line 505, in __iter__\n    return self._get_iterator()\n           ~~~~~~~~~~~~~~~~~~^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/utils/data/dataloader.py\", line 438, in _get_iterator\n    return _MultiProcessingDataLoaderIter(self)\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/utils/data/dataloader.py\", line 1178, in __init__\n    w.start()\n    ~~~~~~~^^\n  File \"/usr/lib/python3.14/multiprocessing/process.py\", line 121, in start\n    self._popen = self._Popen(self)\n                  ~~~~~~~~~~~^^^^^^\n  File \"/usr/lib/python3.14/multiprocessing/context.py\", line 230, in _Popen\n    return _default_context.get_context().Process._Popen(process_obj)\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\n  File \"/usr/lib/python3.14/multiprocessing/context.py\", line 306, in _Popen\n    return Popen(process_obj)\n  File \"/usr/lib/python3.14/multiprocessing/popen_forkserver.py\", line 35, in __init__\n    super().__init__(process_obj)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\n  File \"/usr/lib/python3.14/multiprocessing/popen_fork.py\", line 17, in __init__\n    util._flush_std_streams()\n    ~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"/usr/lib/python3.14/multiprocessing/util.py\", line 506, in _flush_std_streams\n    sys.stdout.flush()\n    ~~~~~~~~~~~~~~~~^^\nBrokenPipeError: [Errno 32] Broken pipe\n"
+    },
+    "error": "[Errno 32] Broken pipe"
+  },
+  "M3_fixed_fusion": {
+    "model_name": "M3_fixed_fusion",
+    "status": "failed",
+    "metrics": {},
+    "bootstrap_ci": {},
+    "latency_stats": {},
+    "model_size": {},
+    "training_time_sec": 2.86102294921875e-06,
+    "fitting_details": {
+      "traceback": "Traceback (most recent call last):\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 453, in run_ablation_on_embeddings\n    for batch in test_loader:\n                 ^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/utils/data/dataloader.py\", line 505, in __iter__\n    return self._get_iterator()\n           ~~~~~~~~~~~~~~~~~~^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/utils/data/dataloader.py\", line 438, in _get_iterator\n    return _MultiProcessingDataLoaderIter(self)\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/utils/data/dataloader.py\", line 1178, in __init__\n    w.start()\n    ~~~~~~~^^\n  File \"/usr/lib/python3.14/multiprocessing/process.py\", line 121, in start\n    self._popen = self._Popen(self)\n                  ~~~~~~~~~~~^^^^^^\n  File \"/usr/lib/python3.14/multiprocessing/context.py\", line 230, in _Popen\n    return _default_context.get_context().Process._Popen(process_obj)\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\n  File \"/usr/lib/python3.14/multiprocessing/context.py\", line 306, in _Popen\n    return Popen(process_obj)\n  File \"/usr/lib/python3.14/multiprocessing/popen_forkserver.py\", line 35, in __init__\n    super().__init__(process_obj)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\n  File \"/usr/lib/python3.14/multiprocessing/popen_fork.py\", line 17, in __init__\n    util._flush_std_streams()\n    ~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"/usr/lib/python3.14/multiprocessing/util.py\", line 506, in _flush_std_streams\n    sys.stdout.flush()\n    ~~~~~~~~~~~~~~~~^^\nBrokenPipeError: [Errno 32] Broken pipe\n"
+    },
+    "error": "[Errno 32] Broken pipe"
+  },
+  "M4_gateway1": {
+    "model_name": "M4_gateway1",
+    "status": "failed",
+    "metrics": {},
+    "bootstrap_ci": {},
+    "latency_stats": {},
+    "model_size": {},
+    "training_time_sec": 3.5762786865234375e-06,
+    "fitting_details": {
+      "traceback": "Traceback (most recent call last):\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 453, in run_ablation_on_embeddings\n    for batch in test_loader:\n                 ^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/utils/data/dataloader.py\", line 505, in __iter__\n    return self._get_iterator()\n           ~~~~~~~~~~~~~~~~~~^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/utils/data/dataloader.py\", line 438, in _get_iterator\n    return _MultiProcessingDataLoaderIter(self)\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/utils/data/dataloader.py\", line 1178, in __init__\n    w.start()\n    ~~~~~~~^^\n  File \"/usr/lib/python3.14/multiprocessing/process.py\", line 121, in start\n    self._popen = self._Popen(self)\n                  ~~~~~~~~~~~^^^^^^\n  File \"/usr/lib/python3.14/multiprocessing/context.py\", line 230, in _Popen\n    return _default_context.get_context().Process._Popen(process_obj)\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\n  File \"/usr/lib/python3.14/multiprocessing/context.py\", line 306, in _Popen\n    return Popen(process_obj)\n  File \"/usr/lib/python3.14/multiprocessing/popen_forkserver.py\", line 35, in __init__\n    super().__init__(process_obj)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\n  File \"/usr/lib/python3.14/multiprocessing/popen_fork.py\", line 17, in __init__\n    util._flush_std_streams()\n    ~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"/usr/lib/python3.14/multiprocessing/util.py\", line 506, in _flush_std_streams\n    sys.stdout.flush()\n    ~~~~~~~~~~~~~~~~^^\nBrokenPipeError: [Errno 32] Broken pipe\n"
+    },
+    "error": "[Errno 32] Broken pipe"
+  },
+  "M5_gateway1_classical_quantum": {
+    "model_name": "M5_gateway1_classical_quantum",
+    "status": "failed",
+    "metrics": {},
+    "bootstrap_ci": {},
+    "latency_stats": {},
+    "model_size": {},
+    "training_time_sec": 0.0,
+    "fitting_details": {
+      "traceback": "Traceback (most recent call last):\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 362, in run_ablation_on_embeddings\n    classical_branch.calibrate(val_z_f, val_labels)\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/src/rafnet/classical/branch.py\", line 387, in calibrate\n    self.model.calibrate(\n    ~~~~~~~~~~~~~~~~~~~~^\n        X_np, y_np,\n        ^^^^^^^^^^^\n        method=self.config.calibration_method,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        cv=self.config.calibration_cv\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/home/sk/rafnet/src/rafnet/classical/branch.py\", line 119, in calibrate\n    self.calibrated_model.fit(X, y)\n    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/sklearn/base.py\", line 1403, in wrapper\n    return fit_method(estimator, *args, **kwargs)\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/sklearn/calibration.py\", line 441, in fit\n    self.calibrated_classifiers_ = parallel(\n                                   ~~~~~~~~^\n        delayed(_fit_classifier_calibrator_pair)(\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<11 lines>...\n        for train, test in cv.split(X, y, **routed_params.splitter.split)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/sklearn/utils/parallel.py\", line 91, in __call__\n    return super().__call__(iterable_with_config_and_warning_filters)\n           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/joblib/parallel.py\", line 2012, in __call__\n    return output if self.return_generator else list(output)\n                                                ~~~~^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/joblib/parallel.py\", line 1940, in _get_sequential_output\n    res = func(*args, **kwargs)\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/sklearn/utils/parallel.py\", line 184, in __call__\n    return self.function(*args, **kwargs)\n           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/sklearn/calibration.py\", line 659, in _fit_classifier_calibrator_pair\n    estimator.fit(X_train, y_train, **fit_params_train)\n    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/sklearn/base.py\", line 1403, in wrapper\n    return fit_method(estimator, *args, **kwargs)\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/sklearn/linear_model/_logistic.py\", line 1501, in fit\n    raise ValueError(\n    ...<3 lines>...\n    )\nValueError: This solver needs samples of at least 2 classes in the data, but the data contains only one class: np.int64(1)\n"
+    },
+    "error": "This solver needs samples of at least 2 classes in the data, but the data contains only one class: np.int64(1)"
+  },
+  "M6_gateway2": {
+    "model_name": "M6_gateway2",
+    "status": "failed",
+    "metrics": {},
+    "bootstrap_ci": {},
+    "latency_stats": {},
+    "model_size": {},
+    "training_time_sec": 0.0,
+    "fitting_details": {
+      "traceback": "Traceback (most recent call last):\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 362, in run_ablation_on_embeddings\n    classical_branch.calibrate(val_z_f, val_labels)\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/src/rafnet/classical/branch.py\", line 387, in calibrate\n    self.model.calibrate(\n    ~~~~~~~~~~~~~~~~~~~~^\n        X_np, y_np,\n        ^^^^^^^^^^^\n        method=self.config.calibration_method,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        cv=self.config.calibration_cv\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/home/sk/rafnet/src/rafnet/classical/branch.py\", line 119, in calibrate\n    self.calibrated_model.fit(X, y)\n    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/sklearn/base.py\", line 1403, in wrapper\n    return fit_method(estimator, *args, **kwargs)\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/sklearn/calibration.py\", line 441, in fit\n    self.calibrated_classifiers_ = parallel(\n                                   ~~~~~~~~^\n        delayed(_fit_classifier_calibrator_pair)(\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<11 lines>...\n        for train, test in cv.split(X, y, **routed_params.splitter.split)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/sklearn/utils/parallel.py\", line 91, in __call__\n    return super().__call__(iterable_with_config_and_warning_filters)\n           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/joblib/parallel.py\", line 2012, in __call__\n    return output if self.return_generator else list(output)\n                                                ~~~~^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/joblib/parallel.py\", line 1940, in _get_sequential_output\n    res = func(*args, **kwargs)\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/sklearn/utils/parallel.py\", line 184, in __call__\n    return self.function(*args, **kwargs)\n           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/sklearn/calibration.py\", line 659, in _fit_classifier_calibrator_pair\n    estimator.fit(X_train, y_train, **fit_params_train)\n    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/sklearn/base.py\", line 1403, in wrapper\n    return fit_method(estimator, *args, **kwargs)\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/sklearn/linear_model/_logistic.py\", line 1501, in fit\n    raise ValueError(\n    ...<3 lines>...\n    )\nValueError: This solver needs samples of at least 2 classes in the data, but the data contains only one class: np.int64(1)\n"
+    },
+    "error": "This solver needs samples of at least 2 classes in the data, but the data contains only one class: np.int64(1)"
+  },
+  "M7_complete": {
+    "model_name": "M7_complete",
+    "status": "failed",
+    "metrics": {},
+    "bootstrap_ci": {},
+    "latency_stats": {},
+    "model_size": {},
+    "training_time_sec": 0.0,
+    "fitting_details": {
+      "traceback": "Traceback (most recent call last):\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 362, in run_ablation_on_embeddings\n    classical_branch.calibrate(val_z_f, val_labels)\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/src/rafnet/classical/branch.py\", line 387, in calibrate\n    self.model.calibrate(\n    ~~~~~~~~~~~~~~~~~~~~^\n        X_np, y_np,\n        ^^^^^^^^^^^\n        method=self.config.calibration_method,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n        cv=self.config.calibration_cv\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/home/sk/rafnet/src/rafnet/classical/branch.py\", line 119, in calibrate\n    self.calibrated_model.fit(X, y)\n    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/sklearn/base.py\", line 1403, in wrapper\n    return fit_method(estimator, *args, **kwargs)\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/sklearn/calibration.py\", line 441, in fit\n    self.calibrated_classifiers_ = parallel(\n                                   ~~~~~~~~^\n        delayed(_fit_classifier_calibrator_pair)(\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<11 lines>...\n        for train, test in cv.split(X, y, **routed_params.splitter.split)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/sklearn/utils/parallel.py\", line 91, in __call__\n    return super().__call__(iterable_with_config_and_warning_filters)\n           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/joblib/parallel.py\", line 2012, in __call__\n    return output if self.return_generator else list(output)\n                                                ~~~~^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/joblib/parallel.py\", line 1940, in _get_sequential_output\n    res = func(*args, **kwargs)\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/sklearn/utils/parallel.py\", line 184, in __call__\n    return self.function(*args, **kwargs)\n           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/sklearn/calibration.py\", line 659, in _fit_classifier_calibrator_pair\n    estimator.fit(X_train, y_train, **fit_params_train)\n    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/sklearn/base.py\", line 1403, in wrapper\n    return fit_method(estimator, *args, **kwargs)\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/sklearn/linear_model/_logistic.py\", line 1501, in fit\n    raise ValueError(\n    ...<3 lines>...\n    )\nValueError: This solver needs samples of at least 2 classes in the data, but the data contains only one class: np.int64(1)\n"
+    },
+    "error": "This solver needs samples of at least 2 classes in the data, but the data contains only one class: np.int64(1)"
+  }
+}

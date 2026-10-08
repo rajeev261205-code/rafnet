@@ -1,0 +1,1 @@
+# RAFNet - Adaptive Audio-Network Fusion for Synthetic Voice Detection

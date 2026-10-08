@@ -1,0 +1,12 @@
+{
+  "train_samples": 85,
+  "val_samples": 0,
+  "test_samples": 15,
+  "split_strategy": "generator",
+  "split_ratios": [
+    0.7,
+    0.15,
+    0.15
+  ],
+  "dataset_hash": "f3efe0f761080f2f"
+}

@@ -1,0 +1,54 @@
+{
+  "M1_audio_only": {
+    "model_name": "M1_audio_only",
+    "status": "failed",
+    "metrics": {},
+    "bootstrap_ci": {},
+    "latency_stats": {},
+    "model_size": {},
+    "training_time_sec": 3.5762786865234375e-06,
+    "fitting_details": {
+      "traceback": "Traceback (most recent call last):\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 453, in run_ablation_on_embeddings\n    for batch in test_loader:\n                 ^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/utils/data/dataloader.py\", line 505, in __iter__\n    return self._get_iterator()\n           ~~~~~~~~~~~~~~~~~~^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/utils/data/dataloader.py\", line 438, in _get_iterator\n    return _MultiProcessingDataLoaderIter(self)\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/utils/data/dataloader.py\", line 1178, in __init__\n    w.start()\n    ~~~~~~~^^\n  File \"/usr/lib/python3.14/multiprocessing/process.py\", line 121, in start\n    self._popen = self._Popen(self)\n                  ~~~~~~~~~~~^^^^^^\n  File \"/usr/lib/python3.14/multiprocessing/context.py\", line 230, in _Popen\n    return _default_context.get_context().Process._Popen(process_obj)\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\n  File \"/usr/lib/python3.14/multiprocessing/context.py\", line 306, in _Popen\n    return Popen(process_obj)\n  File \"/usr/lib/python3.14/multiprocessing/popen_forkserver.py\", line 35, in __init__\n    super().__init__(process_obj)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\n  File \"/usr/lib/python3.14/multiprocessing/popen_fork.py\", line 17, in __init__\n    util._flush_std_streams()\n    ~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"/usr/lib/python3.14/multiprocessing/util.py\", line 506, in _flush_std_streams\n    sys.stdout.flush()\n    ~~~~~~~~~~~~~~~~^^\nBrokenPipeError: [Errno 32] Broken pipe\n"
+    },
+    "error": "[Errno 32] Broken pipe"
+  },
+  "M2_network_only": {
+    "model_name": "M2_network_only",
+    "status": "failed",
+    "metrics": {},
+    "bootstrap_ci": {},
+    "latency_stats": {},
+    "model_size": {},
+    "training_time_sec": 5.245208740234375e-06,
+    "fitting_details": {
+      "traceback": "Traceback (most recent call last):\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 453, in run_ablation_on_embeddings\n    for batch in test_loader:\n                 ^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/utils/data/dataloader.py\", line 505, in __iter__\n    return self._get_iterator()\n           ~~~~~~~~~~~~~~~~~~^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/utils/data/dataloader.py\", line 438, in _get_iterator\n    return _MultiProcessingDataLoaderIter(self)\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/utils/data/dataloader.py\", line 1178, in __init__\n    w.start()\n    ~~~~~~~^^\n  File \"/usr/lib/python3.14/multiprocessing/process.py\", line 121, in start\n    self._popen = self._Popen(self)\n                  ~~~~~~~~~~~^^^^^^\n  File \"/usr/lib/python3.14/multiprocessing/context.py\", line 230, in _Popen\n    return _default_context.get_context().Process._Popen(process_obj)\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\n  File \"/usr/lib/python3.14/multiprocessing/context.py\", line 306, in _Popen\n    return Popen(process_obj)\n  File \"/usr/lib/python3.14/multiprocessing/popen_forkserver.py\", line 35, in __init__\n    super().__init__(process_obj)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\n  File \"/usr/lib/python3.14/multiprocessing/popen_fork.py\", line 17, in __init__\n    util._flush_std_streams()\n    ~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"/usr/lib/python3.14/multiprocessing/util.py\", line 506, in _flush_std_streams\n    sys.stdout.flush()\n    ~~~~~~~~~~~~~~~~^^\nBrokenPipeError: [Errno 32] Broken pipe\n"
+    },
+    "error": "[Errno 32] Broken pipe"
+  },
+  "M3_fixed_fusion": {
+    "model_name": "M3_fixed_fusion",
+    "status": "failed",
+    "metrics": {},
+    "bootstrap_ci": {},
+    "latency_stats": {},
+    "model_size": {},
+    "training_time_sec": 3.0994415283203125e-06,
+    "fitting_details": {
+      "traceback": "Traceback (most recent call last):\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 453, in run_ablation_on_embeddings\n    for batch in test_loader:\n                 ^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/utils/data/dataloader.py\", line 505, in __iter__\n    return self._get_iterator()\n           ~~~~~~~~~~~~~~~~~~^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/utils/data/dataloader.py\", line 438, in _get_iterator\n    return _MultiProcessingDataLoaderIter(self)\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/utils/data/dataloader.py\", line 1178, in __init__\n    w.start()\n    ~~~~~~~^^\n  File \"/usr/lib/python3.14/multiprocessing/process.py\", line 121, in start\n    self._popen = self._Popen(self)\n                  ~~~~~~~~~~~^^^^^^\n  File \"/usr/lib/python3.14/multiprocessing/context.py\", line 230, in _Popen\n    return _default_context.get_context().Process._Popen(process_obj)\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\n  File \"/usr/lib/python3.14/multiprocessing/context.py\", line 306, in _Popen\n    return Popen(process_obj)\n  File \"/usr/lib/python3.14/multiprocessing/popen_forkserver.py\", line 35, in __init__\n    super().__init__(process_obj)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\n  File \"/usr/lib/python3.14/multiprocessing/popen_fork.py\", line 17, in __init__\n    util._flush_std_streams()\n    ~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"/usr/lib/python3.14/multiprocessing/util.py\", line 506, in _flush_std_streams\n    sys.stdout.flush()\n    ~~~~~~~~~~~~~~~~^^\nBrokenPipeError: [Errno 32] Broken pipe\n"
+    },
+    "error": "[Errno 32] Broken pipe"
+  },
+  "M4_gateway1": {
+    "model_name": "M4_gateway1",
+    "status": "failed",
+    "metrics": {},
+    "bootstrap_ci": {},
+    "latency_stats": {},
+    "model_size": {},
+    "training_time_sec": 2.86102294921875e-06,
+    "fitting_details": {
+      "traceback": "Traceback (most recent call last):\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 453, in run_ablation_on_embeddings\n    for batch in test_loader:\n                 ^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/utils/data/dataloader.py\", line 505, in __iter__\n    return self._get_iterator()\n           ~~~~~~~~~~~~~~~~~~^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/utils/data/dataloader.py\", line 438, in _get_iterator\n    return _MultiProcessingDataLoaderIter(self)\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/utils/data/dataloader.py\", line 1178, in __init__\n    w.start()\n    ~~~~~~~^^\n  File \"/usr/lib/python3.14/multiprocessing/process.py\", line 121, in start\n    self._popen = self._Popen(self)\n                  ~~~~~~~~~~~^^^^^^\n  File \"/usr/lib/python3.14/multiprocessing/context.py\", line 230, in _Popen\n    return _default_context.get_context().Process._Popen(process_obj)\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\n  File \"/usr/lib/python3.14/multiprocessing/context.py\", line 306, in _Popen\n    return Popen(process_obj)\n  File \"/usr/lib/python3.14/multiprocessing/popen_forkserver.py\", line 35, in __init__\n    super().__init__(process_obj)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\n  File \"/usr/lib/python3.14/multiprocessing/popen_fork.py\", line 17, in __init__\n    util._flush_std_streams()\n    ~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"/usr/lib/python3.14/multiprocessing/util.py\", line 506, in _flush_std_streams\n    sys.stdout.flush()\n    ~~~~~~~~~~~~~~~~^^\nBrokenPipeError: [Errno 32] Broken pipe\n"
+    },
+    "error": "[Errno 32] Broken pipe"
+  }
+}

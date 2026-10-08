@@ -1,0 +1,28 @@
+{
+  "timestamp": 1791425877.8498988,
+  "dataset": "synthetic_network_only",
+  "n_samples": 200,
+  "n_features": 256,
+  "models": {
+    "logistic": {
+      "accuracy": 1.0,
+      "f1": 1.0,
+      "roc_auc": 1.0
+    },
+    "svm": {
+      "accuracy": 1.0,
+      "f1": 1.0,
+      "roc_auc": 1.0
+    },
+    "random_forest": {
+      "accuracy": 1.0,
+      "f1": 1.0,
+      "roc_auc": 1.0
+    },
+    "mlp": {
+      "accuracy": 0.98,
+      "f1": 0.9767,
+      "roc_auc": 1.0
+    }
+  }
+}

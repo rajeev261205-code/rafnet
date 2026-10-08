@@ -1,0 +1,22 @@
+# Full ML runtime (torch CPU). Production MUST use scikit-learn==1.9.1
+# (the version the shipped pickles were trained with). The SOC adapter carries
+# documented compat shims for older sklearn; prefer 1.9.1 wherever the device
+# policy allows its DLLs.
+torch --index-url https://download.pytorch.org/whl/cpu
+torchaudio --index-url https://download.pytorch.org/whl/cpu
+transformers>=4.30.0
+librosa>=0.10.0
+scikit-learn==1.9.1
+scipy>=1.10.0
+numpy>=1.24.0
+soundfile>=0.12.0
+pyyaml>=6.0
+# Needed to boot the legacy streaming engine (verified live):
+pandas>=2.0
+omegaconf>=2.3
+tqdm>=4.65
+matplotlib>=3.7
+fastapi>=0.110
+uvicorn>=0.29
+pydantic>=2.5
+python-multipart>=0.0.9
