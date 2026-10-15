@@ -1,0 +1,51 @@
+# Python / backend
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+!.env.example
+frontend/.env.local
+# Frontend
+frontend/node_modules/
+frontend/dist/
+node_modules/
+# Large ML artifacts (WavLM downloads, datasets) — checkpoints in
+# experiments/checkpoints are small and intentionally committed.
+*.pt
+!experiments/embeddings.pt
+*.bin
+*.onnx
+.DS_Store
+# Detached local-run server logs (see LOCAL_RUN.md)
+*-local.log
+*-local.err.log
+# Local evaluation material (see samples/README.md) + generated eval reports
+samples/*.wav
+samples/*.mp3
+samples/*.flac
+samples/*.ogg
+samples/*.m4a
+samples/**/*.wav
+samples/**/*.mp3
+samples/**/*.flac
+samples/**/*.ogg
+samples/**/*.oga
+samples/**/*.m4a
+samples/**/*.mp4
+samples/**/*.webm
+samples/**/*.opus
+!samples/README.md
+!samples/labels.csv
+reports/layer_eval.json
+reports/layer_eval.md
+# Phase: data, weights, notebooks outputs stay out of git
+data/
+models/
+notebooks/*.ipynb_checkpoints/
+*.joblib
+frontend/design-ref/
+frontend/design-ref/
+frontend/design-ref/
+frontend/design-ref/

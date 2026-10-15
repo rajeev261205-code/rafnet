@@ -1,0 +1,36 @@
+# Full ML runtime (torch CPU + everything the real pipeline imports).
+#
+# Install order matters — install torch FIRST via its CPU index (see Dockerfile),
+# then this file. Production MUST use scikit-learn==1.9.1 (the version the
+# shipped pickles were trained with); the SOC adapter's compat shims exist only
+# for runtimes whose device policy blocks 1.9.1's DLLs.
+#
+# Deliberately excluded (optional at runtime, unneeded on the default path):
+# - xgboost: only if RAFNetConfig classical.model_type=xgboost (default logistic)
+# - pennylane(+lightning): only for non-fallback VQC; shipped checkpoints use
+#   the classical fallback (PENNYLANE_AVAILABLE guard handles absence)
+transformers>=4.30.0
+librosa>=0.10.0
+scikit-learn==1.9.1
+scipy>=1.10.0
+# Pinned 2.5.3 (not >=1.24): numpy 2.5.4+ ships rebuilt Windows DLLs that this
+# machine's Application Control (WDAC enterprise-signing) policy blocks
+# ("DLL load failed ... blocked"), breaking torch/scipy/sklearn imports.
+# 2.5.3 is the newest numpy whose DLLs load here. See LOCAL_RUN_AUDIT.md.
+numpy==2.5.3
+soundfile>=0.12.0
+pyyaml>=6.0
+# Legacy streaming-engine boot imports (verified live):
+pandas>=2.0
+omegaconf>=2.3
+tqdm>=4.65
+matplotlib>=3.7
+# API layer:
+fastapi>=0.110
+uvicorn>=0.29
+websockets>=12.0
+pydantic>=2.5
+python-multipart>=0.0.9
+# Phase 0 codec stress (bundles an ffmpeg binary; system ffmpeg via
+# `winget install --id Gyan.FFmpeg -e` is preferred when available):
+imageio-ffmpeg>=0.5.0

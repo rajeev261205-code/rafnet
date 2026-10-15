@@ -1,0 +1,20 @@
+file,label,y,group,source,codec,notes
+samples/real/260-123286-0012.flac,real,0,clean_human_librispeech,librispeech,flac,LibriSpeech test-clean speaker 260
+samples/real/4446-2273-0021.flac,real,0,clean_human_librispeech,librispeech,flac,LibriSpeech test-clean speaker 4446
+samples/real/5142-33396-0059.flac,real,0,clean_human_librispeech,librispeech,flac,LibriSpeech test-clean speaker 5142
+samples/real/6930-81414-0025.flac,real,0,clean_human_librispeech,librispeech,flac,LibriSpeech test-clean speaker 6930
+samples/fake/sapi_david_2.wav,fake,1,windows_sapi_tts,sapi_david,wav,SAPI David voice
+samples/fake/sapi_david_4.wav,fake,1,windows_sapi_tts,sapi_david,wav,SAPI David voice
+samples/fake/sapi_zira_2.wav,fake,1,windows_sapi_tts,sapi_zira,wav,SAPI Zira voice
+samples/fake/sapi_zira_4.wav,fake,1,windows_sapi_tts,sapi_zira,wav,SAPI Zira voice
+samples/fake/chatgpt_voice/rafnet_ai_voice_test.wav,fake,1,assistant_voice_chatgpt,chatgpt_voice,wav,ChatGPT voice loopback/recording 25.6s
+samples/fake/windows_tts/tts_test.wav,fake,1,windows_tts,windows_tts,wav,Windows TTS test
+samples/win_tts/sapi_david_0.wav,fake,1,windows_sapi_tts_extended,win_tts,wav,SAPI David extended set
+samples/win_tts/sapi_david_2.wav,fake,1,windows_sapi_tts_extended,win_tts,wav,duplicate of samples/fake/sapi_david_2.wav
+samples/win_tts/sapi_david_4.wav,fake,1,windows_sapi_tts_extended,win_tts,wav,duplicate of samples/fake/sapi_david_4.wav
+samples/win_tts/sapi_zira_0.wav,fake,1,windows_sapi_tts_extended,win_tts,wav,SAPI Zira extended set
+samples/win_tts/sapi_zira_1.wav,fake,1,windows_sapi_tts_extended,win_tts,wav,SAPI Zira extended set
+samples/win_tts/sapi_zira_2.wav,fake,1,windows_sapi_tts_extended,win_tts,wav,duplicate of samples/fake/sapi_zira_2.wav
+samples/win_tts/sapi_zira_3.wav,fake,1,windows_sapi_tts_extended,win_tts,wav,SAPI Zira extended set
+samples/win_tts/sapi_zira_4.wav,fake,1,windows_sapi_tts_extended,win_tts,wav,duplicate of samples/fake/sapi_zira_4.wav
+samples/win_tts/sapi_zira_5.wav,fake,1,windows_sapi_tts_extended,win_tts,wav,SAPI Zira extended set
