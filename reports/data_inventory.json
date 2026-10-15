@@ -1,0 +1,92 @@
+{
+  "generated_at": "2026-10-15T14:33:34.153070+00:00",
+  "data_manifest_rows": 2629,
+  "data_manifest_by_split": {
+    "train": 2206,
+    "test": 174,
+    "val": 249
+  },
+  "data_manifest_by_label": {
+    "HUMAN_LIVE": 2620,
+    "AI_TTS": 9
+  },
+  "data_manifest_by_source": {
+    "librispeech": 2620,
+    "win-sapi": 9
+  },
+  "data_manifest_speakers_n": 41,
+  "data_manifest_speakers": [
+    "spk-1089",
+    "spk-1188",
+    "spk-121",
+    "spk-1221",
+    "spk-1284",
+    "spk-1320",
+    "spk-1580",
+    "spk-1995",
+    "spk-2094",
+    "spk-2300",
+    "spk-237",
+    "spk-260",
+    "spk-2830",
+    "spk-2961",
+    "spk-3570",
+    "spk-3575",
+    "spk-3729",
+    "spk-4077",
+    "spk-4446",
+    "spk-4507",
+    "spk-4970",
+    "spk-4992",
+    "spk-5105",
+    "spk-5142",
+    "spk-5639",
+    "spk-5683",
+    "spk-61",
+    "spk-672",
+    "spk-6829",
+    "spk-6930",
+    "spk-7021",
+    "spk-7127",
+    "spk-7176",
+    "spk-7729",
+    "spk-8224",
+    "spk-8230",
+    "spk-8455",
+    "spk-8463",
+    "spk-8555",
+    "spk-908"
+  ],
+  "data_manifest_generators": {
+    "('human', 'librispeech')": 2620,
+    "('microsoft-sapi-like', 'win-sapi')": 9
+  },
+  "leakage_audit": {
+    "speakers_in_multiple_splits": {},
+    "speakers_overlap_n": 0,
+    "generators_in_multiple_splits": {
+      "('human', 'librispeech')": [
+        "test",
+        "train",
+        "val"
+      ]
+    },
+    "note": "Any non-empty overlap = leakage: same speaker/generator on both sides of a split boundary."
+  },
+  "samples_labels_rows": 19,
+  "samples_by_label_group": {
+    "real/clean_human_librispeech": 4,
+    "fake/windows_sapi_tts": 4,
+    "fake/assistant_voice_chatgpt": 1,
+    "fake/windows_tts": 1,
+    "fake/windows_sapi_tts_extended": 9
+  },
+  "samples_missing_files": [],
+  "data_raw_files_n": 2713,
+  "gaps_vs_brief": [
+    "REAL: no Indian English/Hindi/Tamil, no WhatsApp/Opus voice notes, no phone-line (8 kHz), no laptop-mic/noisy-room sets \u2014 only LibriSpeech clean + samples/.",
+    "FAKE: only SAPI David/Zira + 1 Windows-TTS + 1 ChatGPT loopback; no open-source TTS/VC diversity (Bark/Coqui/XTTS/YourTTS/RVC/Seed-VC), no commercial TTS (no user keys), no voice conversion at all.",
+    "PUBLIC SETS: none downloaded yet (ASVspoof 2019/2021, In-the-Wild, WaveFake, MLAAD, Common Voice). See reports/data_plan.md for per-set license/size/approval.",
+    "data/manifest.csv is REAL-ONLY (LibriSpeech) \u2014 unusable as a spoof train manifest until fake rows are added and splits rebuilt speaker-/generator-disjoint."
+  ]
+}
