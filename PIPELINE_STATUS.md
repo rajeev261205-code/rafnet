@@ -56,27 +56,33 @@ filenames, no credential values, no audio data in this file (all committed).
   - Bugs filed for Phase 6: (1) API rejects `.opus` uploads (extension gate in
     `src/rafnet/soc/audio_io.py`); (2) one phone window crashed a conv kernel
     on a degenerate segment (recorded in baseline.json, needs guard).
-- [ ] **DATA UPDATE — private preprocessing** (next; local compute, no download)
-  - Decode (bundled ffmpeg) -> 16 kHz mono WAV + 8 kHz-origin flag; VAD;
-    4–6 s segments; drop silence/hold-music/IVR/clipped.
-  - Write `samples/real/manifest.csv` (local-only!) with
-    source/original/call-id/times/codec/speaker_group (one group per contact,
-    "whatsapp" separate). Balance: max 40/file, calls total <= 4x WhatsApp.
-  - Split WITHOUT leakage (by group/call): hold out ENTIRE groups as TEST =
-    later-half-date WhatsApp + one whole contact's calls + the 2 .ogg. Never
-    train/tune/select on them. Rest = <=15% domain-adaptation share.
-  - Speaker-leak check: classifier guessing speaker_group from embeddings;
-    shrink private share if high.
-  - Suggested tool: `tools/prepare_private_data.py` (new). VAD: energy-based
-    numpy or `silero-vad` via torch.hub (small download <100 MB, allowed) —
-    decide at implementation time; no 15 GB download needed.
-- [ ] **PHASE 1 — public human data** (needs downloads; STOP before >15 GB
-  without explicit go-ahead; report plan first per user instruction)
-  - Common Voice en-IN/hi/ta + en subsets (CC0, per-subset), LibriSpeech/VCTK
-    subsets, noisy/conversational if small. Target 4000+ clips / 800+ speakers
-    if disk allows (41 GB free — plan sizes first). Manifest: data/manifest.csv
-    + licenses. NOTE: Kaggle creds missing (skip Kaggle sets); no HF_TOKEN
-    (expect slow Hub pulls).
+- [x] **DATA UPDATE — private preprocessing** (2026-10-16/17)
+  - Tool `tools/prepare_private_data.py` (bundled ffmpeg; energy VAD; 4–6 s
+    cuts; QC drops silence/clipped, quarantines tonal; deterministic order).
+  - 763 segments: adapt=75 (whatsapp_early 15 + call_A 60, caps 40/file and
+    calls ≤4x WhatsApp enforced, 618 surplus quarantined), test=70
+    (whatsapp_late 30 incl. the 2 .ogg + whole smaller contact 40),
+    quarantine=618. 41 short files skipped (<4 s, incl. the 2.6 s call file).
+  - Local-only: `samples/real/manifest.csv`, `manifest_summary.json`,
+    `segments/<test|adapt|quarantine>/*.wav` (anon segids, never committed).
+  - Committed counts: `reports/data_splits_private.md`.
+  - Speaker-leak: MFCC+logreg guesses 4 private groups at 0.676 (chance 0.25)
+    = HIGH (channel-driven, expected). Mitigation: adapt share ~2% of human
+    train + 3208 public speakers (below).
+  - Acoustic gap (`reports/acoustic_gap.md`): private is +11 dB louder,
+    −11 dB SNR, half the bandwidth (rolloff 2157 vs 4184 Hz) vs clean public.
+    Gain probe: loudness moves P(AI) only ±0.006 — NOT the cause. Training
+    must cover noisy + band-limited + codec-degraded real (binding).
+- [x] **PHASE 1 — public human data** (2026-10-17)
+  - 6978 clips / 3208 verified speakers (FLEURS en/hi/ta, SLR65 Tamil crowd,
+    SLR118 GramVaani Hindi telephone spontaneous, Libri dev-clean+other).
+  - Tools `tools/fetch_phase1.py` (+resume, budget/disk guards),
+    `tools/respeak_phase1.py` (verified speaker ids). Manifest
+    `data/manifest_phase1.csv` (local). Report `reports/data_phase1.md`.
+  - Budget 4.59/15 GB; C: 38.9 GB free (10 GB floor held). Skipped list in
+    report (gated: CV/AI4Bharat/TED-LIUM/VoxCeleb/VCTK-HF/Kaggle; too big:
+    VoxPopuli/AMI-full/Libri-train/SBCSAE/GramVaani-train; blocked: parquet
+    streaming via pyarrow DLL policy).
 - [ ] **PHASE 2 — fake data** (ElevenLabs key present — check quota/terms and
   cache everything; edge-tts/Piper/Coqui/SAPI locally; public fake sets need
   downloads — same >15 GB gate; hold out 2–3 whole generators unseen)
@@ -106,7 +112,8 @@ filenames, no credential values, no audio data in this file (all committed).
   `.venv/Scripts/python tools/evaluate_phase4.py`
 
 ## What is next (single next step)
-DATA UPDATE preprocessing (`tools/prepare_private_data.py`): VAD-segment the
-86 WhatsApp notes + 18 usable calls into 4–6 s clips, write local-only
-`samples/real/manifest.csv` with group-disjoint TEST holdouts, balance caps,
-and a speaker-leak check. No download over 15 GB involved; proceed.
+PHASE 2 fakes (~10.4 GB budget left): edge-tts/Piper/XTTS/SAPI locally
++ public fake sets if ungated + ElevenLabs TEST-only (built-in voices,
+hard credit cap — check quota endpoint first, cache all, stop cleanly).
+Hold out 2–3 whole generators unseen. Then Phase 3 (codec-fair aug,
+on-the-fly/small-batch, contingency table).
