@@ -1,0 +1,15 @@
+{
+  "M1_audio_only": {
+    "model_name": "M1_audio_only",
+    "status": "failed",
+    "metrics": {},
+    "bootstrap_ci": {},
+    "latency_stats": {},
+    "model_size": {},
+    "training_time_sec": 4.291534423828125e-06,
+    "fitting_details": {
+      "traceback": "Traceback (most recent call last):\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 505, in run_ablation_on_embeddings\n    if hasattr(shared, 'decision_gate') and shared.decision_gate.fitted:\n                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/nn/modules/module.py\", line 1972, in __getattr__\n    raise AttributeError(\n        f\"'{type(self).__name__}' object has no attribute '{name}'\"\n    )\nAttributeError: 'DecisionGate' object has no attribute 'fitted'\n"
+    },
+    "error": "'DecisionGate' object has no attribute 'fitted'"
+  }
+}

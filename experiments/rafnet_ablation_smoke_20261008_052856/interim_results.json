@@ -1,0 +1,54 @@
+{
+  "M1_audio_only": {
+    "model_name": "M1_audio_only",
+    "status": "failed",
+    "metrics": {},
+    "bootstrap_ci": {},
+    "latency_stats": {},
+    "model_size": {},
+    "training_time_sec": 6.9141387939453125e-06,
+    "fitting_details": {
+      "traceback": "Traceback (most recent call last):\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 505, in run_ablation_on_embeddings\n    if hasattr(shared, 'decision_gate') and shared.decision_gate.fitted:\n                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/nn/modules/module.py\", line 1972, in __getattr__\n    raise AttributeError(\n        f\"'{type(self).__name__}' object has no attribute '{name}'\"\n    )\nAttributeError: 'DecisionGate' object has no attribute 'fitted'\n"
+    },
+    "error": "'DecisionGate' object has no attribute 'fitted'"
+  },
+  "M2_network_only": {
+    "model_name": "M2_network_only",
+    "status": "failed",
+    "metrics": {},
+    "bootstrap_ci": {},
+    "latency_stats": {},
+    "model_size": {},
+    "training_time_sec": 9.298324584960938e-06,
+    "fitting_details": {
+      "traceback": "Traceback (most recent call last):\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 505, in run_ablation_on_embeddings\n    if hasattr(shared, 'decision_gate') and shared.decision_gate.fitted:\n                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/nn/modules/module.py\", line 1972, in __getattr__\n    raise AttributeError(\n        f\"'{type(self).__name__}' object has no attribute '{name}'\"\n    )\nAttributeError: 'DecisionGate' object has no attribute 'fitted'\n"
+    },
+    "error": "'DecisionGate' object has no attribute 'fitted'"
+  },
+  "M3_fixed_fusion": {
+    "model_name": "M3_fixed_fusion",
+    "status": "failed",
+    "metrics": {},
+    "bootstrap_ci": {},
+    "latency_stats": {},
+    "model_size": {},
+    "training_time_sec": 7.62939453125e-06,
+    "fitting_details": {
+      "traceback": "Traceback (most recent call last):\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 505, in run_ablation_on_embeddings\n    if hasattr(shared, 'decision_gate') and shared.decision_gate.fitted:\n                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/nn/modules/module.py\", line 1972, in __getattr__\n    raise AttributeError(\n        f\"'{type(self).__name__}' object has no attribute '{name}'\"\n    )\nAttributeError: 'DecisionGate' object has no attribute 'fitted'\n"
+    },
+    "error": "'DecisionGate' object has no attribute 'fitted'"
+  },
+  "M4_gateway1": {
+    "model_name": "M4_gateway1",
+    "status": "failed",
+    "metrics": {},
+    "bootstrap_ci": {},
+    "latency_stats": {},
+    "model_size": {},
+    "training_time_sec": 5.7220458984375e-06,
+    "fitting_details": {
+      "traceback": "Traceback (most recent call last):\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 505, in run_ablation_on_embeddings\n    if hasattr(shared, 'decision_gate') and shared.decision_gate.fitted:\n                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/nn/modules/module.py\", line 1972, in __getattr__\n    raise AttributeError(\n        f\"'{type(self).__name__}' object has no attribute '{name}'\"\n    )\nAttributeError: 'DecisionGate' object has no attribute 'fitted'\n"
+    },
+    "error": "'DecisionGate' object has no attribute 'fitted'"
+  }
+}

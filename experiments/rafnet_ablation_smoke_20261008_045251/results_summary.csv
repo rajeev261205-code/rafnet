@@ -1,0 +1,8 @@
+model,status,training_time_sec,error
+M1_audio_only,failed,4.76837158203125e-06,[Errno 32] Broken pipe
+M2_network_only,failed,4.5299530029296875e-06,[Errno 32] Broken pipe
+M3_fixed_fusion,failed,2.86102294921875e-06,[Errno 32] Broken pipe
+M4_gateway1,failed,3.5762786865234375e-06,[Errno 32] Broken pipe
+M5_gateway1_classical_quantum,failed,0.0,"This solver needs samples of at least 2 classes in the data, but the data contains only one class: np.int64(1)"
+M6_gateway2,failed,0.0,"This solver needs samples of at least 2 classes in the data, but the data contains only one class: np.int64(1)"
+M7_complete,failed,0.0,"This solver needs samples of at least 2 classes in the data, but the data contains only one class: np.int64(1)"

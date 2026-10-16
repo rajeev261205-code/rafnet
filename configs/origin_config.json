@@ -1,0 +1,1 @@
+{"energy_tau": null, "note": "PLACEHOLDER defaults - replace with validation-tuned values from reports/train_*.md before trusting the UNCERTAIN band or open-set rejection. Checkpoint values override energy_tau when present.", "uncertain_below": 0.6}

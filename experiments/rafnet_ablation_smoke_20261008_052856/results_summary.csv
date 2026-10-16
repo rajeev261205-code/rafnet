@@ -1,0 +1,5 @@
+model,status,training_time_sec,error
+M1_audio_only,failed,6.9141387939453125e-06,'DecisionGate' object has no attribute 'fitted'
+M2_network_only,failed,9.298324584960938e-06,'DecisionGate' object has no attribute 'fitted'
+M3_fixed_fusion,failed,7.62939453125e-06,'DecisionGate' object has no attribute 'fitted'
+M4_gateway1,failed,5.7220458984375e-06,'DecisionGate' object has no attribute 'fitted'

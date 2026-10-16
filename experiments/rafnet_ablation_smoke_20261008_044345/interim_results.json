@@ -1,0 +1,93 @@
+{
+  "M1_audio_only": {
+    "model_name": "M1_audio_only",
+    "status": "failed",
+    "metrics": {},
+    "bootstrap_ci": {},
+    "latency_stats": {},
+    "model_size": {},
+    "training_time_sec": 0.0,
+    "fitting_details": {
+      "traceback": "Traceback (most recent call last):\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 766, in run_single_ablation\n    fitting_details = model.fit(train_loader, val_loader, device)\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 585, in fit\n    z_n = self.network_encoder(network)\n          ^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/nn/modules/module.py\", line 1972, in __getattr__\n    raise AttributeError(\n        f\"'{type(self).__name__}' object has no attribute '{name}'\"\n    )\nAttributeError: 'AblationModelWrapper' object has no attribute 'network_encoder'\n"
+    },
+    "error": "'AblationModelWrapper' object has no attribute 'network_encoder'"
+  },
+  "M2_network_only": {
+    "model_name": "M2_network_only",
+    "status": "failed",
+    "metrics": {},
+    "bootstrap_ci": {},
+    "latency_stats": {},
+    "model_size": {},
+    "training_time_sec": 0.0,
+    "fitting_details": {
+      "traceback": "Traceback (most recent call last):\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 766, in run_single_ablation\n    fitting_details = model.fit(train_loader, val_loader, device)\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 584, in fit\n    z_a = self.audio_encoder(audio, audio_mask)\n          ^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/torch/nn/modules/module.py\", line 1972, in __getattr__\n    raise AttributeError(\n        f\"'{type(self).__name__}' object has no attribute '{name}'\"\n    )\nAttributeError: 'AblationModelWrapper' object has no attribute 'audio_encoder'\n"
+    },
+    "error": "'AblationModelWrapper' object has no attribute 'audio_encoder'"
+  },
+  "M3_fixed_fusion": {
+    "model_name": "M3_fixed_fusion",
+    "status": "failed",
+    "metrics": {},
+    "bootstrap_ci": {},
+    "latency_stats": {},
+    "model_size": {},
+    "training_time_sec": 0.0,
+    "fitting_details": {
+      "traceback": "Traceback (most recent call last):\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 766, in run_single_ablation\n    fitting_details = model.fit(train_loader, val_loader, device)\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 627, in fit\n    val_z_f = torch.cat(val_z_f_list, dim=0)\nValueError: torch.cat(): expected a non-empty list of Tensors\n"
+    },
+    "error": "torch.cat(): expected a non-empty list of Tensors"
+  },
+  "M4_gateway1": {
+    "model_name": "M4_gateway1",
+    "status": "failed",
+    "metrics": {},
+    "bootstrap_ci": {},
+    "latency_stats": {},
+    "model_size": {},
+    "training_time_sec": 0.0,
+    "fitting_details": {
+      "traceback": "Traceback (most recent call last):\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 763, in run_single_ablation\n    model = AblationModelWrapper(model_name, config)\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 180, in __init__\n    self._build_model()\n    ~~~~~~~~~~~~~~~~~^^\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 256, in _build_model\n    self.audio_encoder = AudioEncoder(AudioEncoderConfig(\n                         ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\n        sample_rate=c.audio.sample_rate,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<11 lines>...\n        device=c.device,\n        ^^^^^^^^^^^^^^^^\n    ))\n    ^^\n  File \"/home/sk/rafnet/src/rafnet/audio/encoder.py\", line 36, in __init__\n    self.wavlm_encoder = create_wavlm_encoder(\n                         ~~~~~~~~~~~~~~~~~~~~^\n        model_name=config.wavlm_model,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<5 lines>...\n        device=config.device,\n        ^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/home/sk/rafnet/src/rafnet/audio/wavlm_encoder.py\", line 249, in create_wavlm_encoder\n    return WavLMEncoder(config)\n  File \"/home/sk/rafnet/src/rafnet/audio/wavlm_encoder.py\", line 51, in __init__\n    self.wavlm = WavLMModel.from_pretrained(config.model_name)\n                 ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/transformers/modeling_utils.py\", line 4338, in from_pretrained\n    loading_info, disk_offload_index = cls._load_pretrained_model(model, state_dict, checkpoint_files, load_config)\n                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/transformers/modeling_utils.py\", line 4481, in _load_pretrained_model\n    loading_info, disk_offload_index = convert_and_load_state_dict_in_model(\n                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^\n        model=model,\n        ^^^^^^^^^^^^\n    ...<2 lines>...\n        disk_offload_index=disk_offload_index,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/transformers/core_model_loading.py\", line 1752, in convert_and_load_state_dict_in_model\n    for first_param_name, mapping in tqdm(param_name_to_load.items(), desc=\"Loading weights\"):\n                                     ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/transformers/utils/logging.py\", line 390, in __call__\n    return factory(*args, **kwargs)\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/tqdm/asyncio.py\", line 24, in __init__\n    super().__init__(iterable, *args, **kwargs)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/tqdm/std.py\", line 1101, in __init__\n    self.sp = self.status_printer(self.fp)\n              ~~~~~~~~~~~~~~~~~~~^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/tqdm/std.py\", line 447, in status_printer\n    getattr(sys.stdout, 'flush', lambda: None)()\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\nBrokenPipeError: [Errno 32] Broken pipe\n"
+    },
+    "error": "[Errno 32] Broken pipe"
+  },
+  "M5_gateway1_classical_quantum": {
+    "model_name": "M5_gateway1_classical_quantum",
+    "status": "failed",
+    "metrics": {},
+    "bootstrap_ci": {},
+    "latency_stats": {},
+    "model_size": {},
+    "training_time_sec": 0.0,
+    "fitting_details": {
+      "traceback": "Traceback (most recent call last):\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 763, in run_single_ablation\n    model = AblationModelWrapper(model_name, config)\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 180, in __init__\n    self._build_model()\n    ~~~~~~~~~~~~~~~~~^^\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 300, in _build_model\n    self.audio_encoder = AudioEncoder(AudioEncoderConfig(\n                         ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\n        sample_rate=c.audio.sample_rate,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<11 lines>...\n        device=c.device,\n        ^^^^^^^^^^^^^^^^\n    ))\n    ^^\n  File \"/home/sk/rafnet/src/rafnet/audio/encoder.py\", line 36, in __init__\n    self.wavlm_encoder = create_wavlm_encoder(\n                         ~~~~~~~~~~~~~~~~~~~~^\n        model_name=config.wavlm_model,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<5 lines>...\n        device=config.device,\n        ^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/home/sk/rafnet/src/rafnet/audio/wavlm_encoder.py\", line 249, in create_wavlm_encoder\n    return WavLMEncoder(config)\n  File \"/home/sk/rafnet/src/rafnet/audio/wavlm_encoder.py\", line 51, in __init__\n    self.wavlm = WavLMModel.from_pretrained(config.model_name)\n                 ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/transformers/modeling_utils.py\", line 4338, in from_pretrained\n    loading_info, disk_offload_index = cls._load_pretrained_model(model, state_dict, checkpoint_files, load_config)\n                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/transformers/modeling_utils.py\", line 4481, in _load_pretrained_model\n    loading_info, disk_offload_index = convert_and_load_state_dict_in_model(\n                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^\n        model=model,\n        ^^^^^^^^^^^^\n    ...<2 lines>...\n        disk_offload_index=disk_offload_index,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/transformers/core_model_loading.py\", line 1752, in convert_and_load_state_dict_in_model\n    for first_param_name, mapping in tqdm(param_name_to_load.items(), desc=\"Loading weights\"):\n                                     ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/transformers/utils/logging.py\", line 390, in __call__\n    return factory(*args, **kwargs)\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/tqdm/asyncio.py\", line 24, in __init__\n    super().__init__(iterable, *args, **kwargs)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/tqdm/std.py\", line 1101, in __init__\n    self.sp = self.status_printer(self.fp)\n              ~~~~~~~~~~~~~~~~~~~^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/tqdm/std.py\", line 447, in status_printer\n    getattr(sys.stdout, 'flush', lambda: None)()\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\nBrokenPipeError: [Errno 32] Broken pipe\n"
+    },
+    "error": "[Errno 32] Broken pipe"
+  },
+  "M6_gateway2": {
+    "model_name": "M6_gateway2",
+    "status": "failed",
+    "metrics": {},
+    "bootstrap_ci": {},
+    "latency_stats": {},
+    "model_size": {},
+    "training_time_sec": 0.0,
+    "fitting_details": {
+      "traceback": "Traceback (most recent call last):\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 763, in run_single_ablation\n    model = AblationModelWrapper(model_name, config)\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 180, in __init__\n    self._build_model()\n    ~~~~~~~~~~~~~~~~~^^\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 390, in _build_model\n    self.audio_encoder = AudioEncoder(AudioEncoderConfig(\n                         ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\n        sample_rate=c.audio.sample_rate,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<11 lines>...\n        device=c.device,\n        ^^^^^^^^^^^^^^^^\n    ))\n    ^^\n  File \"/home/sk/rafnet/src/rafnet/audio/encoder.py\", line 36, in __init__\n    self.wavlm_encoder = create_wavlm_encoder(\n                         ~~~~~~~~~~~~~~~~~~~~^\n        model_name=config.wavlm_model,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<5 lines>...\n        device=config.device,\n        ^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/home/sk/rafnet/src/rafnet/audio/wavlm_encoder.py\", line 249, in create_wavlm_encoder\n    return WavLMEncoder(config)\n  File \"/home/sk/rafnet/src/rafnet/audio/wavlm_encoder.py\", line 51, in __init__\n    self.wavlm = WavLMModel.from_pretrained(config.model_name)\n                 ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/transformers/modeling_utils.py\", line 4338, in from_pretrained\n    loading_info, disk_offload_index = cls._load_pretrained_model(model, state_dict, checkpoint_files, load_config)\n                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/transformers/modeling_utils.py\", line 4481, in _load_pretrained_model\n    loading_info, disk_offload_index = convert_and_load_state_dict_in_model(\n                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^\n        model=model,\n        ^^^^^^^^^^^^\n    ...<2 lines>...\n        disk_offload_index=disk_offload_index,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/transformers/core_model_loading.py\", line 1752, in convert_and_load_state_dict_in_model\n    for first_param_name, mapping in tqdm(param_name_to_load.items(), desc=\"Loading weights\"):\n                                     ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/transformers/utils/logging.py\", line 390, in __call__\n    return factory(*args, **kwargs)\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/tqdm/asyncio.py\", line 24, in __init__\n    super().__init__(iterable, *args, **kwargs)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/tqdm/std.py\", line 1101, in __init__\n    self.sp = self.status_printer(self.fp)\n              ~~~~~~~~~~~~~~~~~~~^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/tqdm/std.py\", line 447, in status_printer\n    getattr(sys.stdout, 'flush', lambda: None)()\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\nBrokenPipeError: [Errno 32] Broken pipe\n"
+    },
+    "error": "[Errno 32] Broken pipe"
+  },
+  "M7_complete": {
+    "model_name": "M7_complete",
+    "status": "failed",
+    "metrics": {},
+    "bootstrap_ci": {},
+    "latency_stats": {},
+    "model_size": {},
+    "training_time_sec": 0.0,
+    "fitting_details": {
+      "traceback": "Traceback (most recent call last):\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 763, in run_single_ablation\n    model = AblationModelWrapper(model_name, config)\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 180, in __init__\n    self._build_model()\n    ~~~~~~~~~~~~~~~~~^^\n  File \"/home/sk/rafnet/src/rafnet/evaluation/runner.py\", line 490, in _build_model\n    self.full_model = RAFNet(c)\n                      ~~~~~~^^^\n  File \"/home/sk/rafnet/src/rafnet/model.py\", line 49, in __init__\n    self.audio_encoder = AudioEncoder(audio_config)\n                         ~~~~~~~~~~~~^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/src/rafnet/audio/encoder.py\", line 36, in __init__\n    self.wavlm_encoder = create_wavlm_encoder(\n                         ~~~~~~~~~~~~~~~~~~~~^\n        model_name=config.wavlm_model,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    ...<5 lines>...\n        device=config.device,\n        ^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/home/sk/rafnet/src/rafnet/audio/wavlm_encoder.py\", line 249, in create_wavlm_encoder\n    return WavLMEncoder(config)\n  File \"/home/sk/rafnet/src/rafnet/audio/wavlm_encoder.py\", line 51, in __init__\n    self.wavlm = WavLMModel.from_pretrained(config.model_name)\n                 ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/transformers/modeling_utils.py\", line 4338, in from_pretrained\n    loading_info, disk_offload_index = cls._load_pretrained_model(model, state_dict, checkpoint_files, load_config)\n                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/transformers/modeling_utils.py\", line 4481, in _load_pretrained_model\n    loading_info, disk_offload_index = convert_and_load_state_dict_in_model(\n                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^\n        model=model,\n        ^^^^^^^^^^^^\n    ...<2 lines>...\n        disk_offload_index=disk_offload_index,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/transformers/core_model_loading.py\", line 1752, in convert_and_load_state_dict_in_model\n    for first_param_name, mapping in tqdm(param_name_to_load.items(), desc=\"Loading weights\"):\n                                     ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/transformers/utils/logging.py\", line 390, in __call__\n    return factory(*args, **kwargs)\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/tqdm/asyncio.py\", line 24, in __init__\n    super().__init__(iterable, *args, **kwargs)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/tqdm/std.py\", line 1101, in __init__\n    self.sp = self.status_printer(self.fp)\n              ~~~~~~~~~~~~~~~~~~~^^^^^^^^^\n  File \"/home/sk/rafnet/venv/lib/python3.14/site-packages/tqdm/std.py\", line 447, in status_printer\n    getattr(sys.stdout, 'flush', lambda: None)()\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\nBrokenPipeError: [Errno 32] Broken pipe\n"
+    },
+    "error": "[Errno 32] Broken pipe"
+  }
+}

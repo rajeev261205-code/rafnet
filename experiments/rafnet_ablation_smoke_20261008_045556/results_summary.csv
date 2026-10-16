@@ -1,0 +1,5 @@
+model,status,training_time_sec,error
+M1_audio_only,failed,3.814697265625e-06,[Errno 32] Broken pipe
+M2_network_only,failed,4.76837158203125e-06,[Errno 32] Broken pipe
+M3_fixed_fusion,failed,3.5762786865234375e-06,[Errno 32] Broken pipe
+M4_gateway1,failed,3.5762786865234375e-06,[Errno 32] Broken pipe

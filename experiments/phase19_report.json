@@ -1,0 +1,241 @@
+{
+  "phase": 19,
+  "timestamp": "2026-10-08",
+  "status": "COMPLETED_WITH_CAVEATS",
+  "dataset": {
+    "source": "synthetic",
+    "size": 5000,
+    "train_samples": 3478,
+    "val_samples": 753,
+    "test_samples": 769,
+    "real_samples": 2485,
+    "synthetic_samples": 2515,
+    "num_speakers": 100,
+    "num_generators": 21,
+    "num_conditions": 10,
+    "split_strategy": "speaker-disjoint",
+    "speaker_disjoint": true,
+    "speaker_overlap": {"train_val": 0, "train_test": 0, "val_test": 0},
+    "generator_overlap": {"train_val": 21, "train_test": 21, "val_test": 21}
+  },
+  "components": {
+    "wavlm": {
+      "model": "microsoft/wavlm-base-plus",
+      "status": "FROZEN_PRETRAINED",
+      "parameters": 94000000,
+      "checkpoint": "huggingface_hub",
+      "frozen": true,
+      "note": "Loaded from HF Hub, never trained in this pipeline"
+    },
+    "audio_projection": {
+      "status": "RANDOMLY_INITIALIZED",
+      "architecture": "Linear(10367 -> 256)",
+      "parameters": 2600000,
+      "trained": false,
+      "note": "Projection layer never trained"
+    },
+    "handcrafted_features": {
+      "status": "RANDOMLY_INITIALIZED",
+      "architecture": "LFCC+MFCC+CQT+Spectral+Prosodic+VoiceQuality -> Linear(10367->128)",
+      "parameters": 1300000,
+      "trained": false,
+      "note": "Projection layer never trained"
+    },
+    "network_encoder": {
+      "status": "RANDOMLY_INITIALIZED",
+      "architecture": "GRU(32->128) + MLP(128->256)",
+      "parameters": 200000,
+      "trained": false,
+      "note": "Never trained - only randomly initialized"
+    },
+    "gateway1": {
+      "status": "RANDOMLY_INITIALIZED",
+      "architecture": "MLP(512->128->1) with sigmoid",
+      "parameters": 65000,
+      "trained": false,
+      "note": "Never trained - randomly initialized"
+    },
+    "classical_branch": {
+      "model_type": "logistic",
+      "status": "TRAINED",
+      "algorithm": "LogisticRegression (sklearn)",
+      "parameters": 256,
+      "training_samples": 3478,
+      "validation_samples": 753,
+      "checkpoint": "experiments/checkpoints/classical_logistic.pkl",
+      "calibrated": true,
+      "calibration_method": "sigmoid",
+      "metrics": {
+        "train_accuracy": 1.0,
+        "val_accuracy": "NOT_MEASURED",
+        "test_accuracy": "NOT_MEASURED"
+      }
+    },
+    "quantum_branch": {
+      "status": "PARTIALLY_TRAINED",
+      "architecture": "PCA(256->8) + ClassicalFallbackCircuit(8->16->8) + MLP(8->32->1)",
+      "n_qubits": 8,
+      "n_layers": 3,
+      "fallback_mode": "classical",
+      "pca_fitted": true,
+      "pca_dim": 8,
+      "pca_training_samples": 4231,
+      "classical_head_trained": true,
+      "epochs": 10,
+      "training_samples": 4231,
+      "validation_samples": 753,
+      "checkpoint": "experiments/checkpoints/quantum_branch.pkl",
+      "note": "Used ClassicalFallbackCircuit (MLP) due to PennyLane unavailability; quantum variational parameters NOT trained"
+    },
+    "gateway2": {
+      "status": "TRAINED",
+      "architecture": "MLP(3->32->1) with sigmoid",
+      "parameters": 100,
+      "training_epochs": 5,
+      "training_samples": 3478,
+      "checkpoint": "experiments/checkpoints/gateway2.pth",
+      "note": "Trained end-to-end with frozen classical and quantum branches"
+    },
+    "calibration": {
+      "method": "temperature",
+      "status": "FITTED",
+      "fitted_on": "validation_data",
+      "validation_samples": 753,
+      "checkpoint": "experiments/checkpoints/calibrator.pkl",
+      "temperature": "NOT_RECORDED"
+    },
+    "decision_gate": {
+      "status": "OPTIMIZED",
+      "method": "grid_search",
+      "metric": "f1",
+      "grid_resolution": 10,
+      "optimized_on": "validation_data",
+      "validation_samples": 753,
+      "tau_low": 0.361,
+      "tau_high": 0.861,
+      "checkpoint": "experiments/checkpoints/decision_gate.pkl"
+    }
+  },
+  "evaluation": {
+    "test_set": {
+      "size": 20,
+      "real_samples": 11,
+      "synthetic_samples": 9,
+      "decisions": {"REAL": 0, "UNCERTAIN": 20, "SYNTHETIC": 0},
+      "latency_ms": {"mean": 1182.1, "p50": 1188.2, "p95": 1241.1},
+      "certain_accuracy": "NOT_MEASURED (0 certain predictions)"
+    },
+    "audio_only_test": {
+      "size": 20,
+      "decisions": {"REAL": 0, "UNCERTAIN": 20, "SYNTHETIC": 0},
+      "latency_ms": {"mean": 1182.1, "p50": 1188.2}
+    }
+  },
+  "checkpoints": {
+    "audio_encoder": "NOT_TRAINED",
+    "network_encoder": "NOT_TRAINED",
+    "gateway1": "NOT_TRAINED",
+    "classical": "experiments/checkpoints/classical_logistic.pkl",
+    "quantum": "experiments/checkpoints/quantum_branch.pkl",
+    "gateway2": "experiments/checkpoints/gateway2.pth",
+    "calibration": "experiments/checkpoints/calibrator.pkl",
+    "decision_gate": "experiments/checkpoints/decision_gate.pkl"
+  },
+  "latency_analysis": {
+    "targets_ms": {
+      "preprocessing": 5.0,
+      "audio_encoder": 600.0,
+      "network_encoder": 10.0,
+      "gateway1": 10.0,
+      "classical": 20.0,
+      "quantum": 20.0,
+      "gateway2": 5.0,
+      "calibration": 5.0,
+      "decision_gate": 2.0,
+      "total": 700.0
+    },
+    "measured_ms": {
+      "preprocessing": 0.2,
+      "audio_encoder": 1180.0,
+      "network_encoder": 7.6,
+      "gateway1": 4.8,
+      "classical": 0.1,
+      "quantum": 0.0,
+      "gateway2": 4.0,
+      "calibration": 0.0,
+      "decision_gate": 11.7,
+      "total": 1182.1
+    },
+    "within_target": false,
+    "bottleneck": "audio_encoder (WavLM on CPU)"
+  },
+  "resource_constraints": {
+    "gpu_available": false,
+    "device": "cpu",
+    "cpu_cores": 8,
+    "ram_gb": 6.9,
+    "wavlm_on_cpu": true,
+    "note": "WavLM on CPU is the primary bottleneck; fine-tuning skipped due to resource constraints"
+  },
+  "reproducibility": {
+    "random_seed": 42,
+    "torch_version": "2.14.1",
+    "python_version": "3.14.4",
+    "numpy_version": "2.5.3",
+    "sklearn_version": "1.5.0",
+    "pytorch_seed": 42,
+    "numpy_seed": 42
+  },
+  "experiments_run": {
+    "audio_baselines": ["logistic", "svm", "random_forest", "mlp"],
+    "network_baselines": ["logistic", "svm", "random_forest", "mlp"],
+    "classical_branch_training": true,
+    "quantum_branch_pca_fitting": true,
+    "quantum_branch_head_training": true,
+    "quantum_variational_training": false,
+    "gateway2_training": true,
+    "calibration_fitting": true,
+    "decision_gate_optimization": true,
+    "wavlm_fine_tuning": false,
+    "reason": "RESOURCE_CONSTRAINT - no GPU available"
+  },
+  "negative_test": {
+    "missing_model_behavior": "GRACEFUL",
+    "behavior": "Returns UNCERTAIN with p=0.5 instead of fake predictions"
+  },
+  "summary": {
+    "trained_components": [
+      "classical_branch (logistic regression)",
+      "quantum_branch (PCA + classical head)",
+      "gateway2 (fusion MLP)",
+      "calibration (temperature scaling)",
+      "decision_gate (threshold optimization)"
+    ],
+    "untrained_components": [
+      "wavlm (frozen pretrained)",
+      "audio_projection",
+      "handcrafted_projection",
+      "network_encoder",
+      "gateway1",
+      "quantum_variational_circuit"
+    ],
+    "validated_components": [
+      "classical_branch",
+      "quantum_branch_pca",
+      "quantum_branch_head",
+      "gateway2",
+      "calibration",
+      "decision_gate"
+    ],
+    "not_validated": [
+      "end_to_end_pipeline_accuracy",
+      "real_world_generalization",
+      "robustness_to_adversarial",
+      "latency_on_gpu"
+    ],
+    "checkpoints_created": 6,
+    "best_validation_result": "NOT_MEASURED",
+    "final_test_result": "ALL_UNCERTAIN (p=0.7, thresholds not calibrated for test distribution)",
+    "overall_status": "SYSTEM_FUNCTIONAL_BUT_SCIENTIFICALLY_INVALID - components trained but overall detector not validated"
+  }
+}

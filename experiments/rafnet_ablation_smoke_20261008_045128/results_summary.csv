@@ -1,0 +1,8 @@
+model,status,accuracy,precision,recall,f1,roc_auc,eer,fpr,fnr,ece,brier,ci_accuracy_lower,ci_precision_lower,ci_recall_lower,ci_f1_lower,ci_roc_auc_lower,ci_eer_lower,ci_fpr_lower,ci_fnr_lower,ci_ece_lower,ci_brier_lower,ci_risk_coverage_lower,ci_coverage_error_curve_lower,ci_latency_lower,ci_throughput_lower,ci_accuracy_upper,ci_precision_upper,ci_recall_upper,ci_f1_upper,ci_roc_auc_upper,ci_eer_upper,ci_fpr_upper,ci_fnr_upper,ci_ece_upper,ci_brier_upper,ci_risk_coverage_upper,ci_coverage_error_curve_upper,ci_latency_upper,ci_throughput_upper,total_parameters,trainable_parameters,training_time_sec,error
+M1_audio_only,completed,1.0,1.0,1.0,1.0,,0.0,0.0,0.0,0.45688140392303467,0.20924267172813416,1.0,1.0,1.0,1.0,,0.0,0.0,0.0,0.43661797046661377,0.1906706988811493,,,,,1.0,1.0,1.0,1.0,,0.0,0.0,0.0,0.4771449565887451,0.22781464457511902,,,,,0.0,0.0,4.76837158203125e-06,
+M2_network_only,failed,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,4.291534423828125e-06,[Errno 32] Broken pipe
+M3_fixed_fusion,failed,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,2.86102294921875e-06,[Errno 32] Broken pipe
+M4_gateway1,failed,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,2.6226043701171875e-06,[Errno 32] Broken pipe
+M5_gateway1_classical_quantum,failed,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Requesting 3-fold cross-validation but provided less than 3 examples for at least one class.
+M6_gateway2,failed,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Requesting 3-fold cross-validation but provided less than 3 examples for at least one class.
+M7_complete,failed,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,Requesting 3-fold cross-validation but provided less than 3 examples for at least one class.

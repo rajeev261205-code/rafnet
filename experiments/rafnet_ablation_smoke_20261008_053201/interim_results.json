@@ -1,0 +1,102 @@
+{
+  "M1_audio_only": {
+    "model_name": "M1_audio_only",
+    "status": "completed",
+    "metrics": {
+      "accuracy": 0.5517241379310345,
+      "precision": 0.5714285714285714,
+      "recall": 0.5333333333333333,
+      "f1": 0.5517241379310345,
+      "roc_auc": 0.5857142857142857,
+      "eer": 0.42857142857076735,
+      "fpr": 0.42857142857142855,
+      "fnr": 0.4666666666666667,
+      "ece": 0.028210005883512808,
+      "brier": 0.24592116475105286
+    },
+    "bootstrap_ci": {},
+    "latency_stats": {},
+    "model_size": {
+      "total_parameters": 0,
+      "trainable_parameters": 0
+    },
+    "training_time_sec": 6.67572021484375e-06,
+    "fitting_details": {},
+    "error": null
+  },
+  "M2_network_only": {
+    "model_name": "M2_network_only",
+    "status": "completed",
+    "metrics": {
+      "accuracy": 0.4827586206896552,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "roc_auc": 0.5142857142857143,
+      "eer": 0.4666666666666672,
+      "fpr": 0.0,
+      "fnr": 1.0,
+      "ece": 0.19020464091465394,
+      "brier": 0.2858748137950897
+    },
+    "bootstrap_ci": {},
+    "latency_stats": {},
+    "model_size": {
+      "total_parameters": 0,
+      "trainable_parameters": 0
+    },
+    "training_time_sec": 8.821487426757812e-06,
+    "fitting_details": {},
+    "error": null
+  },
+  "M3_fixed_fusion": {
+    "model_name": "M3_fixed_fusion",
+    "status": "completed",
+    "metrics": {
+      "accuracy": 0.5517241379310345,
+      "precision": 0.5416666666666666,
+      "recall": 0.8666666666666667,
+      "f1": 0.6666666666666666,
+      "roc_auc": 0.680952380952381,
+      "eer": 0.4,
+      "fpr": 0.7857142857142857,
+      "fnr": 0.13333333333333333,
+      "ece": 0.041451801513803385,
+      "brier": 0.2470484972000122
+    },
+    "bootstrap_ci": {},
+    "latency_stats": {},
+    "model_size": {
+      "total_parameters": 0,
+      "trainable_parameters": 0
+    },
+    "training_time_sec": 7.62939453125e-06,
+    "fitting_details": {},
+    "error": null
+  },
+  "M4_gateway1": {
+    "model_name": "M4_gateway1",
+    "status": "completed",
+    "metrics": {
+      "accuracy": 0.5172413793103449,
+      "precision": 0.5172413793103449,
+      "recall": 1.0,
+      "f1": 0.6818181818181818,
+      "roc_auc": 0.40476190476190477,
+      "eer": 0.6,
+      "fpr": 1.0,
+      "fnr": 0.0,
+      "ece": 0.015932420204425646,
+      "brier": 0.2521683871746063
+    },
+    "bootstrap_ci": {},
+    "latency_stats": {},
+    "model_size": {
+      "total_parameters": 0,
+      "trainable_parameters": 0
+    },
+    "training_time_sec": 5.7220458984375e-06,
+    "fitting_details": {},
+    "error": null
+  }
+}

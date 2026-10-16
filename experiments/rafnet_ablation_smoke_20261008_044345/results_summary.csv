@@ -1,0 +1,8 @@
+model,status,training_time_sec,error
+M1_audio_only,failed,0.0,'AblationModelWrapper' object has no attribute 'network_encoder'
+M2_network_only,failed,0.0,'AblationModelWrapper' object has no attribute 'audio_encoder'
+M3_fixed_fusion,failed,0.0,torch.cat(): expected a non-empty list of Tensors
+M4_gateway1,failed,0.0,[Errno 32] Broken pipe
+M5_gateway1_classical_quantum,failed,0.0,[Errno 32] Broken pipe
+M6_gateway2,failed,0.0,[Errno 32] Broken pipe
+M7_complete,failed,0.0,[Errno 32] Broken pipe

@@ -1,0 +1,468 @@
+@import "tailwindcss";
+
+/* RAFNet console theme — very dark navy-black, carbon/diamond texture,
+   cyan primary / emerald authentic / red threat / amber warning.
+   JetBrains Mono for labels, metrics, nav and buttons; Space Grotesk for headings. */
+
+:root {
+  --raf-bg: #050a14;
+  --raf-bg-2: #070d18;
+  --raf-panel: #0a1220;
+  --raf-panel-2: #0d1628;
+  --raf-border: #1b2a44;
+  --raf-cyan: #22d3ee;
+  --raf-emerald: #34d399;
+  --raf-red: #f87171;
+  --raf-amber: #fbbf24;
+  --raf-text: #dbe7f5;
+  --raf-muted: #7d93b2;
+}
+
+html,
+body {
+  background: var(--raf-bg);
+  color: var(--raf-text);
+  font-family: "Space Grotesk", system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+}
+
+.mono {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* Carbon / diamond texture backdrop */
+.soc-grid-bg {
+  background-color: var(--raf-bg);
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      rgba(148, 163, 184, 0.035) 0 1px,
+      transparent 1px 7px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(148, 163, 184, 0.035) 0 1px,
+      transparent 1px 7px
+    );
+}
+
+/* Radial status glow: red = threat active, amber = uncertain, cyan = normal.
+   Applied on the console root; the class is driven by live backend data. */
+.console-glow {
+  position: relative;
+}
+.console-glow::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(55% 34% at 50% 0%, var(--glow, rgba(34, 211, 238, 0.1)), transparent 70%);
+}
+.glow-normal {
+  --glow: rgba(34, 211, 238, 0.1);
+}
+.glow-uncertain {
+  --glow: rgba(251, 191, 36, 0.13);
+}
+.glow-threat {
+  --glow: rgba(248, 113, 113, 0.15);
+}
+
+/* Panels: 1px border, rounded */
+.soc-panel,
+.raf-panel {
+  background: linear-gradient(180deg, var(--raf-panel-2), var(--raf-panel));
+  border: 1px solid var(--raf-border);
+  border-radius: 0.9rem;
+  box-shadow: 0 0 24px rgba(34, 211, 238, 0.06);
+  position: relative;
+  z-index: 1;
+}
+
+.raf-panel-title {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--raf-muted);
+}
+
+/* Chips / badges */
+.soc-chip,
+.raf-chip {
+  border: 1px solid var(--raf-border);
+  border-radius: 9999px;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.72rem;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.raf-badge {
+  display: inline-block;
+  border-radius: 0.45rem;
+  padding: 0.15rem 0.55rem;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid var(--raf-border);
+}
+.raf-badge-ok {
+  color: var(--raf-emerald);
+  border-color: rgba(52, 211, 153, 0.4);
+  background: rgba(52, 211, 153, 0.08);
+}
+.raf-badge-warn {
+  color: var(--raf-amber);
+  border-color: rgba(251, 191, 36, 0.4);
+  background: rgba(251, 191, 36, 0.08);
+}
+.raf-badge-bad {
+  color: var(--raf-red);
+  border-color: rgba(248, 113, 113, 0.45);
+  background: rgba(248, 113, 113, 0.1);
+}
+.raf-badge-info {
+  color: var(--raf-cyan);
+  border-color: rgba(34, 211, 238, 0.4);
+  background: rgba(34, 211, 238, 0.08);
+}
+.raf-badge-muted {
+  color: var(--raf-muted);
+}
+
+/* Sidebar nav: mono caps */
+.soc-navlink,
+.raf-navlink {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.55rem 0.8rem;
+  border-radius: 0.6rem;
+  border: 1px solid transparent;
+  color: var(--raf-muted);
+  font-size: 0.78rem;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.soc-navlink:hover,
+.raf-navlink:hover {
+  color: var(--raf-text);
+  background: rgba(34, 211, 238, 0.06);
+}
+
+.soc-navlink.active,
+.raf-navlink.active {
+  color: var(--raf-cyan);
+  border-color: var(--raf-border);
+  background: rgba(34, 211, 238, 0.08);
+  box-shadow: 0 0 16px rgba(34, 211, 238, 0.12);
+}
+
+.raf-navsection {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--raf-muted);
+  opacity: 0.8;
+}
+
+/* Buttons */
+.soc-btn,
+.raf-btn {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.8rem;
+  background: rgba(34, 211, 238, 0.12);
+  border: 1px solid rgba(34, 211, 238, 0.45);
+  color: var(--raf-cyan);
+  border-radius: 0.6rem;
+  padding: 0.55rem 1.1rem;
+  font-weight: 600;
+}
+
+.soc-btn:hover:not(:disabled),
+.raf-btn:hover:not(:disabled) {
+  background: rgba(34, 211, 238, 0.2);
+}
+
+.soc-btn:disabled,
+.raf-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.raf-btn-danger {
+  background: rgba(248, 113, 113, 0.12);
+  border-color: rgba(248, 113, 113, 0.5);
+  color: var(--raf-red);
+}
+.raf-btn-danger:hover:not(:disabled) {
+  background: rgba(248, 113, 113, 0.22);
+}
+
+.raf-btn-warn {
+  background: rgba(251, 191, 36, 0.12);
+  border-color: rgba(251, 191, 36, 0.5);
+  color: var(--raf-amber);
+}
+.raf-btn-warn:hover:not(:disabled) {
+  background: rgba(251, 191, 36, 0.22);
+}
+
+.raf-btn-ghost {
+  background: transparent;
+  border-color: var(--raf-border);
+  color: var(--raf-muted);
+}
+.raf-btn-ghost:hover:not(:disabled) {
+  background: rgba(148, 163, 184, 0.08);
+  color: var(--raf-text);
+}
+
+/* Inputs */
+.soc-input,
+.soc-select,
+.raf-input {
+  background: #070d18;
+  border: 1px solid var(--raf-border);
+  border-radius: 0.6rem;
+  padding: 0.55rem 0.8rem;
+  color: var(--raf-text);
+  width: 100%;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.85rem;
+}
+
+/* Visible keyboard focus (a11y): high-contrast cyan ring on all
+   interactive elements. Mouse users are unaffected (:focus-visible). */
+.soc-btn:focus-visible,
+.raf-btn:focus-visible,
+.soc-input:focus-visible,
+.soc-select:focus-visible,
+.raf-input:focus-visible,
+.soc-navlink:focus-visible,
+.raf-navlink:focus-visible,
+.raf-tab:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--raf-cyan);
+  outline-offset: 2px;
+}
+
+/* Tables */
+.soc-table th,
+.raf-table th {
+  text-align: left;
+  padding: 0.7rem 1rem;
+  color: var(--raf-muted);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid var(--raf-border);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+
+.soc-table td,
+.raf-table td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid rgba(27, 42, 68, 0.6);
+  font-size: 0.88rem;
+}
+
+/* Prediction colors */
+.pred-REAL {
+  color: var(--raf-emerald);
+}
+.pred-SYNTHETIC {
+  color: var(--raf-red);
+}
+.pred-UNCERTAIN {
+  color: var(--raf-amber);
+}
+
+/* Tabs */
+.raf-tabs {
+  display: inline-flex;
+  gap: 0.25rem;
+  border: 1px solid var(--raf-border);
+  border-radius: 0.7rem;
+  padding: 0.25rem;
+  background: rgba(7, 13, 24, 0.7);
+}
+.raf-tab {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--raf-muted);
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.9rem;
+}
+.raf-tab:hover {
+  color: var(--raf-text);
+}
+.raf-tab.active {
+  color: var(--raf-cyan);
+  background: rgba(34, 211, 238, 0.12);
+  border: 1px solid rgba(34, 211, 238, 0.35);
+}
+
+/* Progress bars (detection-layer score bars) */
+.raf-progress {
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: rgba(27, 42, 68, 0.9);
+  overflow: hidden;
+}
+.raf-progress > div {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.4s ease;
+}
+
+/* Alert banner (threat / warning states) */
+.raf-alert {
+  border: 1px solid var(--raf-border);
+  border-radius: 0.9rem;
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.9rem;
+  position: relative;
+  z-index: 1;
+}
+.raf-alert-threat {
+  border-color: rgba(248, 113, 113, 0.5);
+  background: linear-gradient(180deg, rgba(248, 113, 113, 0.12), rgba(248, 113, 113, 0.04));
+  box-shadow: 0 0 28px rgba(248, 113, 113, 0.12);
+}
+.raf-alert-warn {
+  border-color: rgba(251, 191, 36, 0.5);
+  background: linear-gradient(180deg, rgba(251, 191, 36, 0.12), rgba(251, 191, 36, 0.04));
+  box-shadow: 0 0 28px rgba(251, 191, 36, 0.1);
+}
+
+/* Modal */
+.raf-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 6, 12, 0.75);
+  backdrop-filter: blur(2px);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.raf-modal {
+  width: 100%;
+  max-width: 42rem;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+/* Skeleton shimmer */
+.raf-skeleton {
+  border-radius: 0.5rem;
+  background: linear-gradient(
+    90deg,
+    rgba(27, 42, 68, 0.6) 25%,
+    rgba(34, 211, 238, 0.12) 50%,
+    rgba(27, 42, 68, 0.6) 75%
+  );
+  background-size: 200% 100%;
+  animation: raf-shimmer 1.4s infinite;
+}
+@keyframes raf-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* Docs rendering */
+.raf-docs h1 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0 0 0.8rem;
+}
+.raf-docs h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 1.4rem 0 0.6rem;
+  color: var(--raf-cyan);
+}
+.raf-docs h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 1.1rem 0 0.5rem;
+}
+.raf-docs p,
+.raf-docs li {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--raf-text);
+}
+.raf-docs ul,
+.raf-docs ol {
+  padding-left: 1.4rem;
+  margin: 0.4rem 0;
+}
+.raf-docs code {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.8rem;
+  background: rgba(34, 211, 238, 0.08);
+  border: 1px solid var(--raf-border);
+  border-radius: 0.35rem;
+  padding: 0.05rem 0.35rem;
+}
+.raf-docs pre {
+  background: #04080f;
+  border: 1px solid var(--raf-border);
+  border-radius: 0.6rem;
+  padding: 0.9rem 1rem;
+  overflow-x: auto;
+  margin: 0.6rem 0;
+}
+.raf-docs pre code {
+  background: none;
+  border: none;
+  padding: 0;
+}
+.raf-docs a {
+  color: var(--raf-cyan);
+}
+
+/* Sidebar layout helpers */
+.raf-sidebar {
+  width: 15rem;
+  background: #070d18;
+  border-right: 1px solid var(--raf-border);
+}
+@media (max-width: 1023px) {
+  .raf-sidebar-desktop {
+    display: none;
+  }
+}
+@media (min-width: 1024px) {
+  .raf-sidebar-mobile,
+  .raf-hamburger {
+    display: none;
+  }
+}
