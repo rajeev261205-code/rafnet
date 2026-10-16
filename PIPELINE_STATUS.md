@@ -111,6 +111,17 @@ filenames, no credential values, no audio data in this file (all committed).
   `.venv/Scripts/python tools/train_stacking_phase3.py`
   `.venv/Scripts/python tools/evaluate_phase4.py`
 
+- [x] **PHASE 2 — fake data** (2026-10-17/18)
+  - Train 1871 (edge-tts 360/5 voices, Piper 600/4, SAPI 200/2, crudeVC 771/2;
+    en+hi+ta+scam scripts) + unseen TEST 235 (ElevenLabs 25 built-in voices,
+    quota 0->1919/10000, caps honored; piper-rohan 150; edge-Valluvar 60).
+  - Tools `tools/fetch_elevenlabs_test.py`, `tools/synth_phase2_local.py`
+    (chunked `--engine/--only/--quota`, disk floor, resume).
+  - Manifests `data/manifest_phase2*.csv` (local). Report `reports/data_phase2.md`.
+  - Skipped with reasons: XTTS (no hi/ta), ASVspoof/WaveFake/MLAAD/ITW/Kaggle
+    (gated/no creds). Honest shortfall: 2106 vs 4000 target, 5 vs 10+ engines.
+  - Budget ~4.9/15 GB; C: 37.4 GB free.
+
 ## What is next (single next step)
 PHASE 2 fakes (~10.4 GB budget left): edge-tts/Piper/XTTS/SAPI locally
 + public fake sets if ungated + ElevenLabs TEST-only (built-in voices,
