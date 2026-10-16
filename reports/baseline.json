@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15T13:48:33.921838+00:00",
+  "generated_at": "2026-10-16T05:11:59.776481+00:00",
   "model": {
     "loaded": true,
     "name": "rafnet",
@@ -81,32 +81,689 @@
     "tau_high": 0.861111111111111,
     "source": "configs/decision_thresholds.json"
   },
-  "labels_csv": "C:\\Users\\rajee\\RAFNet\\samples\\labels.csv",
-  "files_total": 19,
-  "files_scored": 19,
-  "n_real": 4,
-  "n_fake": 15,
-  "overall": {
+  "ffmpeg": "C:\\Users\\rajee\\RAFNet\\.venv\\Lib\\site-packages\\imageio_ffmpeg\\binaries\\ffmpeg-win-x86_64-v7.1.exe",
+  "ffmpeg_note": "system ffmpeg missing (winget Gyan.FFmpeg download stalls in this environment); using imageio-ffmpeg bundled binary 7.1 \u2014 all transcodes below are real encode+decode, simulated=false.",
+  "codec_policy": "same chains will be applied to BOTH classes in Phase 3 (contingency table there); this Phase 0 test is real-only shift.",
+  "environment": {
+    "python": "3.12.0",
+    "torch": "2.14.1+cpu",
+    "cuda_available": false,
+    "cuda_devices": 0,
+    "disk_free_gb": 41.2,
+    "credentials_present": {
+      "ELEVENLABS_API_KEY": true,
+      "KAGGLE_USERNAME": false,
+      "KAGGLE_KEY": false,
+      "HF_TOKEN": false
+    }
+  },
+  "codec_shift": {
+    "probe_files": 10,
+    "codecs": [
+      "opus_12k",
+      "opus_24k",
+      "opus_32k",
+      "mp3_128k",
+      "amr_nb",
+      "g711_alaw"
+    ],
+    "summary": {
+      "opus_12k": {
+        "n": 10,
+        "mean_delta": 0.0021,
+        "max_abs_delta": 0.0181,
+        "mean_p_codec": 0.8068,
+        "n_synthetic_after": 2,
+        "simulated": false
+      },
+      "opus_24k": {
+        "n": 10,
+        "mean_delta": 0.0014,
+        "max_abs_delta": 0.0167,
+        "mean_p_codec": 0.8062,
+        "n_synthetic_after": 2,
+        "simulated": false
+      },
+      "opus_32k": {
+        "n": 10,
+        "mean_delta": 0.0013,
+        "max_abs_delta": 0.022,
+        "mean_p_codec": 0.806,
+        "n_synthetic_after": 1,
+        "simulated": false
+      },
+      "mp3_128k": {
+        "n": 10,
+        "mean_delta": 0.008,
+        "max_abs_delta": 0.0118,
+        "mean_p_codec": 0.8128,
+        "n_synthetic_after": 3,
+        "simulated": false
+      },
+      "amr_nb": {
+        "n": 10,
+        "mean_delta": 0.0393,
+        "max_abs_delta": 0.2448,
+        "mean_p_codec": 0.844,
+        "n_synthetic_after": 4,
+        "simulated": false
+      },
+      "g711_alaw": {
+        "n": 10,
+        "mean_delta": 0.033,
+        "max_abs_delta": 0.2272,
+        "mean_p_codec": 0.8377,
+        "n_synthetic_after": 4,
+        "simulated": false
+      }
+    },
+    "rows": [
+      {
+        "id": "wa_001",
+        "codec": "opus_12k",
+        "p_clean": 0.8451,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.8508,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.0057
+      },
+      {
+        "id": "wa_001",
+        "codec": "opus_24k",
+        "p_clean": 0.8451,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.8425,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": -0.0026
+      },
+      {
+        "id": "wa_001",
+        "codec": "opus_32k",
+        "p_clean": 0.8451,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.8444,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": -0.0007
+      },
+      {
+        "id": "wa_001",
+        "codec": "mp3_128k",
+        "p_clean": 0.8451,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.8536,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.0085
+      },
+      {
+        "id": "wa_001",
+        "codec": "amr_nb",
+        "p_clean": 0.8451,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.8583,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.0132
+      },
+      {
+        "id": "wa_001",
+        "codec": "g711_alaw",
+        "p_clean": 0.8451,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.8494,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.0043
+      },
+      {
+        "id": "wa_002",
+        "codec": "opus_12k",
+        "p_clean": 0.862,
+        "pred_clean": "SYNTHETIC",
+        "p_codec": 0.8676,
+        "pred_codec": "SYNTHETIC",
+        "simulated": false,
+        "delta": 0.0056
+      },
+      {
+        "id": "wa_002",
+        "codec": "opus_24k",
+        "p_clean": 0.862,
+        "pred_clean": "SYNTHETIC",
+        "p_codec": 0.8588,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": -0.0032
+      },
+      {
+        "id": "wa_002",
+        "codec": "opus_32k",
+        "p_clean": 0.862,
+        "pred_clean": "SYNTHETIC",
+        "p_codec": 0.8611,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": -0.0009
+      },
+      {
+        "id": "wa_002",
+        "codec": "mp3_128k",
+        "p_clean": 0.862,
+        "pred_clean": "SYNTHETIC",
+        "p_codec": 0.869,
+        "pred_codec": "SYNTHETIC",
+        "simulated": false,
+        "delta": 0.007
+      },
+      {
+        "id": "wa_002",
+        "codec": "amr_nb",
+        "p_clean": 0.862,
+        "pred_clean": "SYNTHETIC",
+        "p_codec": 0.9058,
+        "pred_codec": "SYNTHETIC",
+        "simulated": false,
+        "delta": 0.0438
+      },
+      {
+        "id": "wa_002",
+        "codec": "g711_alaw",
+        "p_clean": 0.862,
+        "pred_clean": "SYNTHETIC",
+        "p_codec": 0.897,
+        "pred_codec": "SYNTHETIC",
+        "simulated": false,
+        "delta": 0.035
+      },
+      {
+        "id": "wa_003",
+        "codec": "opus_12k",
+        "p_clean": 0.6608,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.6621,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.0013
+      },
+      {
+        "id": "wa_003",
+        "codec": "opus_24k",
+        "p_clean": 0.6608,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.6685,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.0077
+      },
+      {
+        "id": "wa_003",
+        "codec": "opus_32k",
+        "p_clean": 0.6608,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.6661,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.0053
+      },
+      {
+        "id": "wa_003",
+        "codec": "mp3_128k",
+        "p_clean": 0.6608,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.6623,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.0015
+      },
+      {
+        "id": "wa_003",
+        "codec": "amr_nb",
+        "p_clean": 0.6608,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.7175,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.0567
+      },
+      {
+        "id": "wa_003",
+        "codec": "g711_alaw",
+        "p_clean": 0.6608,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.7076,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.0468
+      },
+      {
+        "id": "wa_004",
+        "codec": "opus_12k",
+        "p_clean": 0.6067,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.6248,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.0181
+      },
+      {
+        "id": "wa_004",
+        "codec": "opus_24k",
+        "p_clean": 0.6067,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.6026,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": -0.0041
+      },
+      {
+        "id": "wa_004",
+        "codec": "opus_32k",
+        "p_clean": 0.6067,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.6151,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.0084
+      },
+      {
+        "id": "wa_004",
+        "codec": "mp3_128k",
+        "p_clean": 0.6067,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.6143,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.0076
+      },
+      {
+        "id": "wa_004",
+        "codec": "amr_nb",
+        "p_clean": 0.6067,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.8515,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.2448
+      },
+      {
+        "id": "wa_004",
+        "codec": "g711_alaw",
+        "p_clean": 0.6067,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.8339,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.2272
+      },
+      {
+        "id": "wa_005",
+        "codec": "opus_12k",
+        "p_clean": 0.8275,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.8323,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.0048
+      },
+      {
+        "id": "wa_005",
+        "codec": "opus_24k",
+        "p_clean": 0.8275,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.8354,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.0079
+      },
+      {
+        "id": "wa_005",
+        "codec": "opus_32k",
+        "p_clean": 0.8275,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.8325,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.005
+      },
+      {
+        "id": "wa_005",
+        "codec": "mp3_128k",
+        "p_clean": 0.8275,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.836,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.0085
+      },
+      {
+        "id": "wa_005",
+        "codec": "amr_nb",
+        "p_clean": 0.8275,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.8371,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.0096
+      },
+      {
+        "id": "wa_005",
+        "codec": "g711_alaw",
+        "p_clean": 0.8275,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.8299,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.0024
+      },
+      {
+        "id": "wa_006",
+        "codec": "opus_12k",
+        "p_clean": 0.8127,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.811,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": -0.0017
+      },
+      {
+        "id": "wa_006",
+        "codec": "opus_24k",
+        "p_clean": 0.8127,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.8096,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": -0.0031
+      },
+      {
+        "id": "wa_006",
+        "codec": "opus_32k",
+        "p_clean": 0.8127,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.8029,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": -0.0098
+      },
+      {
+        "id": "wa_006",
+        "codec": "mp3_128k",
+        "p_clean": 0.8127,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.8234,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.0107
+      },
+      {
+        "id": "wa_006",
+        "codec": "amr_nb",
+        "p_clean": 0.8127,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.7962,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": -0.0165
+      },
+      {
+        "id": "wa_006",
+        "codec": "g711_alaw",
+        "p_clean": 0.8127,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.7951,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": -0.0176
+      },
+      {
+        "id": "wa_007",
+        "codec": "opus_12k",
+        "p_clean": 0.8399,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.857,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.0171
+      },
+      {
+        "id": "wa_007",
+        "codec": "opus_24k",
+        "p_clean": 0.8399,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.8534,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.0135
+      },
+      {
+        "id": "wa_007",
+        "codec": "opus_32k",
+        "p_clean": 0.8399,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.8557,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.0158
+      },
+      {
+        "id": "wa_007",
+        "codec": "mp3_128k",
+        "p_clean": 0.8399,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.8517,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.0118
+      },
+      {
+        "id": "wa_007",
+        "codec": "amr_nb",
+        "p_clean": 0.8399,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.8788,
+        "pred_codec": "SYNTHETIC",
+        "simulated": false,
+        "delta": 0.0389
+      },
+      {
+        "id": "wa_007",
+        "codec": "g711_alaw",
+        "p_clean": 0.8399,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.8675,
+        "pred_codec": "SYNTHETIC",
+        "simulated": false,
+        "delta": 0.0276
+      },
+      {
+        "id": "wa_008",
+        "codec": "opus_12k",
+        "p_clean": 0.8785,
+        "pred_clean": "SYNTHETIC",
+        "p_codec": 0.8607,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": -0.0178
+      },
+      {
+        "id": "wa_008",
+        "codec": "opus_24k",
+        "p_clean": 0.8785,
+        "pred_clean": "SYNTHETIC",
+        "p_codec": 0.8619,
+        "pred_codec": "SYNTHETIC",
+        "simulated": false,
+        "delta": -0.0166
+      },
+      {
+        "id": "wa_008",
+        "codec": "opus_32k",
+        "p_clean": 0.8785,
+        "pred_clean": "SYNTHETIC",
+        "p_codec": 0.8565,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": -0.022
+      },
+      {
+        "id": "wa_008",
+        "codec": "mp3_128k",
+        "p_clean": 0.8785,
+        "pred_clean": "SYNTHETIC",
+        "p_codec": 0.8845,
+        "pred_codec": "SYNTHETIC",
+        "simulated": false,
+        "delta": 0.006
+      },
+      {
+        "id": "wa_008",
+        "codec": "amr_nb",
+        "p_clean": 0.8785,
+        "pred_clean": "SYNTHETIC",
+        "p_codec": 0.8812,
+        "pred_codec": "SYNTHETIC",
+        "simulated": false,
+        "delta": 0.0027
+      },
+      {
+        "id": "wa_008",
+        "codec": "g711_alaw",
+        "p_clean": 0.8785,
+        "pred_clean": "SYNTHETIC",
+        "p_codec": 0.8725,
+        "pred_codec": "SYNTHETIC",
+        "simulated": false,
+        "delta": -0.006
+      },
+      {
+        "id": "wa_009",
+        "codec": "opus_12k",
+        "p_clean": 0.8493,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.8404,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": -0.0089
+      },
+      {
+        "id": "wa_009",
+        "codec": "opus_24k",
+        "p_clean": 0.8493,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.8473,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": -0.002
+      },
+      {
+        "id": "wa_009",
+        "codec": "opus_32k",
+        "p_clean": 0.8493,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.8493,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.0
+      },
+      {
+        "id": "wa_009",
+        "codec": "mp3_128k",
+        "p_clean": 0.8493,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.8589,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.0096
+      },
+      {
+        "id": "wa_009",
+        "codec": "amr_nb",
+        "p_clean": 0.8493,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.8485,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": -0.0008
+      },
+      {
+        "id": "wa_009",
+        "codec": "g711_alaw",
+        "p_clean": 0.8493,
+        "pred_clean": "UNCERTAIN",
+        "p_codec": 0.8598,
+        "pred_codec": "UNCERTAIN",
+        "simulated": false,
+        "delta": 0.0105
+      },
+      {
+        "id": "wa_010",
+        "codec": "opus_12k",
+        "p_clean": 0.8648,
+        "pred_clean": "SYNTHETIC",
+        "p_codec": 0.8617,
+        "pred_codec": "SYNTHETIC",
+        "simulated": false,
+        "delta": -0.0031
+      },
+      {
+        "id": "wa_010",
+        "codec": "opus_24k",
+        "p_clean": 0.8648,
+        "pred_clean": "SYNTHETIC",
+        "p_codec": 0.8815,
+        "pred_codec": "SYNTHETIC",
+        "simulated": false,
+        "delta": 0.0167
+      },
+      {
+        "id": "wa_010",
+        "codec": "opus_32k",
+        "p_clean": 0.8648,
+        "pred_clean": "SYNTHETIC",
+        "p_codec": 0.8766,
+        "pred_codec": "SYNTHETIC",
+        "simulated": false,
+        "delta": 0.0118
+      },
+      {
+        "id": "wa_010",
+        "codec": "mp3_128k",
+        "p_clean": 0.8648,
+        "pred_clean": "SYNTHETIC",
+        "p_codec": 0.8741,
+        "pred_codec": "SYNTHETIC",
+        "simulated": false,
+        "delta": 0.0093
+      },
+      {
+        "id": "wa_010",
+        "codec": "amr_nb",
+        "p_clean": 0.8648,
+        "pred_clean": "SYNTHETIC",
+        "p_codec": 0.8656,
+        "pred_codec": "SYNTHETIC",
+        "simulated": false,
+        "delta": 0.0008
+      },
+      {
+        "id": "wa_010",
+        "codec": "g711_alaw",
+        "p_clean": 0.8648,
+        "pred_clean": "SYNTHETIC",
+        "p_codec": 0.8645,
+        "pred_codec": "SYNTHETIC",
+        "simulated": false,
+        "delta": -0.0003
+      }
+    ]
+  },
+  "public": {
     "n": 19,
     "n_real": 4,
     "n_fake": 15,
-    "confusion_3way": {
-      "real": {
-        "REAL": 0,
-        "UNCERTAIN": 4,
-        "SYNTHETIC": 0
-      },
-      "fake": {
-        "REAL": 0,
-        "UNCERTAIN": 15,
-        "SYNTHETIC": 0
-      }
-    },
-    "strict_accuracy": 0.0,
-    "coverage": 0.0,
-    "selective_accuracy": null,
-    "n_certain": 0,
-    "n_total": 19,
     "binary_at_0.5": {
       "accuracy": 0.7895,
       "precision": 0.7895,
@@ -124,747 +781,4142 @@
       "threshold": 0.8236,
       "far": 0.5,
       "frr": 0.4667
-    }
+    },
+    "confusion_3way": {
+      "real": {
+        "REAL": 0,
+        "UNCERTAIN": 4,
+        "SYNTHETIC": 0
+      },
+      "fake": {
+        "REAL": 0,
+        "UNCERTAIN": 15,
+        "SYNTHETIC": 0
+      }
+    },
+    "strict_accuracy": 0.0,
+    "far_human_public": {
+      "n": 4,
+      "n_synthetic": 0,
+      "far": 0.0
+    },
+    "files": [
+      {
+        "file": "samples/real/260-123286-0012.flac",
+        "label": "real",
+        "y": "0",
+        "group": "clean_human_librispeech",
+        "source": "librispeech",
+        "codec": "flac",
+        "notes": "LibriSpeech test-clean speaker 260",
+        "p_synthetic": 0.8323,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8323,
+        "classical_p": 0.9785071611404419,
+        "quantum_p": 0.3103671371936798,
+        "fused_p": 0.9191942811012268,
+        "duration_seconds": 2.43,
+        "sample_rate_hz": 16000,
+        "input_lossy": false
+      },
+      {
+        "file": "samples/real/4446-2273-0021.flac",
+        "label": "real",
+        "y": "0",
+        "group": "clean_human_librispeech",
+        "source": "librispeech",
+        "codec": "flac",
+        "notes": "LibriSpeech test-clean speaker 4446",
+        "p_synthetic": 0.8439,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8439,
+        "classical_p": 0.9533776640892029,
+        "quantum_p": 0.6775205135345459,
+        "fused_p": 0.928292453289032,
+        "duration_seconds": 5.25,
+        "sample_rate_hz": 16000,
+        "input_lossy": false
+      },
+      {
+        "file": "samples/real/5142-33396-0059.flac",
+        "label": "real",
+        "y": "0",
+        "group": "clean_human_librispeech",
+        "source": "librispeech",
+        "codec": "flac",
+        "notes": "LibriSpeech test-clean speaker 5142",
+        "p_synthetic": 0.818,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.818,
+        "classical_p": 0.988523542881012,
+        "quantum_p": 0.12583155930042267,
+        "fused_p": 0.9072379469871521,
+        "duration_seconds": 5.47,
+        "sample_rate_hz": 16000,
+        "input_lossy": false
+      },
+      {
+        "file": "samples/real/6930-81414-0025.flac",
+        "label": "real",
+        "y": "0",
+        "group": "clean_human_librispeech",
+        "source": "librispeech",
+        "codec": "flac",
+        "notes": "LibriSpeech test-clean speaker 6930",
+        "p_synthetic": 0.7917,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7917,
+        "classical_p": 0.9509821534156799,
+        "quantum_p": 0.20609448850154877,
+        "fused_p": 0.8834913969039917,
+        "duration_seconds": 2.53,
+        "sample_rate_hz": 16000,
+        "input_lossy": false
+      },
+      {
+        "file": "samples/fake/sapi_david_2.wav",
+        "label": "fake",
+        "y": "1",
+        "group": "windows_sapi_tts",
+        "source": "sapi_david",
+        "codec": "wav",
+        "notes": "SAPI David voice",
+        "p_synthetic": 0.8238,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8238,
+        "classical_p": 0.9846312403678894,
+        "quantum_p": 0.1931469887495041,
+        "fused_p": 0.9121689796447754,
+        "duration_seconds": 5.15,
+        "sample_rate_hz": 22050,
+        "input_lossy": false
+      },
+      {
+        "file": "samples/fake/sapi_david_4.wav",
+        "label": "fake",
+        "y": "1",
+        "group": "windows_sapi_tts",
+        "source": "sapi_david",
+        "codec": "wav",
+        "notes": "SAPI David voice",
+        "p_synthetic": 0.8099,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8099,
+        "classical_p": 0.9812623858451843,
+        "quantum_p": 0.12170545756816864,
+        "fused_p": 0.9002370238304138,
+        "duration_seconds": 4.54,
+        "sample_rate_hz": 22050,
+        "input_lossy": false
+      },
+      {
+        "file": "samples/fake/sapi_zira_2.wav",
+        "label": "fake",
+        "y": "1",
+        "group": "windows_sapi_tts",
+        "source": "sapi_zira",
+        "codec": "wav",
+        "notes": "SAPI Zira voice",
+        "p_synthetic": 0.8498,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8498,
+        "classical_p": 0.9907416105270386,
+        "quantum_p": 0.33604055643081665,
+        "fused_p": 0.9327318072319031,
+        "duration_seconds": 5.04,
+        "sample_rate_hz": 22050,
+        "input_lossy": false
+      },
+      {
+        "file": "samples/fake/sapi_zira_4.wav",
+        "label": "fake",
+        "y": "1",
+        "group": "windows_sapi_tts",
+        "source": "sapi_zira",
+        "codec": "wav",
+        "notes": "SAPI Zira voice",
+        "p_synthetic": 0.8077,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8077,
+        "classical_p": 0.9837805032730103,
+        "quantum_p": 0.09075384587049484,
+        "fused_p": 0.898223340511322,
+        "duration_seconds": 4.56,
+        "sample_rate_hz": 22050,
+        "input_lossy": false
+      },
+      {
+        "file": "samples/fake/chatgpt_voice/rafnet_ai_voice_test.wav",
+        "label": "fake",
+        "y": "1",
+        "group": "assistant_voice_chatgpt",
+        "source": "chatgpt_voice",
+        "codec": "wav",
+        "notes": "ChatGPT voice loopback/recording 25.6s",
+        "p_synthetic": 0.8603,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8603,
+        "classical_p": 0.9679872989654541,
+        "quantum_p": 0.6631261110305786,
+        "fused_p": 0.9403591752052307,
+        "duration_seconds": 25.58,
+        "sample_rate_hz": 22050,
+        "input_lossy": false
+      },
+      {
+        "file": "samples/fake/windows_tts/tts_test.wav",
+        "label": "fake",
+        "y": "1",
+        "group": "windows_tts",
+        "source": "windows_tts",
+        "codec": "wav",
+        "notes": "Windows TTS test",
+        "p_synthetic": 0.8262,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8262,
+        "classical_p": 0.9891047477722168,
+        "quantum_p": 0.1766587644815445,
+        "fused_p": 0.9142018556594849,
+        "duration_seconds": 6.51,
+        "sample_rate_hz": 22050,
+        "input_lossy": false
+      },
+      {
+        "file": "samples/win_tts/sapi_david_0.wav",
+        "label": "fake",
+        "y": "1",
+        "group": "windows_sapi_tts_extended",
+        "source": "win_tts",
+        "codec": "wav",
+        "notes": "SAPI David extended set",
+        "p_synthetic": 0.8239,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8239,
+        "classical_p": 0.9859150648117065,
+        "quantum_p": 0.1843082457780838,
+        "fused_p": 0.9122714400291443,
+        "duration_seconds": 6.06,
+        "sample_rate_hz": 22050,
+        "input_lossy": false
+      },
+      {
+        "file": "samples/win_tts/sapi_david_2.wav",
+        "label": "fake",
+        "y": "1",
+        "group": "windows_sapi_tts_extended",
+        "source": "win_tts",
+        "codec": "wav",
+        "notes": "duplicate of samples/fake/sapi_david_2.wav",
+        "p_synthetic": 0.8238,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8238,
+        "classical_p": 0.9846312403678894,
+        "quantum_p": 0.1931469887495041,
+        "fused_p": 0.9121689796447754,
+        "duration_seconds": 5.15,
+        "sample_rate_hz": 22050,
+        "input_lossy": false
+      },
+      {
+        "file": "samples/win_tts/sapi_david_4.wav",
+        "label": "fake",
+        "y": "1",
+        "group": "windows_sapi_tts_extended",
+        "source": "win_tts",
+        "codec": "wav",
+        "notes": "duplicate of samples/fake/sapi_david_4.wav",
+        "p_synthetic": 0.8099,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8099,
+        "classical_p": 0.9812623858451843,
+        "quantum_p": 0.12170545756816864,
+        "fused_p": 0.9002370238304138,
+        "duration_seconds": 4.54,
+        "sample_rate_hz": 22050,
+        "input_lossy": false
+      },
+      {
+        "file": "samples/win_tts/sapi_zira_0.wav",
+        "label": "fake",
+        "y": "1",
+        "group": "windows_sapi_tts_extended",
+        "source": "win_tts",
+        "codec": "wav",
+        "notes": "SAPI Zira extended set",
+        "p_synthetic": 0.8236,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8236,
+        "classical_p": 0.9908415079116821,
+        "quantum_p": 0.14676494896411896,
+        "fused_p": 0.9120285511016846,
+        "duration_seconds": 6.02,
+        "sample_rate_hz": 22050,
+        "input_lossy": false
+      },
+      {
+        "file": "samples/win_tts/sapi_zira_1.wav",
+        "label": "fake",
+        "y": "1",
+        "group": "windows_sapi_tts_extended",
+        "source": "win_tts",
+        "codec": "wav",
+        "notes": "SAPI Zira extended set",
+        "p_synthetic": 0.814,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.814,
+        "classical_p": 0.985438346862793,
+        "quantum_p": 0.1204594075679779,
+        "fused_p": 0.9037809371948242,
+        "duration_seconds": 5.56,
+        "sample_rate_hz": 22050,
+        "input_lossy": false
+      },
+      {
+        "file": "samples/win_tts/sapi_zira_2.wav",
+        "label": "fake",
+        "y": "1",
+        "group": "windows_sapi_tts_extended",
+        "source": "win_tts",
+        "codec": "wav",
+        "notes": "duplicate of samples/fake/sapi_zira_2.wav",
+        "p_synthetic": 0.8498,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8498,
+        "classical_p": 0.9907416105270386,
+        "quantum_p": 0.33604055643081665,
+        "fused_p": 0.9327318072319031,
+        "duration_seconds": 5.04,
+        "sample_rate_hz": 22050,
+        "input_lossy": false
+      },
+      {
+        "file": "samples/win_tts/sapi_zira_3.wav",
+        "label": "fake",
+        "y": "1",
+        "group": "windows_sapi_tts_extended",
+        "source": "win_tts",
+        "codec": "wav",
+        "notes": "SAPI Zira extended set",
+        "p_synthetic": 0.8158,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8158,
+        "classical_p": 0.9858296513557434,
+        "quantum_p": 0.12947562336921692,
+        "fused_p": 0.9053254723548889,
+        "duration_seconds": 6.9,
+        "sample_rate_hz": 22050,
+        "input_lossy": false
+      },
+      {
+        "file": "samples/win_tts/sapi_zira_4.wav",
+        "label": "fake",
+        "y": "1",
+        "group": "windows_sapi_tts_extended",
+        "source": "win_tts",
+        "codec": "wav",
+        "notes": "duplicate of samples/fake/sapi_zira_4.wav",
+        "p_synthetic": 0.8077,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8077,
+        "classical_p": 0.9837805032730103,
+        "quantum_p": 0.09075384587049484,
+        "fused_p": 0.898223340511322,
+        "duration_seconds": 4.56,
+        "sample_rate_hz": 22050,
+        "input_lossy": false
+      },
+      {
+        "file": "samples/win_tts/sapi_zira_5.wav",
+        "label": "fake",
+        "y": "1",
+        "group": "windows_sapi_tts_extended",
+        "source": "win_tts",
+        "codec": "wav",
+        "notes": "SAPI Zira extended set",
+        "p_synthetic": 0.8195,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8195,
+        "classical_p": 0.993174135684967,
+        "quantum_p": 0.1051129624247551,
+        "fused_p": 0.9085540175437927,
+        "duration_seconds": 6.83,
+        "sample_rate_hz": 22050,
+        "input_lossy": false
+      }
+    ]
   },
-  "per_group": {
-    "clean_human_librispeech": {
-      "n": 4,
-      "n_real": 4,
-      "n_fake": 0,
-      "strict_accuracy": 0.0,
-      "coverage": 0.0,
-      "selective_accuracy": null,
-      "n_certain": 0,
-      "n_total": 4,
-      "binary_at_0.5": {
-        "accuracy": 0.0,
-        "precision": 0.0,
-        "recall": null,
-        "f1": null,
-        "tp": 0,
-        "tn": 0,
-        "fp": 4,
-        "fn": 0,
-        "n": 4
+  "phone": {
+    "n_files": 19,
+    "n_skipped": 1,
+    "skipped": [
+      {
+        "id": "pc_03",
+        "reason": "duration 2.58 < 4.0s (task: skip)"
+      }
+    ],
+    "n_windows": 281,
+    "far_all_windows": {
+      "n": 281,
+      "n_synthetic": 116,
+      "far": 0.4128
+    },
+    "far_per_file": {
+      "pc_01": {
+        "n": 21,
+        "n_synthetic": 8,
+        "far": 0.381
       },
-      "auc": null,
-      "eer": {
-        "eer": null,
-        "threshold": null,
-        "note": "needs both classes"
+      "pc_02": {
+        "n": 25,
+        "n_synthetic": 7,
+        "far": 0.28
+      },
+      "pc_04": {
+        "n": 25,
+        "n_synthetic": 13,
+        "far": 0.52
+      },
+      "pc_05": {
+        "n": 12,
+        "n_synthetic": 4,
+        "far": 0.3333
+      },
+      "pc_06": {
+        "n": 13,
+        "n_synthetic": 4,
+        "far": 0.3077
+      },
+      "pc_07": {
+        "n": 7,
+        "n_synthetic": 1,
+        "far": 0.1429
+      },
+      "pc_08": {
+        "n": 5,
+        "n_synthetic": 3,
+        "far": 0.6
+      },
+      "pc_09": {
+        "n": 24,
+        "n_synthetic": 10,
+        "far": 0.4167
+      },
+      "pc_10": {
+        "n": 14,
+        "n_synthetic": 4,
+        "far": 0.2857
+      },
+      "pc_11": {
+        "n": 25,
+        "n_synthetic": 10,
+        "far": 0.4
+      },
+      "pc_12": {
+        "n": 3,
+        "n_synthetic": 1,
+        "far": 0.3333
+      },
+      "pc_13": {
+        "n": 25,
+        "n_synthetic": 12,
+        "far": 0.48
+      },
+      "pc_14": {
+        "n": 25,
+        "n_synthetic": 9,
+        "far": 0.36
+      },
+      "pc_15": {
+        "n": 5,
+        "n_synthetic": 1,
+        "far": 0.2
+      },
+      "pc_16": {
+        "n": 22,
+        "n_synthetic": 11,
+        "far": 0.5
+      },
+      "pc_17": {
+        "n": 8,
+        "n_synthetic": 4,
+        "far": 0.5
+      },
+      "pc_18": {
+        "n": 13,
+        "n_synthetic": 10,
+        "far": 0.7692
+      },
+      "pc_19": {
+        "n": 9,
+        "n_synthetic": 4,
+        "far": 0.4444
       }
     },
-    "windows_sapi_tts": {
-      "n": 4,
-      "n_real": 0,
-      "n_fake": 4,
-      "strict_accuracy": 0.0,
-      "coverage": 0.0,
-      "selective_accuracy": null,
-      "n_certain": 0,
-      "n_total": 4,
-      "binary_at_0.5": {
-        "accuracy": 1.0,
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1": 1.0,
-        "tp": 4,
-        "tn": 0,
-        "fp": 0,
-        "fn": 0,
-        "n": 4
+    "mean_p": 0.8449,
+    "sampling": "strided 5.0s windows every 180.0s, cap 25/file (Phase 0 sampling; VAD segmentation is next phase)",
+    "rows": [
+      {
+        "id": "pc_01_w00000",
+        "file_id": "pc_01",
+        "window_start_s": 0.0,
+        "p_synthetic": 0.7676,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7676,
+        "error": null
       },
-      "auc": null,
-      "eer": {
-        "eer": null,
-        "threshold": null,
-        "note": "needs both classes"
-      }
-    },
-    "assistant_voice_chatgpt": {
-      "n": 1,
-      "n_real": 0,
-      "n_fake": 1,
-      "strict_accuracy": 0.0,
-      "coverage": 0.0,
-      "selective_accuracy": null,
-      "n_certain": 0,
-      "n_total": 1,
-      "binary_at_0.5": {
-        "accuracy": 1.0,
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1": 1.0,
-        "tp": 1,
-        "tn": 0,
-        "fp": 0,
-        "fn": 0,
-        "n": 1
+      {
+        "id": "pc_01_w00180",
+        "file_id": "pc_01",
+        "window_start_s": 180.0,
+        "p_synthetic": 0.806,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.806,
+        "error": null
       },
-      "auc": null,
-      "eer": {
-        "eer": null,
-        "threshold": null,
-        "note": "needs both classes"
-      }
-    },
-    "windows_tts": {
-      "n": 1,
-      "n_real": 0,
-      "n_fake": 1,
-      "strict_accuracy": 0.0,
-      "coverage": 0.0,
-      "selective_accuracy": null,
-      "n_certain": 0,
-      "n_total": 1,
-      "binary_at_0.5": {
-        "accuracy": 1.0,
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1": 1.0,
-        "tp": 1,
-        "tn": 0,
-        "fp": 0,
-        "fn": 0,
-        "n": 1
+      {
+        "id": "pc_01_w00360",
+        "file_id": "pc_01",
+        "window_start_s": 360.0,
+        "p_synthetic": 0.8746,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8746,
+        "error": null
       },
-      "auc": null,
-      "eer": {
-        "eer": null,
-        "threshold": null,
-        "note": "needs both classes"
-      }
-    },
-    "windows_sapi_tts_extended": {
-      "n": 9,
-      "n_real": 0,
-      "n_fake": 9,
-      "strict_accuracy": 0.0,
-      "coverage": 0.0,
-      "selective_accuracy": null,
-      "n_certain": 0,
-      "n_total": 9,
-      "binary_at_0.5": {
-        "accuracy": 1.0,
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1": 1.0,
-        "tp": 9,
-        "tn": 0,
-        "fp": 0,
-        "fn": 0,
-        "n": 9
+      {
+        "id": "pc_01_w00540",
+        "file_id": "pc_01",
+        "window_start_s": 540.0,
+        "p_synthetic": 0.8611,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8611,
+        "error": null
       },
-      "auc": null,
-      "eer": {
-        "eer": null,
-        "threshold": null,
-        "note": "needs both classes"
+      {
+        "id": "pc_01_w00720",
+        "file_id": "pc_01",
+        "window_start_s": 720.0,
+        "p_synthetic": 0.7269,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7269,
+        "error": null
+      },
+      {
+        "id": "pc_01_w00900",
+        "file_id": "pc_01",
+        "window_start_s": 900.0,
+        "p_synthetic": 0.9283,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9283,
+        "error": null
+      },
+      {
+        "id": "pc_01_w01080",
+        "file_id": "pc_01",
+        "window_start_s": 1080.0,
+        "p_synthetic": 0.8809,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8809,
+        "error": null
+      },
+      {
+        "id": "pc_01_w01260",
+        "file_id": "pc_01",
+        "window_start_s": 1260.0,
+        "p_synthetic": 0.9105,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9105,
+        "error": null
+      },
+      {
+        "id": "pc_01_w01440",
+        "file_id": "pc_01",
+        "window_start_s": 1440.0,
+        "p_synthetic": 0.7405,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7405,
+        "error": null
+      },
+      {
+        "id": "pc_01_w01620",
+        "file_id": "pc_01",
+        "window_start_s": 1620.0,
+        "p_synthetic": 0.8289,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8289,
+        "error": null
+      },
+      {
+        "id": "pc_01_w01800",
+        "file_id": "pc_01",
+        "window_start_s": 1800.0,
+        "p_synthetic": 0.8482,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8482,
+        "error": null
+      },
+      {
+        "id": "pc_01_w01980",
+        "file_id": "pc_01",
+        "window_start_s": 1980.0,
+        "p_synthetic": 0.7468,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7468,
+        "error": null
+      },
+      {
+        "id": "pc_01_w02160",
+        "file_id": "pc_01",
+        "window_start_s": 2160.0,
+        "p_synthetic": 0.8674,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8674,
+        "error": null
+      },
+      {
+        "id": "pc_01_w02340",
+        "file_id": "pc_01",
+        "window_start_s": 2340.0,
+        "p_synthetic": 0.777,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.777,
+        "error": null
+      },
+      {
+        "id": "pc_01_w02520",
+        "file_id": "pc_01",
+        "window_start_s": 2520.0,
+        "p_synthetic": 0.8266,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8266,
+        "error": null
+      },
+      {
+        "id": "pc_01_w02700",
+        "file_id": "pc_01",
+        "window_start_s": 2700.0,
+        "p_synthetic": 0.8248,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8248,
+        "error": null
+      },
+      {
+        "id": "pc_01_w02880",
+        "file_id": "pc_01",
+        "window_start_s": 2880.0,
+        "p_synthetic": 0.8144,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8144,
+        "error": null
+      },
+      {
+        "id": "pc_01_w03060",
+        "file_id": "pc_01",
+        "window_start_s": 3060.0,
+        "p_synthetic": 0.8608,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8608,
+        "error": null
+      },
+      {
+        "id": "pc_01_w03240",
+        "file_id": "pc_01",
+        "window_start_s": 3240.0,
+        "p_synthetic": 0.8506,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8506,
+        "error": null
+      },
+      {
+        "id": "pc_01_w03420",
+        "file_id": "pc_01",
+        "window_start_s": 3420.0,
+        "p_synthetic": 0.8675,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8675,
+        "error": null
+      },
+      {
+        "id": "pc_01_w03600",
+        "file_id": "pc_01",
+        "window_start_s": 3600.0,
+        "p_synthetic": 0.8869,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8869,
+        "error": null
+      },
+      {
+        "id": "pc_02_w00000",
+        "file_id": "pc_02",
+        "window_start_s": 0.0,
+        "p_synthetic": 0.8049,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8049,
+        "error": null
+      },
+      {
+        "id": "pc_02_w00180",
+        "file_id": "pc_02",
+        "window_start_s": 180.0,
+        "p_synthetic": 0.8241,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8241,
+        "error": null
+      },
+      {
+        "id": "pc_02_w00360",
+        "file_id": "pc_02",
+        "window_start_s": 360.0,
+        "p_synthetic": 0.8265,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8265,
+        "error": null
+      },
+      {
+        "id": "pc_02_w00540",
+        "file_id": "pc_02",
+        "window_start_s": 540.0,
+        "p_synthetic": 0.8916,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8916,
+        "error": null
+      },
+      {
+        "id": "pc_02_w00720",
+        "file_id": "pc_02",
+        "window_start_s": 720.0,
+        "p_synthetic": 0.8713,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8713,
+        "error": null
+      },
+      {
+        "id": "pc_02_w00900",
+        "file_id": "pc_02",
+        "window_start_s": 900.0,
+        "p_synthetic": 0.8781,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8781,
+        "error": null
+      },
+      {
+        "id": "pc_02_w01080",
+        "file_id": "pc_02",
+        "window_start_s": 1080.0,
+        "p_synthetic": 0.8335,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8335,
+        "error": null
+      },
+      {
+        "id": "pc_02_w01260",
+        "file_id": "pc_02",
+        "window_start_s": 1260.0,
+        "p_synthetic": 0.7951,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7951,
+        "error": null
+      },
+      {
+        "id": "pc_02_w01440",
+        "file_id": "pc_02",
+        "window_start_s": 1440.0,
+        "p_synthetic": 0.7659,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7659,
+        "error": null
+      },
+      {
+        "id": "pc_02_w01620",
+        "file_id": "pc_02",
+        "window_start_s": 1620.0,
+        "p_synthetic": 0.8651,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8651,
+        "error": null
+      },
+      {
+        "id": "pc_02_w01800",
+        "file_id": "pc_02",
+        "window_start_s": 1800.0,
+        "p_synthetic": 0.8809,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8809,
+        "error": null
+      },
+      {
+        "id": "pc_02_w01980",
+        "file_id": "pc_02",
+        "window_start_s": 1980.0,
+        "p_synthetic": 0.879,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.879,
+        "error": null
+      },
+      {
+        "id": "pc_02_w02160",
+        "file_id": "pc_02",
+        "window_start_s": 2160.0,
+        "p_synthetic": 0.8287,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8287,
+        "error": null
+      },
+      {
+        "id": "pc_02_w02340",
+        "file_id": "pc_02",
+        "window_start_s": 2340.0,
+        "p_synthetic": 0.8932,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8932,
+        "error": null
+      },
+      {
+        "id": "pc_02_w02520",
+        "file_id": "pc_02",
+        "window_start_s": 2520.0,
+        "p_synthetic": 0.7723,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7723,
+        "error": null
+      },
+      {
+        "id": "pc_02_w02700",
+        "file_id": "pc_02",
+        "window_start_s": 2700.0,
+        "p_synthetic": 0.7475,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7475,
+        "error": null
+      },
+      {
+        "id": "pc_02_w02880",
+        "file_id": "pc_02",
+        "window_start_s": 2880.0,
+        "p_synthetic": 0.8397,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8397,
+        "error": null
+      },
+      {
+        "id": "pc_02_w03060",
+        "file_id": "pc_02",
+        "window_start_s": 3060.0,
+        "p_synthetic": 0.8548,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8548,
+        "error": null
+      },
+      {
+        "id": "pc_02_w03240",
+        "file_id": "pc_02",
+        "window_start_s": 3240.0,
+        "p_synthetic": 0.8472,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8472,
+        "error": null
+      },
+      {
+        "id": "pc_02_w03420",
+        "file_id": "pc_02",
+        "window_start_s": 3420.0,
+        "p_synthetic": 0.8552,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8552,
+        "error": null
+      },
+      {
+        "id": "pc_02_w03600",
+        "file_id": "pc_02",
+        "window_start_s": 3600.0,
+        "p_synthetic": 0.8297,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8297,
+        "error": null
+      },
+      {
+        "id": "pc_02_w03780",
+        "file_id": "pc_02",
+        "window_start_s": 3780.0,
+        "p_synthetic": 0.7972,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7972,
+        "error": null
+      },
+      {
+        "id": "pc_02_w03960",
+        "file_id": "pc_02",
+        "window_start_s": 3960.0,
+        "p_synthetic": 0.8056,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8056,
+        "error": null
+      },
+      {
+        "id": "pc_02_w04140",
+        "file_id": "pc_02",
+        "window_start_s": 4140.0,
+        "p_synthetic": 0.8249,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8249,
+        "error": null
+      },
+      {
+        "id": "pc_02_w04320",
+        "file_id": "pc_02",
+        "window_start_s": 4320.0,
+        "p_synthetic": 0.8191,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8191,
+        "error": null
+      },
+      {
+        "id": "pc_04_w00000",
+        "file_id": "pc_04",
+        "window_start_s": 0.0,
+        "p_synthetic": 0.7645,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7645,
+        "error": null
+      },
+      {
+        "id": "pc_04_w00180",
+        "file_id": "pc_04",
+        "window_start_s": 180.0,
+        "p_synthetic": 0.821,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.821,
+        "error": null
+      },
+      {
+        "id": "pc_04_w00360",
+        "file_id": "pc_04",
+        "window_start_s": 360.0,
+        "p_synthetic": 0.9083,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9083,
+        "error": null
+      },
+      {
+        "id": "pc_04_w00540",
+        "file_id": "pc_04",
+        "window_start_s": 540.0,
+        "p_synthetic": 0.9173,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9173,
+        "error": null
+      },
+      {
+        "id": "pc_04_w00720",
+        "file_id": "pc_04",
+        "window_start_s": 720.0,
+        "p_synthetic": 0.8794,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8794,
+        "error": null
+      },
+      {
+        "id": "pc_04_w00900",
+        "file_id": "pc_04",
+        "window_start_s": 900.0,
+        "p_synthetic": 0.8819,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8819,
+        "error": null
+      },
+      {
+        "id": "pc_04_w01080",
+        "file_id": "pc_04",
+        "window_start_s": 1080.0,
+        "p_synthetic": 0.8866,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8866,
+        "error": null
+      },
+      {
+        "id": "pc_04_w01260",
+        "file_id": "pc_04",
+        "window_start_s": 1260.0,
+        "p_synthetic": 0.8227,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8227,
+        "error": null
+      },
+      {
+        "id": "pc_04_w01440",
+        "file_id": "pc_04",
+        "window_start_s": 1440.0,
+        "p_synthetic": 0.8959,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8959,
+        "error": null
+      },
+      {
+        "id": "pc_04_w01620",
+        "file_id": "pc_04",
+        "window_start_s": 1620.0,
+        "p_synthetic": 0.8211,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8211,
+        "error": null
+      },
+      {
+        "id": "pc_04_w01800",
+        "file_id": "pc_04",
+        "window_start_s": 1800.0,
+        "p_synthetic": 0.9131,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9131,
+        "error": null
+      },
+      {
+        "id": "pc_04_w01980",
+        "file_id": "pc_04",
+        "window_start_s": 1980.0,
+        "p_synthetic": 0.8181,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8181,
+        "error": null
+      },
+      {
+        "id": "pc_04_w02160",
+        "file_id": "pc_04",
+        "window_start_s": 2160.0,
+        "p_synthetic": 0.8456,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8456,
+        "error": null
+      },
+      {
+        "id": "pc_04_w02340",
+        "file_id": "pc_04",
+        "window_start_s": 2340.0,
+        "p_synthetic": 0.8846,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8846,
+        "error": null
+      },
+      {
+        "id": "pc_04_w02520",
+        "file_id": "pc_04",
+        "window_start_s": 2520.0,
+        "p_synthetic": 0.887,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.887,
+        "error": null
+      },
+      {
+        "id": "pc_04_w02700",
+        "file_id": "pc_04",
+        "window_start_s": 2700.0,
+        "p_synthetic": 0.8704,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8704,
+        "error": null
+      },
+      {
+        "id": "pc_04_w02880",
+        "file_id": "pc_04",
+        "window_start_s": 2880.0,
+        "p_synthetic": 0.7936,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7936,
+        "error": null
+      },
+      {
+        "id": "pc_04_w03060",
+        "file_id": "pc_04",
+        "window_start_s": 3060.0,
+        "p_synthetic": 0.8432,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8432,
+        "error": null
+      },
+      {
+        "id": "pc_04_w03240",
+        "file_id": "pc_04",
+        "window_start_s": 3240.0,
+        "p_synthetic": 0.8998,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8998,
+        "error": null
+      },
+      {
+        "id": "pc_04_w03420",
+        "file_id": "pc_04",
+        "window_start_s": 3420.0,
+        "p_synthetic": 0.8223,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8223,
+        "error": null
+      },
+      {
+        "id": "pc_04_w03600",
+        "file_id": "pc_04",
+        "window_start_s": 3600.0,
+        "p_synthetic": 0.8568,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8568,
+        "error": null
+      },
+      {
+        "id": "pc_04_w03780",
+        "file_id": "pc_04",
+        "window_start_s": 3780.0,
+        "p_synthetic": 0.8712,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8712,
+        "error": null
+      },
+      {
+        "id": "pc_04_w03960",
+        "file_id": "pc_04",
+        "window_start_s": 3960.0,
+        "p_synthetic": 0.8185,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8185,
+        "error": null
+      },
+      {
+        "id": "pc_04_w04140",
+        "file_id": "pc_04",
+        "window_start_s": 4140.0,
+        "p_synthetic": 0.8289,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8289,
+        "error": null
+      },
+      {
+        "id": "pc_04_w04320",
+        "file_id": "pc_04",
+        "window_start_s": 4320.0,
+        "p_synthetic": 0.8959,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8959,
+        "error": null
+      },
+      {
+        "id": "pc_05_w00000",
+        "file_id": "pc_05",
+        "window_start_s": 0.0,
+        "p_synthetic": 0.7896,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7896,
+        "error": null
+      },
+      {
+        "id": "pc_05_w00180",
+        "file_id": "pc_05",
+        "window_start_s": 180.0,
+        "p_synthetic": 0.8701,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8701,
+        "error": null
+      },
+      {
+        "id": "pc_05_w00360",
+        "file_id": "pc_05",
+        "window_start_s": 360.0,
+        "p_synthetic": 0.7619,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7619,
+        "error": null
+      },
+      {
+        "id": "pc_05_w00540",
+        "file_id": "pc_05",
+        "window_start_s": 540.0,
+        "p_synthetic": 0.8438,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8438,
+        "error": null
+      },
+      {
+        "id": "pc_05_w00720",
+        "file_id": "pc_05",
+        "window_start_s": 720.0,
+        "p_synthetic": 0.8338,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8338,
+        "error": null
+      },
+      {
+        "id": "pc_05_w00900",
+        "file_id": "pc_05",
+        "window_start_s": 900.0,
+        "p_synthetic": 0.8723,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8723,
+        "error": null
+      },
+      {
+        "id": "pc_05_w01080",
+        "file_id": "pc_05",
+        "window_start_s": 1080.0,
+        "p_synthetic": 0.8496,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8496,
+        "error": null
+      },
+      {
+        "id": "pc_05_w01260",
+        "file_id": "pc_05",
+        "window_start_s": 1260.0,
+        "p_synthetic": 0.8866,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8866,
+        "error": null
+      },
+      {
+        "id": "pc_05_w01440",
+        "file_id": "pc_05",
+        "window_start_s": 1440.0,
+        "p_synthetic": 0.8094,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8094,
+        "error": null
+      },
+      {
+        "id": "pc_05_w01620",
+        "file_id": "pc_05",
+        "window_start_s": 1620.0,
+        "p_synthetic": 0.7851,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7851,
+        "error": null
+      },
+      {
+        "id": "pc_05_w01800",
+        "file_id": "pc_05",
+        "window_start_s": 1800.0,
+        "p_synthetic": 0.7733,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7733,
+        "error": null
+      },
+      {
+        "id": "pc_05_w01980",
+        "file_id": "pc_05",
+        "window_start_s": 1980.0,
+        "p_synthetic": 0.8625,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8625,
+        "error": null
+      },
+      {
+        "id": "pc_05_w02160",
+        "file_id": "pc_05",
+        "window_start_s": 2160.0,
+        "p_synthetic": null,
+        "prediction": null,
+        "confidence": null,
+        "error": "RuntimeError: Calculated padded input size per channel: (0). Kernel size: (10). Kernel size can't be greater than actual input size"
+      },
+      {
+        "id": "pc_06_w00000",
+        "file_id": "pc_06",
+        "window_start_s": 0.0,
+        "p_synthetic": 0.8504,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8504,
+        "error": null
+      },
+      {
+        "id": "pc_06_w00180",
+        "file_id": "pc_06",
+        "window_start_s": 180.0,
+        "p_synthetic": 0.8722,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8722,
+        "error": null
+      },
+      {
+        "id": "pc_06_w00360",
+        "file_id": "pc_06",
+        "window_start_s": 360.0,
+        "p_synthetic": 0.8063,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8063,
+        "error": null
+      },
+      {
+        "id": "pc_06_w00540",
+        "file_id": "pc_06",
+        "window_start_s": 540.0,
+        "p_synthetic": 0.8861,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8861,
+        "error": null
+      },
+      {
+        "id": "pc_06_w00720",
+        "file_id": "pc_06",
+        "window_start_s": 720.0,
+        "p_synthetic": 0.8292,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8292,
+        "error": null
+      },
+      {
+        "id": "pc_06_w00900",
+        "file_id": "pc_06",
+        "window_start_s": 900.0,
+        "p_synthetic": 0.8579,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8579,
+        "error": null
+      },
+      {
+        "id": "pc_06_w01080",
+        "file_id": "pc_06",
+        "window_start_s": 1080.0,
+        "p_synthetic": 0.8796,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8796,
+        "error": null
+      },
+      {
+        "id": "pc_06_w01260",
+        "file_id": "pc_06",
+        "window_start_s": 1260.0,
+        "p_synthetic": 0.8582,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8582,
+        "error": null
+      },
+      {
+        "id": "pc_06_w01440",
+        "file_id": "pc_06",
+        "window_start_s": 1440.0,
+        "p_synthetic": 0.7392,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7392,
+        "error": null
+      },
+      {
+        "id": "pc_06_w01620",
+        "file_id": "pc_06",
+        "window_start_s": 1620.0,
+        "p_synthetic": 0.8508,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8508,
+        "error": null
+      },
+      {
+        "id": "pc_06_w01800",
+        "file_id": "pc_06",
+        "window_start_s": 1800.0,
+        "p_synthetic": 0.8825,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8825,
+        "error": null
+      },
+      {
+        "id": "pc_06_w01980",
+        "file_id": "pc_06",
+        "window_start_s": 1980.0,
+        "p_synthetic": 0.7943,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7943,
+        "error": null
+      },
+      {
+        "id": "pc_06_w02160",
+        "file_id": "pc_06",
+        "window_start_s": 2160.0,
+        "p_synthetic": 0.8222,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8222,
+        "error": null
+      },
+      {
+        "id": "pc_06_w02340",
+        "file_id": "pc_06",
+        "window_start_s": 2340.0,
+        "p_synthetic": null,
+        "prediction": null,
+        "confidence": null,
+        "error": "RuntimeError: Calculated padded input size per channel: (0). Kernel size: (10). Kernel size can't be greater than actual input size"
+      },
+      {
+        "id": "pc_07_w00000",
+        "file_id": "pc_07",
+        "window_start_s": 0.0,
+        "p_synthetic": 0.872,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.872,
+        "error": null
+      },
+      {
+        "id": "pc_07_w00180",
+        "file_id": "pc_07",
+        "window_start_s": 180.0,
+        "p_synthetic": 0.8125,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8125,
+        "error": null
+      },
+      {
+        "id": "pc_07_w00360",
+        "file_id": "pc_07",
+        "window_start_s": 360.0,
+        "p_synthetic": 0.8382,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8382,
+        "error": null
+      },
+      {
+        "id": "pc_07_w00540",
+        "file_id": "pc_07",
+        "window_start_s": 540.0,
+        "p_synthetic": 0.8214,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8214,
+        "error": null
+      },
+      {
+        "id": "pc_07_w00720",
+        "file_id": "pc_07",
+        "window_start_s": 720.0,
+        "p_synthetic": 0.8576,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8576,
+        "error": null
+      },
+      {
+        "id": "pc_07_w00900",
+        "file_id": "pc_07",
+        "window_start_s": 900.0,
+        "p_synthetic": 0.8307,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8307,
+        "error": null
+      },
+      {
+        "id": "pc_07_w01080",
+        "file_id": "pc_07",
+        "window_start_s": 1080.0,
+        "p_synthetic": 0.8595,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8595,
+        "error": null
+      },
+      {
+        "id": "pc_07_w01260",
+        "file_id": "pc_07",
+        "window_start_s": 1260.0,
+        "p_synthetic": null,
+        "prediction": null,
+        "confidence": null,
+        "error": "RuntimeError: Calculated padded input size per channel: (0). Kernel size: (10). Kernel size can't be greater than actual input size"
+      },
+      {
+        "id": "pc_08_w00000",
+        "file_id": "pc_08",
+        "window_start_s": 0.0,
+        "p_synthetic": 0.8771,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8771,
+        "error": null
+      },
+      {
+        "id": "pc_08_w00180",
+        "file_id": "pc_08",
+        "window_start_s": 180.0,
+        "p_synthetic": 0.8507,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8507,
+        "error": null
+      },
+      {
+        "id": "pc_08_w00360",
+        "file_id": "pc_08",
+        "window_start_s": 360.0,
+        "p_synthetic": 0.8663,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8663,
+        "error": null
+      },
+      {
+        "id": "pc_08_w00540",
+        "file_id": "pc_08",
+        "window_start_s": 540.0,
+        "p_synthetic": 0.8844,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8844,
+        "error": null
+      },
+      {
+        "id": "pc_08_w00720",
+        "file_id": "pc_08",
+        "window_start_s": 720.0,
+        "p_synthetic": 0.8403,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8403,
+        "error": null
+      },
+      {
+        "id": "pc_09_w00000",
+        "file_id": "pc_09",
+        "window_start_s": 0.0,
+        "p_synthetic": 0.795,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.795,
+        "error": null
+      },
+      {
+        "id": "pc_09_w00180",
+        "file_id": "pc_09",
+        "window_start_s": 180.0,
+        "p_synthetic": 0.8287,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8287,
+        "error": null
+      },
+      {
+        "id": "pc_09_w00360",
+        "file_id": "pc_09",
+        "window_start_s": 360.0,
+        "p_synthetic": 0.8618,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8618,
+        "error": null
+      },
+      {
+        "id": "pc_09_w00540",
+        "file_id": "pc_09",
+        "window_start_s": 540.0,
+        "p_synthetic": 0.7872,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7872,
+        "error": null
+      },
+      {
+        "id": "pc_09_w00720",
+        "file_id": "pc_09",
+        "window_start_s": 720.0,
+        "p_synthetic": 0.7658,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7658,
+        "error": null
+      },
+      {
+        "id": "pc_09_w00900",
+        "file_id": "pc_09",
+        "window_start_s": 900.0,
+        "p_synthetic": 0.7709,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7709,
+        "error": null
+      },
+      {
+        "id": "pc_09_w01080",
+        "file_id": "pc_09",
+        "window_start_s": 1080.0,
+        "p_synthetic": 0.8327,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8327,
+        "error": null
+      },
+      {
+        "id": "pc_09_w01260",
+        "file_id": "pc_09",
+        "window_start_s": 1260.0,
+        "p_synthetic": 0.7813,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7813,
+        "error": null
+      },
+      {
+        "id": "pc_09_w01440",
+        "file_id": "pc_09",
+        "window_start_s": 1440.0,
+        "p_synthetic": 0.8846,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8846,
+        "error": null
+      },
+      {
+        "id": "pc_09_w01620",
+        "file_id": "pc_09",
+        "window_start_s": 1620.0,
+        "p_synthetic": 0.7744,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7744,
+        "error": null
+      },
+      {
+        "id": "pc_09_w01800",
+        "file_id": "pc_09",
+        "window_start_s": 1800.0,
+        "p_synthetic": 0.8054,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8054,
+        "error": null
+      },
+      {
+        "id": "pc_09_w01980",
+        "file_id": "pc_09",
+        "window_start_s": 1980.0,
+        "p_synthetic": 0.9129,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9129,
+        "error": null
+      },
+      {
+        "id": "pc_09_w02160",
+        "file_id": "pc_09",
+        "window_start_s": 2160.0,
+        "p_synthetic": 0.8748,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8748,
+        "error": null
+      },
+      {
+        "id": "pc_09_w02340",
+        "file_id": "pc_09",
+        "window_start_s": 2340.0,
+        "p_synthetic": 0.8286,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8286,
+        "error": null
+      },
+      {
+        "id": "pc_09_w02520",
+        "file_id": "pc_09",
+        "window_start_s": 2520.0,
+        "p_synthetic": 0.9074,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9074,
+        "error": null
+      },
+      {
+        "id": "pc_09_w02700",
+        "file_id": "pc_09",
+        "window_start_s": 2700.0,
+        "p_synthetic": 0.7824,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7824,
+        "error": null
+      },
+      {
+        "id": "pc_09_w02880",
+        "file_id": "pc_09",
+        "window_start_s": 2880.0,
+        "p_synthetic": 0.8905,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8905,
+        "error": null
+      },
+      {
+        "id": "pc_09_w03060",
+        "file_id": "pc_09",
+        "window_start_s": 3060.0,
+        "p_synthetic": 0.8726,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8726,
+        "error": null
+      },
+      {
+        "id": "pc_09_w03240",
+        "file_id": "pc_09",
+        "window_start_s": 3240.0,
+        "p_synthetic": 0.8756,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8756,
+        "error": null
+      },
+      {
+        "id": "pc_09_w03420",
+        "file_id": "pc_09",
+        "window_start_s": 3420.0,
+        "p_synthetic": 0.8623,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8623,
+        "error": null
+      },
+      {
+        "id": "pc_09_w03600",
+        "file_id": "pc_09",
+        "window_start_s": 3600.0,
+        "p_synthetic": 0.828,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.828,
+        "error": null
+      },
+      {
+        "id": "pc_09_w03780",
+        "file_id": "pc_09",
+        "window_start_s": 3780.0,
+        "p_synthetic": 0.7886,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7886,
+        "error": null
+      },
+      {
+        "id": "pc_09_w03960",
+        "file_id": "pc_09",
+        "window_start_s": 3960.0,
+        "p_synthetic": 0.7807,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7807,
+        "error": null
+      },
+      {
+        "id": "pc_09_w04140",
+        "file_id": "pc_09",
+        "window_start_s": 4140.0,
+        "p_synthetic": 0.8938,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8938,
+        "error": null
+      },
+      {
+        "id": "pc_09_w04320",
+        "file_id": "pc_09",
+        "window_start_s": 4320.0,
+        "p_synthetic": null,
+        "prediction": null,
+        "confidence": null,
+        "error": "RuntimeError: Calculated padded input size per channel: (0). Kernel size: (10). Kernel size can't be greater than actual input size"
+      },
+      {
+        "id": "pc_10_w00000",
+        "file_id": "pc_10",
+        "window_start_s": 0.0,
+        "p_synthetic": 0.8166,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8166,
+        "error": null
+      },
+      {
+        "id": "pc_10_w00180",
+        "file_id": "pc_10",
+        "window_start_s": 180.0,
+        "p_synthetic": 0.8517,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8517,
+        "error": null
+      },
+      {
+        "id": "pc_10_w00360",
+        "file_id": "pc_10",
+        "window_start_s": 360.0,
+        "p_synthetic": 0.8115,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8115,
+        "error": null
+      },
+      {
+        "id": "pc_10_w00540",
+        "file_id": "pc_10",
+        "window_start_s": 540.0,
+        "p_synthetic": 0.7896,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7896,
+        "error": null
+      },
+      {
+        "id": "pc_10_w00720",
+        "file_id": "pc_10",
+        "window_start_s": 720.0,
+        "p_synthetic": 0.8175,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8175,
+        "error": null
+      },
+      {
+        "id": "pc_10_w00900",
+        "file_id": "pc_10",
+        "window_start_s": 900.0,
+        "p_synthetic": 0.8918,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8918,
+        "error": null
+      },
+      {
+        "id": "pc_10_w01080",
+        "file_id": "pc_10",
+        "window_start_s": 1080.0,
+        "p_synthetic": 0.903,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.903,
+        "error": null
+      },
+      {
+        "id": "pc_10_w01260",
+        "file_id": "pc_10",
+        "window_start_s": 1260.0,
+        "p_synthetic": 0.8835,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8835,
+        "error": null
+      },
+      {
+        "id": "pc_10_w01440",
+        "file_id": "pc_10",
+        "window_start_s": 1440.0,
+        "p_synthetic": 0.8334,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8334,
+        "error": null
+      },
+      {
+        "id": "pc_10_w01620",
+        "file_id": "pc_10",
+        "window_start_s": 1620.0,
+        "p_synthetic": 0.8238,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8238,
+        "error": null
+      },
+      {
+        "id": "pc_10_w01800",
+        "file_id": "pc_10",
+        "window_start_s": 1800.0,
+        "p_synthetic": 0.8316,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8316,
+        "error": null
+      },
+      {
+        "id": "pc_10_w01980",
+        "file_id": "pc_10",
+        "window_start_s": 1980.0,
+        "p_synthetic": 0.8329,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8329,
+        "error": null
+      },
+      {
+        "id": "pc_10_w02160",
+        "file_id": "pc_10",
+        "window_start_s": 2160.0,
+        "p_synthetic": 0.8114,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8114,
+        "error": null
+      },
+      {
+        "id": "pc_10_w02340",
+        "file_id": "pc_10",
+        "window_start_s": 2340.0,
+        "p_synthetic": 0.9065,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9065,
+        "error": null
+      },
+      {
+        "id": "pc_10_w02520",
+        "file_id": "pc_10",
+        "window_start_s": 2520.0,
+        "p_synthetic": null,
+        "prediction": null,
+        "confidence": null,
+        "error": "RuntimeError: Calculated padded input size per channel: (0). Kernel size: (10). Kernel size can't be greater than actual input size"
+      },
+      {
+        "id": "pc_11_w00000",
+        "file_id": "pc_11",
+        "window_start_s": 0.0,
+        "p_synthetic": 0.7979,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7979,
+        "error": null
+      },
+      {
+        "id": "pc_11_w00180",
+        "file_id": "pc_11",
+        "window_start_s": 180.0,
+        "p_synthetic": 0.8559,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8559,
+        "error": null
+      },
+      {
+        "id": "pc_11_w00360",
+        "file_id": "pc_11",
+        "window_start_s": 360.0,
+        "p_synthetic": 0.9035,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9035,
+        "error": null
+      },
+      {
+        "id": "pc_11_w00540",
+        "file_id": "pc_11",
+        "window_start_s": 540.0,
+        "p_synthetic": 0.9013,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9013,
+        "error": null
+      },
+      {
+        "id": "pc_11_w00720",
+        "file_id": "pc_11",
+        "window_start_s": 720.0,
+        "p_synthetic": 0.8779,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8779,
+        "error": null
+      },
+      {
+        "id": "pc_11_w00900",
+        "file_id": "pc_11",
+        "window_start_s": 900.0,
+        "p_synthetic": 0.8589,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8589,
+        "error": null
+      },
+      {
+        "id": "pc_11_w01080",
+        "file_id": "pc_11",
+        "window_start_s": 1080.0,
+        "p_synthetic": 0.8181,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8181,
+        "error": null
+      },
+      {
+        "id": "pc_11_w01260",
+        "file_id": "pc_11",
+        "window_start_s": 1260.0,
+        "p_synthetic": 0.8605,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8605,
+        "error": null
+      },
+      {
+        "id": "pc_11_w01440",
+        "file_id": "pc_11",
+        "window_start_s": 1440.0,
+        "p_synthetic": 0.89,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.89,
+        "error": null
+      },
+      {
+        "id": "pc_11_w01620",
+        "file_id": "pc_11",
+        "window_start_s": 1620.0,
+        "p_synthetic": 0.8813,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8813,
+        "error": null
+      },
+      {
+        "id": "pc_11_w01800",
+        "file_id": "pc_11",
+        "window_start_s": 1800.0,
+        "p_synthetic": 0.858,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.858,
+        "error": null
+      },
+      {
+        "id": "pc_11_w01980",
+        "file_id": "pc_11",
+        "window_start_s": 1980.0,
+        "p_synthetic": 0.819,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.819,
+        "error": null
+      },
+      {
+        "id": "pc_11_w02160",
+        "file_id": "pc_11",
+        "window_start_s": 2160.0,
+        "p_synthetic": 0.8404,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8404,
+        "error": null
+      },
+      {
+        "id": "pc_11_w02340",
+        "file_id": "pc_11",
+        "window_start_s": 2340.0,
+        "p_synthetic": 0.8061,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8061,
+        "error": null
+      },
+      {
+        "id": "pc_11_w02520",
+        "file_id": "pc_11",
+        "window_start_s": 2520.0,
+        "p_synthetic": 0.8958,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8958,
+        "error": null
+      },
+      {
+        "id": "pc_11_w02700",
+        "file_id": "pc_11",
+        "window_start_s": 2700.0,
+        "p_synthetic": 0.9106,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9106,
+        "error": null
+      },
+      {
+        "id": "pc_11_w02880",
+        "file_id": "pc_11",
+        "window_start_s": 2880.0,
+        "p_synthetic": 0.8445,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8445,
+        "error": null
+      },
+      {
+        "id": "pc_11_w03060",
+        "file_id": "pc_11",
+        "window_start_s": 3060.0,
+        "p_synthetic": 0.8264,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8264,
+        "error": null
+      },
+      {
+        "id": "pc_11_w03240",
+        "file_id": "pc_11",
+        "window_start_s": 3240.0,
+        "p_synthetic": 0.8555,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8555,
+        "error": null
+      },
+      {
+        "id": "pc_11_w03420",
+        "file_id": "pc_11",
+        "window_start_s": 3420.0,
+        "p_synthetic": 0.828,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.828,
+        "error": null
+      },
+      {
+        "id": "pc_11_w03600",
+        "file_id": "pc_11",
+        "window_start_s": 3600.0,
+        "p_synthetic": 0.9078,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9078,
+        "error": null
+      },
+      {
+        "id": "pc_11_w03780",
+        "file_id": "pc_11",
+        "window_start_s": 3780.0,
+        "p_synthetic": 0.8918,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8918,
+        "error": null
+      },
+      {
+        "id": "pc_11_w03960",
+        "file_id": "pc_11",
+        "window_start_s": 3960.0,
+        "p_synthetic": 0.7405,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7405,
+        "error": null
+      },
+      {
+        "id": "pc_11_w04140",
+        "file_id": "pc_11",
+        "window_start_s": 4140.0,
+        "p_synthetic": 0.8892,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8892,
+        "error": null
+      },
+      {
+        "id": "pc_11_w04320",
+        "file_id": "pc_11",
+        "window_start_s": 4320.0,
+        "p_synthetic": 0.7926,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7926,
+        "error": null
+      },
+      {
+        "id": "pc_12_w00000",
+        "file_id": "pc_12",
+        "window_start_s": 0.0,
+        "p_synthetic": 0.8175,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8175,
+        "error": null
+      },
+      {
+        "id": "pc_12_w00180",
+        "file_id": "pc_12",
+        "window_start_s": 180.0,
+        "p_synthetic": 0.8857,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8857,
+        "error": null
+      },
+      {
+        "id": "pc_12_w00360",
+        "file_id": "pc_12",
+        "window_start_s": 360.0,
+        "p_synthetic": 0.8277,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8277,
+        "error": null
+      },
+      {
+        "id": "pc_13_w00000",
+        "file_id": "pc_13",
+        "window_start_s": 0.0,
+        "p_synthetic": 0.9185,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9185,
+        "error": null
+      },
+      {
+        "id": "pc_13_w00180",
+        "file_id": "pc_13",
+        "window_start_s": 180.0,
+        "p_synthetic": 0.861,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.861,
+        "error": null
+      },
+      {
+        "id": "pc_13_w00360",
+        "file_id": "pc_13",
+        "window_start_s": 360.0,
+        "p_synthetic": 0.825,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.825,
+        "error": null
+      },
+      {
+        "id": "pc_13_w00540",
+        "file_id": "pc_13",
+        "window_start_s": 540.0,
+        "p_synthetic": 0.8622,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8622,
+        "error": null
+      },
+      {
+        "id": "pc_13_w00720",
+        "file_id": "pc_13",
+        "window_start_s": 720.0,
+        "p_synthetic": 0.8787,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8787,
+        "error": null
+      },
+      {
+        "id": "pc_13_w00900",
+        "file_id": "pc_13",
+        "window_start_s": 900.0,
+        "p_synthetic": 0.9287,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9287,
+        "error": null
+      },
+      {
+        "id": "pc_13_w01080",
+        "file_id": "pc_13",
+        "window_start_s": 1080.0,
+        "p_synthetic": 0.8656,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8656,
+        "error": null
+      },
+      {
+        "id": "pc_13_w01260",
+        "file_id": "pc_13",
+        "window_start_s": 1260.0,
+        "p_synthetic": 0.8971,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8971,
+        "error": null
+      },
+      {
+        "id": "pc_13_w01440",
+        "file_id": "pc_13",
+        "window_start_s": 1440.0,
+        "p_synthetic": 0.9065,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9065,
+        "error": null
+      },
+      {
+        "id": "pc_13_w01620",
+        "file_id": "pc_13",
+        "window_start_s": 1620.0,
+        "p_synthetic": 0.8865,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8865,
+        "error": null
+      },
+      {
+        "id": "pc_13_w01800",
+        "file_id": "pc_13",
+        "window_start_s": 1800.0,
+        "p_synthetic": 0.8736,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8736,
+        "error": null
+      },
+      {
+        "id": "pc_13_w01980",
+        "file_id": "pc_13",
+        "window_start_s": 1980.0,
+        "p_synthetic": 0.8932,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8932,
+        "error": null
+      },
+      {
+        "id": "pc_13_w02160",
+        "file_id": "pc_13",
+        "window_start_s": 2160.0,
+        "p_synthetic": 0.8578,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8578,
+        "error": null
+      },
+      {
+        "id": "pc_13_w02340",
+        "file_id": "pc_13",
+        "window_start_s": 2340.0,
+        "p_synthetic": 0.7443,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7443,
+        "error": null
+      },
+      {
+        "id": "pc_13_w02520",
+        "file_id": "pc_13",
+        "window_start_s": 2520.0,
+        "p_synthetic": 0.8242,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8242,
+        "error": null
+      },
+      {
+        "id": "pc_13_w02700",
+        "file_id": "pc_13",
+        "window_start_s": 2700.0,
+        "p_synthetic": 0.8226,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8226,
+        "error": null
+      },
+      {
+        "id": "pc_13_w02880",
+        "file_id": "pc_13",
+        "window_start_s": 2880.0,
+        "p_synthetic": 0.8073,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8073,
+        "error": null
+      },
+      {
+        "id": "pc_13_w03060",
+        "file_id": "pc_13",
+        "window_start_s": 3060.0,
+        "p_synthetic": 0.8825,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8825,
+        "error": null
+      },
+      {
+        "id": "pc_13_w03240",
+        "file_id": "pc_13",
+        "window_start_s": 3240.0,
+        "p_synthetic": 0.8385,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8385,
+        "error": null
+      },
+      {
+        "id": "pc_13_w03420",
+        "file_id": "pc_13",
+        "window_start_s": 3420.0,
+        "p_synthetic": 0.8624,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8624,
+        "error": null
+      },
+      {
+        "id": "pc_13_w03600",
+        "file_id": "pc_13",
+        "window_start_s": 3600.0,
+        "p_synthetic": 0.7846,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7846,
+        "error": null
+      },
+      {
+        "id": "pc_13_w03780",
+        "file_id": "pc_13",
+        "window_start_s": 3780.0,
+        "p_synthetic": 0.8348,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8348,
+        "error": null
+      },
+      {
+        "id": "pc_13_w03960",
+        "file_id": "pc_13",
+        "window_start_s": 3960.0,
+        "p_synthetic": 0.8541,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8541,
+        "error": null
+      },
+      {
+        "id": "pc_13_w04140",
+        "file_id": "pc_13",
+        "window_start_s": 4140.0,
+        "p_synthetic": 0.694,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.694,
+        "error": null
+      },
+      {
+        "id": "pc_13_w04320",
+        "file_id": "pc_13",
+        "window_start_s": 4320.0,
+        "p_synthetic": 0.8567,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8567,
+        "error": null
+      },
+      {
+        "id": "pc_14_w00000",
+        "file_id": "pc_14",
+        "window_start_s": 0.0,
+        "p_synthetic": 0.8415,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8415,
+        "error": null
+      },
+      {
+        "id": "pc_14_w00180",
+        "file_id": "pc_14",
+        "window_start_s": 180.0,
+        "p_synthetic": 0.813,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.813,
+        "error": null
+      },
+      {
+        "id": "pc_14_w00360",
+        "file_id": "pc_14",
+        "window_start_s": 360.0,
+        "p_synthetic": 0.8947,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8947,
+        "error": null
+      },
+      {
+        "id": "pc_14_w00540",
+        "file_id": "pc_14",
+        "window_start_s": 540.0,
+        "p_synthetic": 0.849,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.849,
+        "error": null
+      },
+      {
+        "id": "pc_14_w00720",
+        "file_id": "pc_14",
+        "window_start_s": 720.0,
+        "p_synthetic": 0.906,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.906,
+        "error": null
+      },
+      {
+        "id": "pc_14_w00900",
+        "file_id": "pc_14",
+        "window_start_s": 900.0,
+        "p_synthetic": 0.9327,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9327,
+        "error": null
+      },
+      {
+        "id": "pc_14_w01080",
+        "file_id": "pc_14",
+        "window_start_s": 1080.0,
+        "p_synthetic": 0.8799,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8799,
+        "error": null
+      },
+      {
+        "id": "pc_14_w01260",
+        "file_id": "pc_14",
+        "window_start_s": 1260.0,
+        "p_synthetic": 0.6367,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.6367,
+        "error": null
+      },
+      {
+        "id": "pc_14_w01440",
+        "file_id": "pc_14",
+        "window_start_s": 1440.0,
+        "p_synthetic": 0.8983,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8983,
+        "error": null
+      },
+      {
+        "id": "pc_14_w01620",
+        "file_id": "pc_14",
+        "window_start_s": 1620.0,
+        "p_synthetic": 0.8238,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8238,
+        "error": null
+      },
+      {
+        "id": "pc_14_w01800",
+        "file_id": "pc_14",
+        "window_start_s": 1800.0,
+        "p_synthetic": 0.7952,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7952,
+        "error": null
+      },
+      {
+        "id": "pc_14_w01980",
+        "file_id": "pc_14",
+        "window_start_s": 1980.0,
+        "p_synthetic": 0.8595,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8595,
+        "error": null
+      },
+      {
+        "id": "pc_14_w02160",
+        "file_id": "pc_14",
+        "window_start_s": 2160.0,
+        "p_synthetic": 0.8967,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8967,
+        "error": null
+      },
+      {
+        "id": "pc_14_w02340",
+        "file_id": "pc_14",
+        "window_start_s": 2340.0,
+        "p_synthetic": 0.8156,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8156,
+        "error": null
+      },
+      {
+        "id": "pc_14_w02520",
+        "file_id": "pc_14",
+        "window_start_s": 2520.0,
+        "p_synthetic": 0.8984,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8984,
+        "error": null
+      },
+      {
+        "id": "pc_14_w02700",
+        "file_id": "pc_14",
+        "window_start_s": 2700.0,
+        "p_synthetic": 0.8942,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8942,
+        "error": null
+      },
+      {
+        "id": "pc_14_w02880",
+        "file_id": "pc_14",
+        "window_start_s": 2880.0,
+        "p_synthetic": 0.7995,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7995,
+        "error": null
+      },
+      {
+        "id": "pc_14_w03060",
+        "file_id": "pc_14",
+        "window_start_s": 3060.0,
+        "p_synthetic": 0.8249,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8249,
+        "error": null
+      },
+      {
+        "id": "pc_14_w03240",
+        "file_id": "pc_14",
+        "window_start_s": 3240.0,
+        "p_synthetic": 0.8666,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8666,
+        "error": null
+      },
+      {
+        "id": "pc_14_w03420",
+        "file_id": "pc_14",
+        "window_start_s": 3420.0,
+        "p_synthetic": 0.843,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.843,
+        "error": null
+      },
+      {
+        "id": "pc_14_w03600",
+        "file_id": "pc_14",
+        "window_start_s": 3600.0,
+        "p_synthetic": 0.7106,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7106,
+        "error": null
+      },
+      {
+        "id": "pc_14_w03780",
+        "file_id": "pc_14",
+        "window_start_s": 3780.0,
+        "p_synthetic": 0.8045,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8045,
+        "error": null
+      },
+      {
+        "id": "pc_14_w03960",
+        "file_id": "pc_14",
+        "window_start_s": 3960.0,
+        "p_synthetic": 0.828,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.828,
+        "error": null
+      },
+      {
+        "id": "pc_14_w04140",
+        "file_id": "pc_14",
+        "window_start_s": 4140.0,
+        "p_synthetic": 0.7867,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7867,
+        "error": null
+      },
+      {
+        "id": "pc_14_w04320",
+        "file_id": "pc_14",
+        "window_start_s": 4320.0,
+        "p_synthetic": 0.8181,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8181,
+        "error": null
+      },
+      {
+        "id": "pc_15_w00000",
+        "file_id": "pc_15",
+        "window_start_s": 0.0,
+        "p_synthetic": 0.8838,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8838,
+        "error": null
+      },
+      {
+        "id": "pc_15_w00180",
+        "file_id": "pc_15",
+        "window_start_s": 180.0,
+        "p_synthetic": 0.8363,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8363,
+        "error": null
+      },
+      {
+        "id": "pc_15_w00360",
+        "file_id": "pc_15",
+        "window_start_s": 360.0,
+        "p_synthetic": 0.8401,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8401,
+        "error": null
+      },
+      {
+        "id": "pc_15_w00540",
+        "file_id": "pc_15",
+        "window_start_s": 540.0,
+        "p_synthetic": 0.8196,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8196,
+        "error": null
+      },
+      {
+        "id": "pc_15_w00720",
+        "file_id": "pc_15",
+        "window_start_s": 720.0,
+        "p_synthetic": 0.8221,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8221,
+        "error": null
+      },
+      {
+        "id": "pc_16_w00000",
+        "file_id": "pc_16",
+        "window_start_s": 0.0,
+        "p_synthetic": 0.8582,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8582,
+        "error": null
+      },
+      {
+        "id": "pc_16_w00180",
+        "file_id": "pc_16",
+        "window_start_s": 180.0,
+        "p_synthetic": 0.7836,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7836,
+        "error": null
+      },
+      {
+        "id": "pc_16_w00360",
+        "file_id": "pc_16",
+        "window_start_s": 360.0,
+        "p_synthetic": 0.877,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.877,
+        "error": null
+      },
+      {
+        "id": "pc_16_w00540",
+        "file_id": "pc_16",
+        "window_start_s": 540.0,
+        "p_synthetic": 0.8567,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8567,
+        "error": null
+      },
+      {
+        "id": "pc_16_w00720",
+        "file_id": "pc_16",
+        "window_start_s": 720.0,
+        "p_synthetic": 0.8928,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8928,
+        "error": null
+      },
+      {
+        "id": "pc_16_w00900",
+        "file_id": "pc_16",
+        "window_start_s": 900.0,
+        "p_synthetic": 0.8015,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8015,
+        "error": null
+      },
+      {
+        "id": "pc_16_w01080",
+        "file_id": "pc_16",
+        "window_start_s": 1080.0,
+        "p_synthetic": 0.8648,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8648,
+        "error": null
+      },
+      {
+        "id": "pc_16_w01260",
+        "file_id": "pc_16",
+        "window_start_s": 1260.0,
+        "p_synthetic": 0.8895,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8895,
+        "error": null
+      },
+      {
+        "id": "pc_16_w01440",
+        "file_id": "pc_16",
+        "window_start_s": 1440.0,
+        "p_synthetic": 0.8618,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8618,
+        "error": null
+      },
+      {
+        "id": "pc_16_w01620",
+        "file_id": "pc_16",
+        "window_start_s": 1620.0,
+        "p_synthetic": 0.8797,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8797,
+        "error": null
+      },
+      {
+        "id": "pc_16_w01800",
+        "file_id": "pc_16",
+        "window_start_s": 1800.0,
+        "p_synthetic": 0.8744,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8744,
+        "error": null
+      },
+      {
+        "id": "pc_16_w01980",
+        "file_id": "pc_16",
+        "window_start_s": 1980.0,
+        "p_synthetic": 0.7726,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7726,
+        "error": null
+      },
+      {
+        "id": "pc_16_w02160",
+        "file_id": "pc_16",
+        "window_start_s": 2160.0,
+        "p_synthetic": 0.8868,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8868,
+        "error": null
+      },
+      {
+        "id": "pc_16_w02340",
+        "file_id": "pc_16",
+        "window_start_s": 2340.0,
+        "p_synthetic": 0.7905,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7905,
+        "error": null
+      },
+      {
+        "id": "pc_16_w02520",
+        "file_id": "pc_16",
+        "window_start_s": 2520.0,
+        "p_synthetic": 0.8891,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8891,
+        "error": null
+      },
+      {
+        "id": "pc_16_w02700",
+        "file_id": "pc_16",
+        "window_start_s": 2700.0,
+        "p_synthetic": 0.8874,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8874,
+        "error": null
+      },
+      {
+        "id": "pc_16_w02880",
+        "file_id": "pc_16",
+        "window_start_s": 2880.0,
+        "p_synthetic": 0.8468,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8468,
+        "error": null
+      },
+      {
+        "id": "pc_16_w03060",
+        "file_id": "pc_16",
+        "window_start_s": 3060.0,
+        "p_synthetic": 0.8576,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8576,
+        "error": null
+      },
+      {
+        "id": "pc_16_w03240",
+        "file_id": "pc_16",
+        "window_start_s": 3240.0,
+        "p_synthetic": 0.9059,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9059,
+        "error": null
+      },
+      {
+        "id": "pc_16_w03420",
+        "file_id": "pc_16",
+        "window_start_s": 3420.0,
+        "p_synthetic": 0.7722,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7722,
+        "error": null
+      },
+      {
+        "id": "pc_16_w03600",
+        "file_id": "pc_16",
+        "window_start_s": 3600.0,
+        "p_synthetic": 0.8033,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8033,
+        "error": null
+      },
+      {
+        "id": "pc_16_w03780",
+        "file_id": "pc_16",
+        "window_start_s": 3780.0,
+        "p_synthetic": 0.8378,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8378,
+        "error": null
+      },
+      {
+        "id": "pc_16_w03960",
+        "file_id": "pc_16",
+        "window_start_s": 3960.0,
+        "p_synthetic": null,
+        "prediction": null,
+        "confidence": null,
+        "error": "RuntimeError: Calculated padded input size per channel: (0). Kernel size: (10). Kernel size can't be greater than actual input size"
+      },
+      {
+        "id": "pc_17_w00000",
+        "file_id": "pc_17",
+        "window_start_s": 0.0,
+        "p_synthetic": 0.8354,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8354,
+        "error": null
+      },
+      {
+        "id": "pc_17_w00180",
+        "file_id": "pc_17",
+        "window_start_s": 180.0,
+        "p_synthetic": 0.8833,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8833,
+        "error": null
+      },
+      {
+        "id": "pc_17_w00360",
+        "file_id": "pc_17",
+        "window_start_s": 360.0,
+        "p_synthetic": 0.8613,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8613,
+        "error": null
+      },
+      {
+        "id": "pc_17_w00540",
+        "file_id": "pc_17",
+        "window_start_s": 540.0,
+        "p_synthetic": 0.8514,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8514,
+        "error": null
+      },
+      {
+        "id": "pc_17_w00720",
+        "file_id": "pc_17",
+        "window_start_s": 720.0,
+        "p_synthetic": 0.8837,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8837,
+        "error": null
+      },
+      {
+        "id": "pc_17_w00900",
+        "file_id": "pc_17",
+        "window_start_s": 900.0,
+        "p_synthetic": 0.9028,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9028,
+        "error": null
+      },
+      {
+        "id": "pc_17_w01080",
+        "file_id": "pc_17",
+        "window_start_s": 1080.0,
+        "p_synthetic": 0.8502,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8502,
+        "error": null
+      },
+      {
+        "id": "pc_17_w01260",
+        "file_id": "pc_17",
+        "window_start_s": 1260.0,
+        "p_synthetic": 0.8326,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8326,
+        "error": null
+      },
+      {
+        "id": "pc_18_w00000",
+        "file_id": "pc_18",
+        "window_start_s": 0.0,
+        "p_synthetic": 0.8904,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8904,
+        "error": null
+      },
+      {
+        "id": "pc_18_w00180",
+        "file_id": "pc_18",
+        "window_start_s": 180.0,
+        "p_synthetic": 0.898,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.898,
+        "error": null
+      },
+      {
+        "id": "pc_18_w00360",
+        "file_id": "pc_18",
+        "window_start_s": 360.0,
+        "p_synthetic": 0.8521,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8521,
+        "error": null
+      },
+      {
+        "id": "pc_18_w00540",
+        "file_id": "pc_18",
+        "window_start_s": 540.0,
+        "p_synthetic": 0.8703,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8703,
+        "error": null
+      },
+      {
+        "id": "pc_18_w00720",
+        "file_id": "pc_18",
+        "window_start_s": 720.0,
+        "p_synthetic": 0.8709,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8709,
+        "error": null
+      },
+      {
+        "id": "pc_18_w00900",
+        "file_id": "pc_18",
+        "window_start_s": 900.0,
+        "p_synthetic": 0.8972,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8972,
+        "error": null
+      },
+      {
+        "id": "pc_18_w01080",
+        "file_id": "pc_18",
+        "window_start_s": 1080.0,
+        "p_synthetic": 0.8573,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8573,
+        "error": null
+      },
+      {
+        "id": "pc_18_w01260",
+        "file_id": "pc_18",
+        "window_start_s": 1260.0,
+        "p_synthetic": 0.8749,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8749,
+        "error": null
+      },
+      {
+        "id": "pc_18_w01440",
+        "file_id": "pc_18",
+        "window_start_s": 1440.0,
+        "p_synthetic": 0.8995,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8995,
+        "error": null
+      },
+      {
+        "id": "pc_18_w01620",
+        "file_id": "pc_18",
+        "window_start_s": 1620.0,
+        "p_synthetic": 0.8984,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8984,
+        "error": null
+      },
+      {
+        "id": "pc_18_w01800",
+        "file_id": "pc_18",
+        "window_start_s": 1800.0,
+        "p_synthetic": 0.8932,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8932,
+        "error": null
+      },
+      {
+        "id": "pc_18_w01980",
+        "file_id": "pc_18",
+        "window_start_s": 1980.0,
+        "p_synthetic": 0.8994,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8994,
+        "error": null
+      },
+      {
+        "id": "pc_18_w02160",
+        "file_id": "pc_18",
+        "window_start_s": 2160.0,
+        "p_synthetic": 0.8199,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8199,
+        "error": null
+      },
+      {
+        "id": "pc_18_w02340",
+        "file_id": "pc_18",
+        "window_start_s": 2340.0,
+        "p_synthetic": null,
+        "prediction": null,
+        "confidence": null,
+        "error": "RuntimeError: Calculated padded input size per channel: (0). Kernel size: (10). Kernel size can't be greater than actual input size"
+      },
+      {
+        "id": "pc_19_w00000",
+        "file_id": "pc_19",
+        "window_start_s": 0.0,
+        "p_synthetic": 0.7544,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7544,
+        "error": null
+      },
+      {
+        "id": "pc_19_w00180",
+        "file_id": "pc_19",
+        "window_start_s": 180.0,
+        "p_synthetic": 0.8804,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8804,
+        "error": null
+      },
+      {
+        "id": "pc_19_w00360",
+        "file_id": "pc_19",
+        "window_start_s": 360.0,
+        "p_synthetic": 0.8748,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8748,
+        "error": null
+      },
+      {
+        "id": "pc_19_w00540",
+        "file_id": "pc_19",
+        "window_start_s": 540.0,
+        "p_synthetic": 0.8182,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8182,
+        "error": null
+      },
+      {
+        "id": "pc_19_w00720",
+        "file_id": "pc_19",
+        "window_start_s": 720.0,
+        "p_synthetic": 0.762,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.762,
+        "error": null
+      },
+      {
+        "id": "pc_19_w00900",
+        "file_id": "pc_19",
+        "window_start_s": 900.0,
+        "p_synthetic": 0.8434,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8434,
+        "error": null
+      },
+      {
+        "id": "pc_19_w01080",
+        "file_id": "pc_19",
+        "window_start_s": 1080.0,
+        "p_synthetic": 0.8774,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8774,
+        "error": null
+      },
+      {
+        "id": "pc_19_w01260",
+        "file_id": "pc_19",
+        "window_start_s": 1260.0,
+        "p_synthetic": 0.8702,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8702,
+        "error": null
+      },
+      {
+        "id": "pc_19_w01440",
+        "file_id": "pc_19",
+        "window_start_s": 1440.0,
+        "p_synthetic": 0.8191,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8191,
+        "error": null
       }
-    }
+    ]
   },
-  "calibration_table": [
-    {
-      "confidence_bin": "0.5-0.6",
-      "n": 0,
-      "accuracy": null,
-      "avg_confidence": null,
-      "gap": null
+  "whatsapp": {
+    "n_files": 86,
+    "n_scored": 86,
+    "far_all": {
+      "n": 86,
+      "n_synthetic": 43,
+      "far": 0.5
     },
-    {
-      "confidence_bin": "0.6-0.7",
-      "n": 0,
-      "accuracy": null,
-      "avg_confidence": null,
-      "gap": null
+    "far_by_container": {
+      "opus": {
+        "n": 84,
+        "n_synthetic": 41,
+        "far": 0.4881
+      },
+      "ogg": {
+        "n": 2,
+        "n_synthetic": 2,
+        "far": 1.0
+      }
     },
-    {
-      "confidence_bin": "0.7-0.8",
-      "n": 1,
-      "accuracy": 0.0,
-      "avg_confidence": 0.7917,
-      "gap": 0.7917
-    },
-    {
-      "confidence_bin": "0.8-0.9",
-      "n": 18,
-      "accuracy": 0.8333,
-      "avg_confidence": 0.8256,
-      "gap": -0.0078
-    },
-    {
-      "confidence_bin": "0.9-1.0",
-      "n": 0,
-      "accuracy": null,
-      "avg_confidence": null,
-      "gap": null
-    }
-  ],
-  "calibration_note": "Bins use stated confidence=max(p,1-p); accuracy is binary@0.5 vs truth. Gap>0 means overconfidence in that bin.",
-  "ffmpeg": "C:\\Users\\rajee\\RAFNet\\.venv\\Lib\\site-packages\\imageio_ffmpeg\\binaries\\ffmpeg-win-x86_64-v7.1.exe",
-  "codecs_tested": [
-    "opus_24k",
-    "mp3_128k",
-    "amr_nb",
-    "g711_alaw"
-  ],
-  "codec_rows": [
-    {
-      "file": "samples/real/260-123286-0012.flac",
-      "codec": "opus_24k",
-      "p_clean": 0.8323,
-      "p_codec": 0.8287,
-      "prediction_codec": "UNCERTAIN",
-      "confidence_codec": 0.8287,
-      "simulated": false,
-      "method": "opus_24k",
-      "delta": -0.0036
-    },
-    {
-      "file": "samples/real/260-123286-0012.flac",
-      "codec": "mp3_128k",
-      "p_clean": 0.8323,
-      "p_codec": 0.8438,
-      "prediction_codec": "UNCERTAIN",
-      "confidence_codec": 0.8438,
-      "simulated": false,
-      "method": "mp3_128k",
-      "delta": 0.0115
-    },
-    {
-      "file": "samples/real/260-123286-0012.flac",
-      "codec": "amr_nb",
-      "p_clean": 0.8323,
-      "p_codec": 0.8396,
-      "prediction_codec": "UNCERTAIN",
-      "confidence_codec": 0.8396,
-      "simulated": false,
-      "method": "amr_nb",
-      "delta": 0.0073
-    },
-    {
-      "file": "samples/real/260-123286-0012.flac",
-      "codec": "g711_alaw",
-      "p_clean": 0.8323,
-      "p_codec": 0.8589,
-      "prediction_codec": "UNCERTAIN",
-      "confidence_codec": 0.8589,
-      "simulated": false,
-      "method": "g711_alaw",
-      "delta": 0.0266
-    },
-    {
-      "file": "samples/real/4446-2273-0021.flac",
-      "codec": "opus_24k",
-      "p_clean": 0.8439,
-      "p_codec": 0.8468,
-      "prediction_codec": "UNCERTAIN",
-      "confidence_codec": 0.8468,
-      "simulated": false,
-      "method": "opus_24k",
-      "delta": 0.0029
-    },
-    {
-      "file": "samples/real/4446-2273-0021.flac",
-      "codec": "mp3_128k",
-      "p_clean": 0.8439,
-      "p_codec": 0.8479,
-      "prediction_codec": "UNCERTAIN",
-      "confidence_codec": 0.8479,
-      "simulated": false,
-      "method": "mp3_128k",
-      "delta": 0.004
-    },
-    {
-      "file": "samples/real/4446-2273-0021.flac",
-      "codec": "amr_nb",
-      "p_clean": 0.8439,
-      "p_codec": 0.8565,
-      "prediction_codec": "UNCERTAIN",
-      "confidence_codec": 0.8565,
-      "simulated": false,
-      "method": "amr_nb",
-      "delta": 0.0126
-    },
-    {
-      "file": "samples/real/4446-2273-0021.flac",
-      "codec": "g711_alaw",
-      "p_clean": 0.8439,
-      "p_codec": 0.8584,
-      "prediction_codec": "UNCERTAIN",
-      "confidence_codec": 0.8584,
-      "simulated": false,
-      "method": "g711_alaw",
-      "delta": 0.0145
-    },
-    {
-      "file": "samples/real/5142-33396-0059.flac",
-      "codec": "opus_24k",
-      "p_clean": 0.818,
-      "p_codec": 0.8157,
-      "prediction_codec": "UNCERTAIN",
-      "confidence_codec": 0.8157,
-      "simulated": false,
-      "method": "opus_24k",
-      "delta": -0.0023
-    },
-    {
-      "file": "samples/real/5142-33396-0059.flac",
-      "codec": "mp3_128k",
-      "p_clean": 0.818,
-      "p_codec": 0.8222,
-      "prediction_codec": "UNCERTAIN",
-      "confidence_codec": 0.8222,
-      "simulated": false,
-      "method": "mp3_128k",
-      "delta": 0.0042
-    },
-    {
-      "file": "samples/real/5142-33396-0059.flac",
-      "codec": "amr_nb",
-      "p_clean": 0.818,
-      "p_codec": 0.8518,
-      "prediction_codec": "UNCERTAIN",
-      "confidence_codec": 0.8518,
-      "simulated": false,
-      "method": "amr_nb",
-      "delta": 0.0338
-    },
-    {
-      "file": "samples/real/5142-33396-0059.flac",
-      "codec": "g711_alaw",
-      "p_clean": 0.818,
-      "p_codec": 0.8481,
-      "prediction_codec": "UNCERTAIN",
-      "confidence_codec": 0.8481,
-      "simulated": false,
-      "method": "g711_alaw",
-      "delta": 0.0301
-    },
-    {
-      "file": "samples/real/6930-81414-0025.flac",
-      "codec": "opus_24k",
-      "p_clean": 0.7917,
-      "p_codec": 0.7911,
-      "prediction_codec": "UNCERTAIN",
-      "confidence_codec": 0.7911,
-      "simulated": false,
-      "method": "opus_24k",
-      "delta": -0.0006
-    },
-    {
-      "file": "samples/real/6930-81414-0025.flac",
-      "codec": "mp3_128k",
-      "p_clean": 0.7917,
-      "p_codec": 0.7924,
-      "prediction_codec": "UNCERTAIN",
-      "confidence_codec": 0.7924,
-      "simulated": false,
-      "method": "mp3_128k",
-      "delta": 0.0007
-    },
-    {
-      "file": "samples/real/6930-81414-0025.flac",
-      "codec": "amr_nb",
-      "p_clean": 0.7917,
-      "p_codec": 0.8073,
-      "prediction_codec": "UNCERTAIN",
-      "confidence_codec": 0.8073,
-      "simulated": false,
-      "method": "amr_nb",
-      "delta": 0.0156
-    },
-    {
-      "file": "samples/real/6930-81414-0025.flac",
-      "codec": "g711_alaw",
-      "p_clean": 0.7917,
-      "p_codec": 0.8008,
-      "prediction_codec": "UNCERTAIN",
-      "confidence_codec": 0.8008,
-      "simulated": false,
-      "method": "g711_alaw",
-      "delta": 0.0091
-    }
-  ],
-  "codec_summary": {
-    "opus_24k": {
-      "n": 4,
-      "mean_delta": -0.0009,
-      "max_abs_delta": 0.0036,
-      "mean_p_codec": 0.8206,
-      "simulated": false
-    },
-    "mp3_128k": {
-      "n": 4,
-      "mean_delta": 0.0051,
-      "max_abs_delta": 0.0115,
-      "mean_p_codec": 0.8266,
-      "simulated": false
-    },
-    "amr_nb": {
-      "n": 4,
-      "mean_delta": 0.0173,
-      "max_abs_delta": 0.0338,
-      "mean_p_codec": 0.8388,
-      "simulated": false
-    },
-    "g711_alaw": {
-      "n": 4,
-      "mean_delta": 0.0201,
-      "max_abs_delta": 0.0301,
-      "mean_p_codec": 0.8416,
-      "simulated": false
-    }
-  },
-  "files": [
-    {
-      "file": "samples/real/260-123286-0012.flac",
-      "label": "real",
-      "y": "0",
-      "group": "clean_human_librispeech",
-      "source": "librispeech",
-      "codec": "flac",
-      "notes": "LibriSpeech test-clean speaker 260",
-      "p_synthetic": 0.8323,
-      "prediction": "UNCERTAIN",
-      "confidence": 0.8323,
-      "classical_p": 0.9785071611404419,
-      "quantum_p": 0.3103671371936798,
-      "fused_p": 0.9191942811012268,
-      "duration_seconds": 2.43,
-      "sample_rate_hz": 16000,
-      "input_lossy": false
-    },
-    {
-      "file": "samples/real/4446-2273-0021.flac",
-      "label": "real",
-      "y": "0",
-      "group": "clean_human_librispeech",
-      "source": "librispeech",
-      "codec": "flac",
-      "notes": "LibriSpeech test-clean speaker 4446",
-      "p_synthetic": 0.8439,
-      "prediction": "UNCERTAIN",
-      "confidence": 0.8439,
-      "classical_p": 0.9533776640892029,
-      "quantum_p": 0.6775205135345459,
-      "fused_p": 0.928292453289032,
-      "duration_seconds": 5.25,
-      "sample_rate_hz": 16000,
-      "input_lossy": false
-    },
-    {
-      "file": "samples/real/5142-33396-0059.flac",
-      "label": "real",
-      "y": "0",
-      "group": "clean_human_librispeech",
-      "source": "librispeech",
-      "codec": "flac",
-      "notes": "LibriSpeech test-clean speaker 5142",
-      "p_synthetic": 0.818,
-      "prediction": "UNCERTAIN",
-      "confidence": 0.818,
-      "classical_p": 0.988523542881012,
-      "quantum_p": 0.12583155930042267,
-      "fused_p": 0.9072379469871521,
-      "duration_seconds": 5.47,
-      "sample_rate_hz": 16000,
-      "input_lossy": false
-    },
-    {
-      "file": "samples/real/6930-81414-0025.flac",
-      "label": "real",
-      "y": "0",
-      "group": "clean_human_librispeech",
-      "source": "librispeech",
-      "codec": "flac",
-      "notes": "LibriSpeech test-clean speaker 6930",
-      "p_synthetic": 0.7917,
-      "prediction": "UNCERTAIN",
-      "confidence": 0.7917,
-      "classical_p": 0.9509821534156799,
-      "quantum_p": 0.20609448850154877,
-      "fused_p": 0.8834913969039917,
-      "duration_seconds": 2.53,
-      "sample_rate_hz": 16000,
-      "input_lossy": false
-    },
-    {
-      "file": "samples/fake/sapi_david_2.wav",
-      "label": "fake",
-      "y": "1",
-      "group": "windows_sapi_tts",
-      "source": "sapi_david",
-      "codec": "wav",
-      "notes": "SAPI David voice",
-      "p_synthetic": 0.8238,
-      "prediction": "UNCERTAIN",
-      "confidence": 0.8238,
-      "classical_p": 0.9846312403678894,
-      "quantum_p": 0.1931469887495041,
-      "fused_p": 0.9121689796447754,
-      "duration_seconds": 5.15,
-      "sample_rate_hz": 22050,
-      "input_lossy": false
-    },
-    {
-      "file": "samples/fake/sapi_david_4.wav",
-      "label": "fake",
-      "y": "1",
-      "group": "windows_sapi_tts",
-      "source": "sapi_david",
-      "codec": "wav",
-      "notes": "SAPI David voice",
-      "p_synthetic": 0.8099,
-      "prediction": "UNCERTAIN",
-      "confidence": 0.8099,
-      "classical_p": 0.9812623858451843,
-      "quantum_p": 0.12170545756816864,
-      "fused_p": 0.9002370238304138,
-      "duration_seconds": 4.54,
-      "sample_rate_hz": 22050,
-      "input_lossy": false
-    },
-    {
-      "file": "samples/fake/sapi_zira_2.wav",
-      "label": "fake",
-      "y": "1",
-      "group": "windows_sapi_tts",
-      "source": "sapi_zira",
-      "codec": "wav",
-      "notes": "SAPI Zira voice",
-      "p_synthetic": 0.8498,
-      "prediction": "UNCERTAIN",
-      "confidence": 0.8498,
-      "classical_p": 0.9907416105270386,
-      "quantum_p": 0.33604055643081665,
-      "fused_p": 0.9327318072319031,
-      "duration_seconds": 5.04,
-      "sample_rate_hz": 22050,
-      "input_lossy": false
-    },
-    {
-      "file": "samples/fake/sapi_zira_4.wav",
-      "label": "fake",
-      "y": "1",
-      "group": "windows_sapi_tts",
-      "source": "sapi_zira",
-      "codec": "wav",
-      "notes": "SAPI Zira voice",
-      "p_synthetic": 0.8077,
-      "prediction": "UNCERTAIN",
-      "confidence": 0.8077,
-      "classical_p": 0.9837805032730103,
-      "quantum_p": 0.09075384587049484,
-      "fused_p": 0.898223340511322,
-      "duration_seconds": 4.56,
-      "sample_rate_hz": 22050,
-      "input_lossy": false
-    },
-    {
-      "file": "samples/fake/chatgpt_voice/rafnet_ai_voice_test.wav",
-      "label": "fake",
-      "y": "1",
-      "group": "assistant_voice_chatgpt",
-      "source": "chatgpt_voice",
-      "codec": "wav",
-      "notes": "ChatGPT voice loopback/recording 25.6s",
-      "p_synthetic": 0.8603,
-      "prediction": "UNCERTAIN",
-      "confidence": 0.8603,
-      "classical_p": 0.9679872989654541,
-      "quantum_p": 0.6631261110305786,
-      "fused_p": 0.9403591752052307,
-      "duration_seconds": 25.58,
-      "sample_rate_hz": 22050,
-      "input_lossy": false
-    },
-    {
-      "file": "samples/fake/windows_tts/tts_test.wav",
-      "label": "fake",
-      "y": "1",
-      "group": "windows_tts",
-      "source": "windows_tts",
-      "codec": "wav",
-      "notes": "Windows TTS test",
-      "p_synthetic": 0.8262,
-      "prediction": "UNCERTAIN",
-      "confidence": 0.8262,
-      "classical_p": 0.9891047477722168,
-      "quantum_p": 0.1766587644815445,
-      "fused_p": 0.9142018556594849,
-      "duration_seconds": 6.51,
-      "sample_rate_hz": 22050,
-      "input_lossy": false
-    },
-    {
-      "file": "samples/win_tts/sapi_david_0.wav",
-      "label": "fake",
-      "y": "1",
-      "group": "windows_sapi_tts_extended",
-      "source": "win_tts",
-      "codec": "wav",
-      "notes": "SAPI David extended set",
-      "p_synthetic": 0.8239,
-      "prediction": "UNCERTAIN",
-      "confidence": 0.8239,
-      "classical_p": 0.9859150648117065,
-      "quantum_p": 0.1843082457780838,
-      "fused_p": 0.9122714400291443,
-      "duration_seconds": 6.06,
-      "sample_rate_hz": 22050,
-      "input_lossy": false
-    },
-    {
-      "file": "samples/win_tts/sapi_david_2.wav",
-      "label": "fake",
-      "y": "1",
-      "group": "windows_sapi_tts_extended",
-      "source": "win_tts",
-      "codec": "wav",
-      "notes": "duplicate of samples/fake/sapi_david_2.wav",
-      "p_synthetic": 0.8238,
-      "prediction": "UNCERTAIN",
-      "confidence": 0.8238,
-      "classical_p": 0.9846312403678894,
-      "quantum_p": 0.1931469887495041,
-      "fused_p": 0.9121689796447754,
-      "duration_seconds": 5.15,
-      "sample_rate_hz": 22050,
-      "input_lossy": false
-    },
-    {
-      "file": "samples/win_tts/sapi_david_4.wav",
-      "label": "fake",
-      "y": "1",
-      "group": "windows_sapi_tts_extended",
-      "source": "win_tts",
-      "codec": "wav",
-      "notes": "duplicate of samples/fake/sapi_david_4.wav",
-      "p_synthetic": 0.8099,
-      "prediction": "UNCERTAIN",
-      "confidence": 0.8099,
-      "classical_p": 0.9812623858451843,
-      "quantum_p": 0.12170545756816864,
-      "fused_p": 0.9002370238304138,
-      "duration_seconds": 4.54,
-      "sample_rate_hz": 22050,
-      "input_lossy": false
-    },
-    {
-      "file": "samples/win_tts/sapi_zira_0.wav",
-      "label": "fake",
-      "y": "1",
-      "group": "windows_sapi_tts_extended",
-      "source": "win_tts",
-      "codec": "wav",
-      "notes": "SAPI Zira extended set",
-      "p_synthetic": 0.8236,
-      "prediction": "UNCERTAIN",
-      "confidence": 0.8236,
-      "classical_p": 0.9908415079116821,
-      "quantum_p": 0.14676494896411896,
-      "fused_p": 0.9120285511016846,
-      "duration_seconds": 6.02,
-      "sample_rate_hz": 22050,
-      "input_lossy": false
-    },
-    {
-      "file": "samples/win_tts/sapi_zira_1.wav",
-      "label": "fake",
-      "y": "1",
-      "group": "windows_sapi_tts_extended",
-      "source": "win_tts",
-      "codec": "wav",
-      "notes": "SAPI Zira extended set",
-      "p_synthetic": 0.814,
-      "prediction": "UNCERTAIN",
-      "confidence": 0.814,
-      "classical_p": 0.985438346862793,
-      "quantum_p": 0.1204594075679779,
-      "fused_p": 0.9037809371948242,
-      "duration_seconds": 5.56,
-      "sample_rate_hz": 22050,
-      "input_lossy": false
-    },
-    {
-      "file": "samples/win_tts/sapi_zira_2.wav",
-      "label": "fake",
-      "y": "1",
-      "group": "windows_sapi_tts_extended",
-      "source": "win_tts",
-      "codec": "wav",
-      "notes": "duplicate of samples/fake/sapi_zira_2.wav",
-      "p_synthetic": 0.8498,
-      "prediction": "UNCERTAIN",
-      "confidence": 0.8498,
-      "classical_p": 0.9907416105270386,
-      "quantum_p": 0.33604055643081665,
-      "fused_p": 0.9327318072319031,
-      "duration_seconds": 5.04,
-      "sample_rate_hz": 22050,
-      "input_lossy": false
-    },
-    {
-      "file": "samples/win_tts/sapi_zira_3.wav",
-      "label": "fake",
-      "y": "1",
-      "group": "windows_sapi_tts_extended",
-      "source": "win_tts",
-      "codec": "wav",
-      "notes": "SAPI Zira extended set",
-      "p_synthetic": 0.8158,
-      "prediction": "UNCERTAIN",
-      "confidence": 0.8158,
-      "classical_p": 0.9858296513557434,
-      "quantum_p": 0.12947562336921692,
-      "fused_p": 0.9053254723548889,
-      "duration_seconds": 6.9,
-      "sample_rate_hz": 22050,
-      "input_lossy": false
-    },
-    {
-      "file": "samples/win_tts/sapi_zira_4.wav",
-      "label": "fake",
-      "y": "1",
-      "group": "windows_sapi_tts_extended",
-      "source": "win_tts",
-      "codec": "wav",
-      "notes": "duplicate of samples/fake/sapi_zira_4.wav",
-      "p_synthetic": 0.8077,
-      "prediction": "UNCERTAIN",
-      "confidence": 0.8077,
-      "classical_p": 0.9837805032730103,
-      "quantum_p": 0.09075384587049484,
-      "fused_p": 0.898223340511322,
-      "duration_seconds": 4.56,
-      "sample_rate_hz": 22050,
-      "input_lossy": false
-    },
-    {
-      "file": "samples/win_tts/sapi_zira_5.wav",
-      "label": "fake",
-      "y": "1",
-      "group": "windows_sapi_tts_extended",
-      "source": "win_tts",
-      "codec": "wav",
-      "notes": "SAPI Zira extended set",
-      "p_synthetic": 0.8195,
-      "prediction": "UNCERTAIN",
-      "confidence": 0.8195,
-      "classical_p": 0.993174135684967,
-      "quantum_p": 0.1051129624247551,
-      "fused_p": 0.9085540175437927,
-      "duration_seconds": 6.83,
-      "sample_rate_hz": 22050,
-      "input_lossy": false
-    }
-  ],
-  "honest_notes": [
-    "n=19 (real=4, fake=15): snapshot of THESE files only, NOT a general benchmark.",
-    "No WhatsApp/Opus human voice notes, phone-line, Hindi/Tamil, noisy-room or voice-conversion clips are present in samples/ \u2014 codec bias for those channels is unmeasured until such clips are added.",
-    "win_tts/ duplicates 4 of the samples/fake/*.wav files; per-group counts treat them as listed in labels.csv (duplicates noted).",
-    "ffmpeg present: codec columns are real transcodes (encode + decode back to 16k wav) through the stated codec settings.",
-    "Thresholds unchanged in this phase; strict accuracy counts UNCERTAIN as wrong."
-  ]
+    "mean_p": 0.8528,
+    "decode_equivalence_ogg_direct_vs_ffmpeg": [
+      {
+        "container": "ogg",
+        "p_direct": 0.8899,
+        "p_via_ffmpeg": 0.8901,
+        "abs_delta": 0.0002
+      },
+      {
+        "container": "ogg",
+        "p_direct": 0.9021,
+        "p_via_ffmpeg": 0.9032,
+        "abs_delta": 0.0011
+      }
+    ],
+    "rows": [
+      {
+        "id": "wa_001",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8451,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8451,
+        "duration_seconds": 17.46,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_002",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.862,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.862,
+        "duration_seconds": 3.68,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_003",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.6608,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.6608,
+        "duration_seconds": 3.36,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_004",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.6067,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.6067,
+        "duration_seconds": 1.88,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_005",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8275,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8275,
+        "duration_seconds": 9.94,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_006",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8127,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8127,
+        "duration_seconds": 2.26,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_007",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8399,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8399,
+        "duration_seconds": 1.62,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_008",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8785,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8785,
+        "duration_seconds": 1.18,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_009",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8493,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8493,
+        "duration_seconds": 4.36,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_010",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8648,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8648,
+        "duration_seconds": 4.4,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_011",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8816,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8816,
+        "duration_seconds": 2.74,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_012",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8186,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8186,
+        "duration_seconds": 11.76,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_013",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8044,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8044,
+        "duration_seconds": 7.56,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_014",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8826,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8826,
+        "duration_seconds": 4.92,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_015",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8527,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8527,
+        "duration_seconds": 8.18,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_016",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.9431,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9431,
+        "duration_seconds": 2.2,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_017",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8484,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8484,
+        "duration_seconds": 7.38,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_018",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8858,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8858,
+        "duration_seconds": 7.46,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_019",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.895,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.895,
+        "duration_seconds": 2.64,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_020",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.9227,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9227,
+        "duration_seconds": 2.88,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_021",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8192,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8192,
+        "duration_seconds": 3.62,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_022",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8954,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8954,
+        "duration_seconds": 2.5,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_023",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8464,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8464,
+        "duration_seconds": 22.4,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_024",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8808,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8808,
+        "duration_seconds": 3.72,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_025",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.7428,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7428,
+        "duration_seconds": 8.0,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_026",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.9099,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9099,
+        "duration_seconds": 5.0,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_027",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8382,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8382,
+        "duration_seconds": 2.72,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_028",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8338,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8338,
+        "duration_seconds": 1.84,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_029",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8368,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8368,
+        "duration_seconds": 21.44,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_030",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8623,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8623,
+        "duration_seconds": 7.94,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_031",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8357,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8357,
+        "duration_seconds": 4.24,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_032",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8897,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8897,
+        "duration_seconds": 1.72,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_033",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.805,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.805,
+        "duration_seconds": 15.8,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_034",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.7849,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7849,
+        "duration_seconds": 2.04,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_035",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8853,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8853,
+        "duration_seconds": 3.36,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_036",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8209,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8209,
+        "duration_seconds": 2.6,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_037",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8384,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8384,
+        "duration_seconds": 7.94,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_038",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.804,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.804,
+        "duration_seconds": 11.74,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_039",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.9069,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9069,
+        "duration_seconds": 3.36,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_040",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.9049,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9049,
+        "duration_seconds": 1.7,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_041",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8114,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8114,
+        "duration_seconds": 3.12,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_042",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8673,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8673,
+        "duration_seconds": 2.84,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_043",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8924,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8924,
+        "duration_seconds": 6.84,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_044",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8368,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8368,
+        "duration_seconds": 6.2,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_045",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8339,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8339,
+        "duration_seconds": 24.44,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_046",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8299,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8299,
+        "duration_seconds": 11.64,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_047",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.9054,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9054,
+        "duration_seconds": 3.34,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_048",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.901,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.901,
+        "duration_seconds": 5.94,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_049",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8625,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8625,
+        "duration_seconds": 2.04,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_050",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8844,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8844,
+        "duration_seconds": 2.56,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_051",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8957,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8957,
+        "duration_seconds": 3.9,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_052",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.892,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.892,
+        "duration_seconds": 8.02,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_053",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8856,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8856,
+        "duration_seconds": 2.7,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_054",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8988,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8988,
+        "duration_seconds": 4.22,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_055",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8716,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8716,
+        "duration_seconds": 9.08,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_056",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8826,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8826,
+        "duration_seconds": 10.2,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_057",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8635,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8635,
+        "duration_seconds": 3.7,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_058",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8929,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8929,
+        "duration_seconds": 4.18,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_059",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8522,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8522,
+        "duration_seconds": 9.76,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_060",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.871,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.871,
+        "duration_seconds": 5.6,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_061",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8071,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8071,
+        "duration_seconds": 26.64,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_062",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8551,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8551,
+        "duration_seconds": 2.42,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_063",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8894,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8894,
+        "duration_seconds": 6.96,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_064",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.9032,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9032,
+        "duration_seconds": 2.34,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_065",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8252,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8252,
+        "duration_seconds": 2.6,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_066",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8724,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8724,
+        "duration_seconds": 3.26,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_067",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.857,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.857,
+        "duration_seconds": 4.0,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_068",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8152,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8152,
+        "duration_seconds": 6.8,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_069",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8619,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8619,
+        "duration_seconds": 1.42,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_070",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.9079,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9079,
+        "duration_seconds": 7.38,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_071",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.9081,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9081,
+        "duration_seconds": 1.3,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_072",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.9042,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9042,
+        "duration_seconds": 10.02,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_073",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8289,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8289,
+        "duration_seconds": 6.88,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_074",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8109,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8109,
+        "duration_seconds": 2.34,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_075",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8067,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8067,
+        "duration_seconds": 8.76,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_076",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.9275,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9275,
+        "duration_seconds": 1.99,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_077",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8623,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8623,
+        "duration_seconds": 2.61,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_078",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8178,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8178,
+        "duration_seconds": 5.15,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_079",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8327,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8327,
+        "duration_seconds": 8.09,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_080",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.7502,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.7502,
+        "duration_seconds": 3.41,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_081",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8217,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8217,
+        "duration_seconds": 16.03,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_082",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8375,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8375,
+        "duration_seconds": 15.95,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_083",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8315,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8315,
+        "duration_seconds": 9.83,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_084",
+        "group": "whatsapp_opus_human",
+        "container": "opus",
+        "p_synthetic": 0.8587,
+        "prediction": "UNCERTAIN",
+        "confidence": 0.8587,
+        "duration_seconds": 6.03,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_085",
+        "group": "whatsapp_opus_human",
+        "container": "ogg",
+        "p_synthetic": 0.8899,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.8899,
+        "duration_seconds": 57.78,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      },
+      {
+        "id": "wa_086",
+        "group": "whatsapp_opus_human",
+        "container": "ogg",
+        "p_synthetic": 0.9021,
+        "prediction": "SYNTHETIC",
+        "confidence": 0.9021,
+        "duration_seconds": 37.8,
+        "sample_rate_hz": 16000,
+        "input_lossy": true,
+        "error": null
+      }
+    ]
+  }
 }
