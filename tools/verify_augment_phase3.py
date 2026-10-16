@@ -21,7 +21,7 @@ SRC = ROOT / "src"
 sys.path.insert(0, str(SRC))
 sys.path.insert(0, str(ROOT))
 
-from rafnet.data.augment_phase3 import apply_chain, batch_stream, sample_chain  # noqa: E402
+from tools.augment_phase3 import apply_chain, batch_stream, sample_chain  # noqa: E402
 
 N_PER_CLASS = 10000  # sampler-level proof (instant, no audio)
 N_AUDIO = 60  # execution audit through real ffmpeg chains
