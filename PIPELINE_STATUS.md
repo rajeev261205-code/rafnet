@@ -122,6 +122,15 @@ filenames, no credential values, no audio data in this file (all committed).
     (gated/no creds). Honest shortfall: 2106 vs 4000 target, 5 vs 10+ engines.
   - Budget ~4.9/15 GB; C: 37.4 GB free.
 
+- [x] **PHASE 3 — codec-fair augmentation** (2026-10-18)
+  - `src/rafnet/data/augment_phase3.py`: 9 codecs x 3 rates x 5 noises x 3
+    reverbs + gain + packet-loss, seeded per (clip, epoch), label-blind,
+    on-the-fly (tempfiles deleted; no full copies). SLR28 real RIRs skipped
+    (1.3 GB, mirror ~300 kB/s, no Range resume); synthetic IRs documented.
+  - Proof `tools/verify_augment_phase3.py` -> `reports/augmentation_phase3.*`:
+    codec-vs-label chi2 p=0.255, noise-vs-label p=0.372 (independent);
+    60 real ffmpeg chains executed, 0 failures, 0 NaN.
+
 ## What is next (single next step)
 PHASE 2 fakes (~10.4 GB budget left): edge-tts/Piper/XTTS/SAPI locally
 + public fake sets if ungated + ElevenLabs TEST-only (built-in voices,
