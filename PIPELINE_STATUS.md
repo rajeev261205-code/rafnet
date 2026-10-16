@@ -131,6 +131,79 @@ filenames, no credential values, no audio data in this file (all committed).
     codec-vs-label chi2 p=0.255, noise-vs-label p=0.372 (independent);
     60 real ffmpeg chains executed, 0 failures, 0 NaN.
 
+## NIGHT PAUSE (2026-10-18/19) — resume here
+No new chunk or phase was started after this point. State:
+
+DONE:
+- Phases 0–3 + 4.1 committed (see git log: 51f0815, fd2dfdb).
+- Phase 4.1: disjoint splits (`tools/make_splits_phase4.py`, local
+  `data/splits_phase4.json`): train 6509 (4917 real incl. 75 private-adapt +
+  1592 fake), val 1373, test 1347 (incl. 70 private-TEST + 235 unseen fakes).
+  Zero human-speaker / private-group overlap (asserted in tool).
+  Zero-shot val (500 clips, offline): mo-thecreator AUC 0.66 FAR 0.42 KEEP,
+  Bisher AUC 0.62 FAR 0.34 KEEP (`reports/zeroshot_phase4.*`).
+- Phase 4.2a embedding extraction IN PROGRESS: frozen microsoft/wavlm-base-plus
+  (offline HF cache), per-clip layer mean+std fp16 (13x768), part files in
+  `data/embed_chunks/chunk_<CC>_clean_part<N>.npz` (local, git-ignored).
+
+EMBEDDINGS PROGRESS (unique rows): **6506 / 7882**
+| chunk | rows | status |
+|---|---|---|
+| 0 | 589/789 | 200 rows lost to part-overwrite bug (see below) — needs re-run |
+| 1 | 789 | done |
+| 2 | 788 | done |
+| 3 | 788 | done |
+| 4 | 788 | done |
+| 5 | 588/788 | 200 rows lost to part-overwrite bug — needs re-run |
+| 6 | 788 | done |
+| 7 | 788 | done |
+| 8 | 600/788 | interrupted mid-chunk — needs re-run (picks up remainder) |
+| 9 | 0/788 | untouched — needs full run |
+
+BUG FOUND + FIXED (code committed, no data touched): `_save_part` restarted
+part numbering at 0 every run, so a resumed chunk OVERWROTE the previous
+run's part0 (200 rows) instead of appending. Fix in `tools/embed_phase4.py`:
+part index now starts at max(existing)+1; loader unions all parts and skips
+done ids, so re-running chunks 0/5 recovers exactly the missing rows.
+
+EXACT RESUME COMMANDS (backend venv; ~7 min/chunk; run in order):
+```
+.\.venv\Scripts\python.exe tools\embed_phase4.py --chunk 8 --chunks 10
+.\.venv\Scripts\python.exe tools\embed_phase4.py --chunk 9 --chunks 10
+.\.venv\Scripts\python.exe tools\embed_phase4.py --chunk 0 --chunks 10
+.\.venv\Scripts\python.exe tools\embed_phase4.py --chunk 5 --chunks 10
+```
+Verify (expect 7882 unique, 0 dupes):
+```
+.\.venv\Scripts\python.exe -c "from pathlib import Path; import numpy as np; ids=[]; [ids.extend(np.load(str(p),allow_pickle=True)['ids'].tolist()) for p in sorted(Path('data/embed_chunks').glob('chunk_*_clean_*.npz'))]; print(len(ids), len(set(ids)))"
+```
+
+ENVIRONMENT + PATHS:
+- python: `C:\Users\rajee\RAFNet\.venv\Scripts\python.exe` (3.12.0, torch
+  2.14.1+cpu, CUDA unavailable). All commands run with workdir = repo root.
+- ffmpeg: bundled imageio-ffmpeg 7.1 (no system ffmpeg; winget install stalls).
+- encoder: `microsoft/wavlm-base-plus` from local HF cache
+  (`%USERPROFILE%\.cache\huggingface\hub\...`, HF_HUB_OFFLINE=1); manual
+  zero-mean/unit-var norm (no preprocessor config in cache).
+- key files: `tools/embed_phase4.py`, `tools/make_splits_phase4.py`,
+  `tools/zeroshot_val_phase4.py`, `data/splits_phase4.json` (local),
+  `data/embed_chunks/` (local). Committed reports only aggregates.
+- data safety: `samples/` + `data/` git-ignored; committed reports carry
+  anonymous ids / counts only (PII-scanned before each commit).
+
+NEXT (in order, none started):
+1. Finish embeddings (4 commands above) + verify 7882/0-dupes.
+2. Augmented-epoch embeddings: `tools/embed_phase4.py --chunk C --chunks 10 --epoch 0`
+   (Phase-3 chains, same both classes) for the train split.
+3. Train head (new `tools/train_head_phase4.py`): layer-softmax weights +
+   attentive pooling + MLP on cached means/stds, class-weighted, val-tuned.
+4. Stack with RAFNet + mo + Bisher scores (logreg on val), temperature
+   calibration, UNCERTAIN band from val (brief: 2-model agreement + rolling
+   window for SYNTHETIC/CRITICAL).
+5. Phase 5 honest eval (`reports/model_eval.md/.json`, FAR-first + reliability).
+6. Phase 6 integrate (additive API fields, `.opus` accept fix, degenerate-segment
+   guard, 10x determinism, pytest + npm build) + final retrain commands.
+
 ## What is next (single next step)
 PHASE 2 fakes (~10.4 GB budget left): edge-tts/Piper/XTTS/SAPI locally
 + public fake sets if ungated + ElevenLabs TEST-only (built-in voices,
