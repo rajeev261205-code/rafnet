@@ -131,62 +131,93 @@ filenames, no credential values, no audio data in this file (all committed).
     codec-vs-label chi2 p=0.255, noise-vs-label p=0.372 (independent);
     60 real ffmpeg chains executed, 0 failures, 0 NaN.
 
-## RESUME POINT (2026-10-17 evening session) — resume here
+## NIGHT PAUSE (2026-10-17/18 evening→night) — resume here
+Background embed job is STOPPED. No embed/python job is running. No phase
+beyond 4.2a/partial-4.2b was started. Nothing was trained on TEST. Private
+clips stayed local. Disk C: ~35 GB free (floor 10 GB held).
 
-DONE (this session):
-- Clean embedding extraction (Phase 4.2a) COMPLETE: all 10 chunks re-run
-  with the fixed part-index logic (chunks 8, 9, then 0, 5 recovering the
-  200-row part-overwrite losses each). Verified **7882 unique / 0 dupes**.
-  All parts in `data/embed_chunks/chunk_<CC>_clean_part<N>.npz` (local).
-  Run rates observed: ~1.25 rows/s (full chunk ~10 min, 188-row chunk ~2.5 min).
-  Note: run embed commands with output redirected to a file (e.g.
-  `*> data/embed_chunks\log.txt`) — piping to Select-Object buffers until
-  process exit and the tool timeout KILLS the python process silently.
+WHAT IS DONE (this session):
+- CLEAN embedding pass COMPLETE: **7882 / 7882 unique, 0 dupes**.
+  Files `data/embed_chunks/chunk_<CC>_clean_part<N>.npz` (40 parts: 10
+  chunks x 4 parts). Verified with the command below.
+- AUG0 embedding pass (Phase-3 seeded chains, `--epoch 0`) PARTIAL:
+  chunks **0 1 2 3 4 5** done = **4730 / 7882 unique** (24 part files).
+  Per-chunk rows saved: 0:789, 1:789, 2:788, 3:788, 4:788, 5:788.
+  Chunks **6,7,8,9 NOT started** (3152 rows left).
+- New tools added (committed, local artifacts git-ignored):
+  `tools/train_head_phase4.py` (Phase 4.2b head; SMOKE-TESTED on clean only —
+  3-epoch tiny run works end-to-end) and `tools/stack_phase4.py`
+  (Phase 4.2c stack; COMPILES, NOT yet run — still a draft).
 
-BEFORE THIS SESSION (committed; see git log fd2dfdb, 51f0815, a6a88d5, ...):
-- Phases 0–3 + 4.1: disjoint splits (`data/splits_phase4.json`, local):
-  train 6509 (4917 real incl. 75 private-adapt + 1592 fake), val 1373,
-  test 1347 (incl. 70 private-TEST + 235 unseen fakes). Zero human-speaker /
-  private-group overlap (asserted in tool).
-- Zero-shot val (500 clips, offline): mo-thecreator AUC 0.66 FAR 0.42 KEEP,
-  Bisher AUC 0.62 FAR 0.34 KEEP (`reports/zeroshot_phase4.*`).
-- Phase 4.2a encoder: frozen microsoft/wavlm-base-plus (offline HF cache),
-  per-clip layer mean+std fp16 (13x768).
+WHAT IS LEFT:
+- aug0 embeddings for chunks 6,7,8,9 (~16 min/chunk; occasional ~5-min slow
+  patches from thermal/AV, harmless — save is per-200-row part and resumable).
+- Then steps 1–4 below (train head for real, stack, Phase 5 eval, Phase 6).
+
+VERIFY EMBEDDING COUNTS (run from repo root):
+```
+.\.venv\Scripts\python.exe -c "from pathlib import Path; import numpy as np; ids=[]; [ids.extend(np.load(str(p),allow_pickle=True)['ids'].tolist()) for p in sorted(Path('data/embed_chunks').glob('chunk_*_clean_*.npz'))]; print('clean', len(ids), len(set(ids)))"
+.\.venv\Scripts\python.exe -c "from pathlib import Path; import numpy as np; ids=[]; [ids.extend(np.load(str(p),allow_pickle=True)['ids'].tolist()) for p in sorted(Path('data/embed_chunks').glob('chunk_*_aug0_*.npz'))]; print('aug0', len(ids), len(set(ids)))"
+```
+
+EXACT RESUME COMMANDS:
+Per-chunk in the foreground (~16 min each; output MUST be redirected or the
+tool timeout kills python while it blocks writing to a PowerShell pipe):
+```
+& '.\.venv\Scripts\python.exe' -u tools\embed_phase4.py --chunk 6 --chunks 10 --epoch 0 *> data\embed_chunks\log_aug0_c6.txt
+& '.\.venv\Scripts\python.exe' -u tools\embed_phase4.py --chunk 7 --chunks 10 --epoch 0 *> data\embed_chunks\log_aug0_c7.txt
+& '.\.venv\Scripts\python.exe' -u tools\embed_phase4.py --chunk 8 --chunks 10 --epoch 0 *> data\embed_chunks\log_aug0_c8.txt
+& '.\.venv\Scripts\python.exe' -u tools\embed_phase4.py --chunk 9 --chunks 10 --epoch 0 *> data\embed_chunks\log_aug0_c9.txt
+```
+Detached background loop (survives shell tool timeouts; what was used here).
+Create `%TEMP%\opencode\run_aug0b.cmd` with a `for %%C in (6 7 8 9) do`
+loop calling the per-chunk command, appending to
+`data\embed_chunks\bg_aug0_all.out` (stdout) and `.err` (stderr), then:
+```
+$p = Start-Process -FilePath "cmd.exe" -ArgumentList '/c','%TEMP%\opencode\run_aug0b.cmd' -WorkingDirectory "C:\Users\rajee\RAFNet" -WindowStyle Hidden -PassThru; $p.Id
+```
+Poll with: `Get-Content data\embed_chunks\bg_aug0_all.out -Tail 6`.
+`ALL_DONE` appears in the log when all chunks finish. Log files: stdout =
+`data/embed_chunks/bg_aug0_all.out`, stderr = `data/embed_chunks/bg_aug0_all.err`.
+
+ENVIRONMENT + PATHS:
+- python: `C:\Users\rajee\RAFNet\.venv\Scripts\python.exe` (3.12.0, torch
+  2.14.1+cpu, CUDA unavailable; 12 logical cores). workdir = repo root.
+- ffmpeg: bundled imageio-ffmpeg 7.1 (no system ffmpeg; winget install stalls).
+- encoder: `microsoft/wavlm-base-plus` from local HF cache
+  (`%USERPROFILE%\.cache\huggingface\hub\...`, HF_HUB_OFFLINE=1); manual
+  zero-mean/unit-var norm (no preprocessor config in cache).
+- key files: `tools/embed_phase4.py`, `tools/train_head_phase4.py`,
+  `tools/stack_phase4.py`, `tools/make_splits_phase4.py`,
+  `tools/zeroshot_val_phase4.py`, `data/splits_phase4.json` (local),
+  `data/embed_chunks/` (local). Committed reports = aggregates only.
+- data safety: `samples/` + `data/` + `models/` git-ignored; committed files
+  carry anonymous ids / counts only (PII-scanned before commit). Private
+  clips NEVER leave this PC; TEST split (incl. private groups + unseen
+  generators) is never read for training/tuning.
 
 BUG FOUND + FIXED earlier (code committed): `_save_part` restarted part
 numbering at 0 every run, so a resumed chunk OVERWROTE the previous run's
 part0 instead of appending. Fix in `tools/embed_phase4.py`: part index
 starts at max(existing)+1; loader unions all parts and skips done ids.
 
-ENVIRONMENT + PATHS:
-- python: `C:\Users\rajee\RAFNet\.venv\Scripts\python.exe` (3.12.0, torch
-  2.14.1+cpu, CUDA unavailable). All commands run with workdir = repo root.
-- ffmpeg: bundled imageio-ffmpeg 7.1 (no system ffmpeg; winget install stalls).
-- encoder: `microsoft/wavlm-base-plus` from local HF cache
-  (`%USERPROFILE%\.cache\huggingface\hub\...`, HF_HUB_OFFLINE=1); manual
-  zero-mean/unit-var norm (no preprocessor config in cache).
-- key files: `tools/embed_phase4.py`, `tools/make_splits_phase4.py`,
-  `tools/zeroshot_val_phase4.py`, `data/splits_phase4.json` (local),
-  `data/embed_chunks/` (local). Committed reports only aggregates.
-- data safety: `samples/` + `data/` git-ignored; committed reports carry
-  anonymous ids / counts only (PII-scanned before each commit). Private
-  clips NEVER leave this PC.
+BEFORE THIS SESSION (committed; git log fd2dfdb, 51f0815, a6a88d5, ...):
+- Phases 0–3 + 4.1: disjoint splits (`data/splits_phase4.json`, local):
+  train 6509 (4917 real incl. 75 private-adapt + 1592 fake), val 1373,
+  test 1347 (incl. 70 private-TEST + 235 unseen fakes). Zero human-speaker /
+  private-group overlap (asserted in tool).
+- Zero-shot val (500 clips, offline): mo-thecreator AUC 0.66 FAR 0.42 KEEP,
+  Bisher AUC 0.62 FAR 0.34 KEEP (`reports/zeroshot_phase4.*`).
 
-NEXT (in order):
-1. Augmented-epoch embeddings: `tools/embed_phase4.py --chunk C --chunks 10
-   --epoch 0` for C=0..9 (Phase-3 chains, same both classes). Same row count
-   expected (7882); tag=`aug0`, files `chunk_<CC>_aug0_part<N>.npz`. Runs
-   slower than clean (ffmpeg chains per clip) — allow ~15–25 min/chunk.
-   Command pattern (verified working, redirect output):
-   `& '.\.venv\Scripts\python.exe' -u tools\embed_phase4.py --chunk C --chunks 10 --epoch 0 *> data\embed_chunks\log_aug0_cC.txt`
-2. Train head (new `tools/train_head_phase4.py`): layer-softmax weights +
-   attentive pooling + MLP on cached means/stds, class-weighted, val-tuned
-   (val stays CLEAN; train uses clean+aug0 rows).
-3. Stack with RAFNet + mo + Bisher scores (logreg on val), temperature
-   calibration, UNCERTAIN band from val (brief: 2-model agreement + rolling
-   window for SYNTHETIC/CRITICAL). NEVER tune on test.
-4. Phase 5 honest eval (`reports/model_eval.md/.json`, FAR-first +
-   reliability; test touched once, at the end).
-5. Phase 6 integrate (additive API fields, `.opus` accept fix,
+NEXT (in order, after embeddings finish):
+1. Train head for real (clean+aug0 on TRAIN only; VAL clean):
+   `.\.venv\Scripts\python.exe tools\train_head_phase4.py` -> writes
+   `models/head_phase4.pt` (local) + `reports/head_phase4.{json,md}`.
+2. Stack: score val with head+rafnet+mo+bisher (extend `tools/stack_phase4.py`),
+   logreg + temperature + band on VAL only -> `models/stack_phase4.json` +
+   `reports/stack_phase4.md`. NEVER fit on TEST.
+3. Phase 5 honest eval (`reports/model_eval.md/.json`, FAR-first +
+   reliability; TEST touched once, at the end).
+4. Phase 6 integrate (additive API fields, `.opus` accept fix,
    degenerate-segment guard, 10x determinism, pytest + npm build) + final
    retrain commands.
