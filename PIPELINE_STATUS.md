@@ -209,15 +209,71 @@ BEFORE THIS SESSION (committed; git log fd2dfdb, 51f0815, a6a88d5, ...):
 - Zero-shot val (500 clips, offline): mo-thecreator AUC 0.66 FAR 0.42 KEEP,
   Bisher AUC 0.62 FAR 0.34 KEEP (`reports/zeroshot_phase4.*`).
 
-NEXT (in order, after embeddings finish):
-1. Train head for real (clean+aug0 on TRAIN only; VAL clean):
-   `.\.venv\Scripts\python.exe tools\train_head_phase4.py` -> writes
-   `models/head_phase4.pt` (local) + `reports/head_phase4.{json,md}`.
-2. Stack: score val with head+rafnet+mo+bisher (extend `tools/stack_phase4.py`),
-   logreg + temperature + band on VAL only -> `models/stack_phase4.json` +
-   `reports/stack_phase4.md`. NEVER fit on TEST.
-3. Phase 5 honest eval (`reports/model_eval.md/.json`, FAR-first +
-   reliability; TEST touched once, at the end).
-4. Phase 6 integrate (additive API fields, `.opus` accept fix,
-   degenerate-segment guard, 10x determinism, pytest + npm build) + final
-   retrain commands.
+## SESSION PAUSE 2026-10-19 00:40 (phase 4.2c/5 partial; resume here)
+
+EMBEDDINGS (all local, `data/embed_chunks/`; git-ignored):
+- clean (train+val): 7882/7882 unique DONE (chunks 0..9).
+- aug0: 7882/7882 unique DONE (chunks 0..5 earlier; chunks 6..9 finished this
+  session, chunk 9 END rc=0). Logs `data/embed_chunks/bg_aug0_all.out|.err`.
+- clean TEST: 1347 added ONCE (chunks 0..9, disjoint ids, appended as extra
+  parts under the same `chunk_<i>_clean_*` prefixes; loader unions them) ->
+  clean total 9229 = 7882 + 1347, all unique.
+
+TRAINED / FITTED (local artifacts; committed reports = aggregates):
+- head clean+aug0 (final): `models/head_phase4.pt` + `reports/head_phase4.{json,md}`
+  (best epoch 1, val AUC 1.0, FAR 0.0183, band [0.45,0.75]).
+  clean-only head also kept: `models/head_phase4_cleanonly.pt` +
+  `reports/head_phase4_cleanonly.{json,md}`.
+- stack fit on VAL only: `models/stack_phase4.json` + `reports/stack_phase4.md`
+  (coef=[8.9958,-0.042,1.3652,0.2068] T=0.3 band=[0.45,0.925] val_auc=1.0
+  FAR=0.0018). Features = [head, rafnet, mo, bisher]. NEVER fit on TEST.
+
+SCORING (this is the only job running; detached, logs under `data/`):
+- VAL `data/scores_phase4_val.json`: 1373 clips, all 4 models complete (used
+  for the VAL fit above).
+- TEST `data/scores_phase4_test.json`: IN PROGRESS (file is written
+  INCREMENTALLY, flushed every 200 rows, and a re-run RESUMES by skipping any
+  model already cached per clip). Current state at pause: head 1347/1347 done,
+  rafnet 1347/1347 done (1729 s), mo ~750/1347, bisher 0/1347. So the file is
+  PARTIAL (rows have head+rafnet+mo, `bisher` missing) and is NOT final until
+  the job prints `wrote scores_phase4_test.json` and exits.
+  - Safe to stop now: on resume only the missing mo rows + ALL bisher rows are
+    re-scored (est. ~13 min); the expensive rafnet pass is reused.
+  - Prefer to WAIT ~13 min (until ~00:53) so the file lands complete with no
+    re-run. Do NOT start the Phase 5 evaluator until that line appears.
+
+WHAT IS LEFT (in order):
+1. Finish TEST scoring (see resume cmd below) -> complete
+   `data/scores_phase4_test.json` (1347 clips, all 4 fields).
+2. Phase 5 honest eval (TEST read once, at the end):
+   `.\.venv\Scripts\python.exe tools\evaluate_phase5.py` -> FAR-first metrics
+   per group (incl. private groups + unseen generators fake-elevenlabs /
+   piper:hi-rohan / edge:Ta-ValluvarNeural), reliability bins, missing-row
+   honesty -> `reports/model_eval.{json,md}`.
+3. Phase 6 verify: `.\.venv\Scripts\python.exe tools\phase6_verify.py`
+   (10x determinism + restart, degenerate-segment guard <1600 samples, `.opus`
+   accept, v1-vs-v2 before/after on 2 private .ogg + held-out + codec probe)
+   -> `reports/phase6_verify.{json,md}`.
+4. Update this file with Phase 5/6 results; commit code + reports per phase.
+
+PHASE 6 CODE already in place (compiles; pytest 430 passed, 3 skipped):
+`audio_io.py` (.opus accept), `model_adapter.py` (degenerate guard),
+`head4.py` (live head; fp16-rounded mean/std to match training -- verified
+diff 0.0000 vs cached VAL head scores), `ensemble.py` v2 (additive),
+`service.py` (startup head load + additive v2 fields), `routes.py` (additive
+v2 fields in the live chunk response), `tools/evaluate_phase5.py`,
+`tools/phase6_verify.py`. Frontend build OK (`tsc && vite build`, 2.06 s);
+frontend unchanged.
+
+RESUME COMMANDS (PowerShell, workdir = repo root; detached with redirection):
+- TEST scoring (resumes; skips head+rafnet already cached):
+  `$env:HF_HUB_OFFLINE='1'; Start-Process -FilePath '.\.venv\Scripts\python.exe' -ArgumentList '-u','tools\stack_phase4.py','--split','test' -WorkingDirectory 'C:\Users\rajee\RAFNet' -WindowStyle Hidden -RedirectStandardOutput 'C:\Users\rajee\RAFNet\data\stack_test.out' -RedirectStandardError 'C:\Users\rajee\RAFNet\data\stack_test.err'`
+- Phase 5 eval (only after `wrote scores_phase4_test.json` appears):
+  `.\.venv\Scripts\python.exe tools\evaluate_phase5.py`
+- Phase 6 verify: `.\.venv\Scripts\python.exe tools\phase6_verify.py`
+- VAL re-fit (only if needed; already done): `--split val` with same pattern.
+
+ENV/PATHS (unchanged): python `C:\Users\rajee\RAFNet\.venv\Scripts\python.exe`
+(3.12, torch 2.14.1+CPU, HF_HUB_OFFLINE=1, CPU only); bundled imageio-ffmpeg;
+`samples/` + `data/` + `models/` git-ignored; private clips never leave the PC;
+committed reports = aggregates / anonymous ids only.

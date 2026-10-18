@@ -82,6 +82,18 @@ class SOCService:
             self.origin_model = load_origin_model()
         except Exception as exc:
             logger.warning("Origin model unavailable (non-fatal): %s", exc)
+        # Phase-6 WavLM head (additive 4th stack feature; None => v2 fields omitted).
+        self.head4 = None
+        try:
+            from .head4 import load_head
+
+            self.head4 = load_head()
+            if not getattr(self.head4, "is_loaded", lambda: False)():
+                logger.warning("Head4 not loaded (non-fatal): %s",
+                               getattr(self.head4, "error", "unknown"))
+                self.head4 = None
+        except Exception as exc:
+            logger.warning("Head4 unavailable (non-fatal): %s", exc)
 
     def analyze_origin(self, samples: Any, sample_rate: int) -> dict | None:
         """Run the origin classifier when installed; else None (origin:null)."""
@@ -149,6 +161,26 @@ class SOCService:
                 ensemble["votes"] = s.get("votes_fake")
             except Exception:
                 pass
+            # Phase-6 additive v2: 4-feature stack incl. the WavLM head.
+            try:
+                from .ensemble import alert_for4
+
+                p_head = None
+                if self.head4 is not None:
+                    t_head = time.perf_counter()
+                    p_head = self.head4.predict_pai(decoded.samples, decoded.sample_rate)
+                    timings["head_ms"] = round((time.perf_counter() - t_head) * 1000, 1)
+                a4 = alert_for4({"head": p_head, "rafnet": round(result.prob_synthetic, 4),
+                                 "mo": hs.get("p_mo"), "bisher": hs.get("p_bisher")},
+                                window=[], is_live=False)
+                ensemble["p_head"] = p_head
+                ensemble["p_ensemble_v2"] = a4.p_cal
+                ensemble["verdict_v2"] = a4.verdict
+                ensemble["alert_v2"] = a4.alert
+                ensemble["agreement_v2"] = a4.agreement
+                ensemble["reasons_v2"] = a4.reasons
+            except Exception:
+                logger.warning("ensemble v2 unavailable for %s", safe_name, exc_info=True)
             if risk.risk_level == "CRITICAL":
                 risk_reason = (f"CRITICAL gated to HIGH: single-shot upload cannot satisfy "
                                f"the live-window rule (ensemble alert={alert.alert}, "

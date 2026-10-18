@@ -359,6 +359,24 @@ async def ingest_live_chunk(
                "reasons": gated.reasons,
                "window_n": len(session.ensemble_p_history),
                "window_need": ENS_WINDOW}
+        # Phase-6 additive v2: head-aware 4-feature stack (single-window; the
+        # v1 gated alert above stays authoritative for risk so behavior is
+        # unchanged when the head artifact is absent).
+        try:
+            from .ensemble import alert_for4
+
+            p_head = None
+            head = getattr(service, "head4", None)
+            if head is not None:
+                p_head = head.predict_pai(window, 16000)
+            a4 = alert_for4({"head": p_head, "rafnet": round(float(result.prob_synthetic), 4),
+                             "mo": hs.get("p_mo"), "bisher": hs.get("p_bisher")},
+                            window=[], is_live=False)
+            ens.update({"p_head": p_head, "p_ensemble_v2": a4.p_cal,
+                        "verdict_v2": a4.verdict, "alert_v2": a4.alert,
+                        "agreement_v2": a4.agreement, "reasons_v2": a4.reasons})
+        except Exception:
+            logger.warning("live ensemble v2 unavailable", exc_info=True)
         if risk.risk_level == "CRITICAL" and gated.alert != "CRITICAL":
             risk = type(risk)(risk_score=min(risk.risk_score, 84),
                               risk_level="HIGH",

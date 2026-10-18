@@ -12,6 +12,10 @@ never reads test labels for fitting; Phase 5 does the honest measurement.
 
   --split val  : score missing models, fit stack, save models/stack_phase4.json
   --split test : score missing models only (no fit) -> data/scores_phase4_test.json
+  --limit N    : deterministic stratified cap of the split rows (smoke tests)
+  --out-suffix S: suffix every output path (data/scores_phase4_val_S.json,
+                 models/stack_phase4_S.json, reports/stack_phase4_S.md) so
+                 smoke artifacts never clobber the real ones
 
 Offline (HF_HUB_OFFLINE=1). Aggregates only in committed reports.
 """
@@ -216,7 +220,10 @@ def fit_stack(rows, cache, head):
             key = (sel >= 0.95, round(sel, 4), round(cov, 4), -round(hi - lo, 4))
             if best is None or key > best[0]:
                 best = (key, lo, hi, round(sel, 4), round(cov, 4))
-    _, lo, hi, sel, cov = best
+    if best is None:
+        lo, hi, sel, cov = 0.3611, 0.8611, None, None
+    else:
+        _, lo, hi, sel, cov = best
     far = sum(1 for yy, pp in zip(y, pcal) if yy == 0 and pp >= 0.5) / max(1, int((y == 0).sum()))
     return {
         "features": FEATS,
@@ -239,11 +246,29 @@ def main() -> int:
     ap.add_argument("--split", default="val")
     ap.add_argument("--only", default="", help="subset of mo,bisher,rafnet")
     ap.add_argument("--skip-head", action="store_true")
+    ap.add_argument("--limit", type=int, default=0,
+                    help="smoke test: cap rows, stratified, deterministic")
+    ap.add_argument("--out-suffix", default="",
+                    help="suffix output paths so smoke runs stay isolated")
     args = ap.parse_args()
 
     rows = split_rows(args.split)
+    if args.limit and args.limit < len(rows):
+        import numpy as np
+        rng = np.random.default_rng(17)
+        keep = []
+        for cls in (0, 1):
+            cls_rows = [r for r in rows if int(r["y"]) == cls]
+            k = min(len(cls_rows), max(1, args.limit * len(cls_rows) // len(rows)))
+            pick = rng.choice(len(cls_rows), size=k, replace=False)
+            keep.extend(cls_rows[int(i)] for i in sorted(pick))
+        rows = keep
+        print(f"limit={args.limit}: capped split to {len(rows)} rows "
+              f"(real={sum(1 for r in rows if int(r['y'])==0)}, "
+              f"fake={sum(1 for r in rows if int(r['y'])==1)})", flush=True)
     print(f"split={args.split}: {len(rows)} rows", flush=True)
-    cpath = ROOT / "data" / f"scores_phase4_{args.split}.json"
+    suf = args.out_suffix
+    cpath = ROOT / "data" / f"scores_phase4_{args.split}{suf}.json"
     _CUR_CACHE_PATH[0] = cpath
     cache = {}
     if cpath.is_file():
@@ -253,13 +278,12 @@ def main() -> int:
             cache = {}
     only = {s.strip() for s in args.only.split(",") if s.strip()}
     hf_only = [n for n in ("mo", "bisher") if (not only or n in only)]
-    if not only or "head" in only or not args.skip_head:
-        if not args.skip_head:
-            head = head_scores(rows)
-            for cid, p in head.items():
-                cache.setdefault(cid, {})["head"] = p
-            print(f"head: {len(head)} scored", flush=True)
-            _flush(cache)
+    if not args.skip_head and (not only or "head" in only):
+        head = head_scores(rows)
+        for cid, p in head.items():
+            cache.setdefault(cid, {})["head"] = p
+        print(f"head: {len(head)} scored", flush=True)
+        _flush(cache)
     if not only or "rafnet" in only:
         score_rafnet(rows, cache)
         _flush(cache)
@@ -275,7 +299,7 @@ def main() -> int:
         art["generated_at"] = datetime.now(timezone.utc).isoformat()
         art["note"] = ("Stack fit on VAL only (speaker-disjoint); TEST never read for "
                        "fitting. Band from val selective accuracy >= 0.95.")
-        (ROOT / "models" / "stack_phase4.json").write_text(json.dumps(art, indent=2), encoding="utf-8")
+        (ROOT / "models" / f"stack_phase4{suf}.json").write_text(json.dumps(art, indent=2), encoding="utf-8")
         md = ["# Phase 4.2c stacked ensemble (fit on VAL only)", "",
               f"features={art['features']}",
               f"coef={art['coef']} intercept={art['intercept']} T={art['temperature']}",
@@ -287,10 +311,10 @@ def main() -> int:
               art["note"], "",
               "VAL fake shares train generators (in-distribution); unseen generators "
               "+ private groups live in TEST (Phase 5)."]
-        (ROOT / "reports" / "stack_phase4.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+        (ROOT / "reports" / f"stack_phase4{suf}.md").write_text("\n".join(md) + "\n", encoding="utf-8")
         print(f"stack: coef={art['coef']} T={art['temperature']} band=[{art['tau_low']},{art['tau_high']}] "
               f"val_auc={art['val_auc']} FAR={art['val_far_human_at_0.5']}")
-        print("wrote models/stack_phase4.json + reports/stack_phase4.md")
+        print(f"wrote models/stack_phase4{suf}.json + reports/stack_phase4{suf}.md")
     return 0
 
 

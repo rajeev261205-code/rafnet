@@ -367,6 +367,16 @@ class RAFNetVoiceModel(VoiceDetectionModel):
         from .preprocess import to_model_input
 
         arr = to_model_input(raw, sample_rate)
+        # Degenerate-segment guard (Phase 0 bug): a 0-sample window reached the
+        # encoder and crashed a conv kernel ("padded input size 0, kernel 10").
+        # Reject it as a validation error (routes map ValueError -> 400) rather
+        # than letting torch throw a 500. 0.1 s is far below any real clip.
+        if arr.size < 1600:
+            raise ValueError(
+                f"degenerate audio segment: {arr.size} samples at 16 kHz after "
+                f"preprocessing (minimum 1600 / 0.1 s)")
+        if not np.isfinite(arr).all():
+            raise ValueError("non-finite samples after preprocessing")
         tensor = torch.from_numpy(arr).unsqueeze(0).to(self.device)  # [1, T]
         with torch.inference_mode():
             # fixed_audio ablation + dummy network handled inside the pipeline.

@@ -57,9 +57,14 @@ def main() -> int:
     ap.add_argument("--chunks", type=int, default=8)
     ap.add_argument("--epoch", type=int, default=-1,
                     help="-1 = clean; >=0 = Phase-3 augmented with this epoch seed")
+    ap.add_argument("--split", default="train+val",
+                    help="which split(s) to embed; 'test' is touched only in Phase 5")
     args = ap.parse_args()
 
-    items = load_split("train") + load_split("val")
+    if args.split == "train+val":
+        items = load_split("train") + load_split("val")
+    else:
+        items = load_split(args.split)
     part = [it for i, it in enumerate(items) if i % args.chunks == args.chunk]
     tag = "clean" if args.epoch < 0 else f"aug{args.epoch}"
     print(f"tag={tag} chunk {args.chunk + 1}/{args.chunks}: {len(part)} clips", flush=True)

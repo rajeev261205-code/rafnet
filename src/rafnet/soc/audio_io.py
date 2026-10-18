@@ -11,11 +11,11 @@ import io
 from dataclasses import dataclass
 
 MAX_AUDIO_BYTES = 25 * 1024 * 1024  # 25 MB
-ALLOWED_SUFFIXES = {".wav", ".flac", ".ogg", ".oga", ".mp3", ".m4a", ".mp4", ".webm"}
+ALLOWED_SUFFIXES = {".wav", ".flac", ".ogg", ".oga", ".opus", ".mp3", ".m4a", ".mp4", ".webm"}
 # Lossy containers/codecs: band-limiting and codec noise floor are intrinsic to
 # the encoding, NOT evidence of replay. Layer 3 must exclude band-limit/codec
 # trip-wires for these (see forensics.liveness_layer `source` handling).
-LOSSY_SUFFIXES = {".mp3", ".m4a", ".mp4", ".ogg", ".oga", ".webm"}
+LOSSY_SUFFIXES = {".mp3", ".m4a", ".mp4", ".ogg", ".oga", ".opus", ".webm"}
 
 
 @dataclass
