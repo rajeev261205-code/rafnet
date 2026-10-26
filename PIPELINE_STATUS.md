@@ -83,20 +83,22 @@ filenames, no credential values, no audio data in this file (all committed).
     report (gated: CV/AI4Bharat/TED-LIUM/VoxCeleb/VCTK-HF/Kaggle; too big:
     VoxPopuli/AMI-full/Libri-train/SBCSAE/GramVaani-train; blocked: parquet
     streaming via pyarrow DLL policy).
-- [ ] **PHASE 2 — fake data** (ElevenLabs key present — check quota/terms and
+- [x] **PHASE 2 — fake data** (ElevenLabs key present — check quota/terms and
   cache everything; edge-tts/Piper/Coqui/SAPI locally; public fake sets need
   downloads — same >15 GB gate; hold out 2–3 whole generators unseen)
-- [ ] **PHASE 3 — codec-fair augmentation** (same random chains both classes;
+- [x] **PHASE 3 — codec-fair augmentation** (same random chains both classes;
   contingency table compression-vs-label)
-- [ ] **PHASE 4 — model** (verify zero-shot candidates incl. cached XLS-R-300M;
+- [x] **PHASE 4 — model** (verify zero-shot candidates incl. cached XLS-R-300M;
   CPU-only => small train locally or PUBLIC-only notebooks for Colab/Kaggle;
   stack + calibrate + agreement-gated SYNTHETIC/CRITICAL)
-- [ ] **PHASE 5 — honest eval** (`reports/model_eval.md/.json`, FAR-first,
-  reliability curve, no tuning to look good)
-- [ ] **PHASE 6 — integrate + verify** (load at startup, additive fields only,
+- [x] **PHASE 5 — honest eval** (`reports/model_eval.md/.json`, FAR-first,
+  reliability curve, no tuning to look good) — done 2026-10-26;
+  `reports/leakage_phase5.*` audits the VAL 1.0.
+- [x] **PHASE 6 — integrate + verify** (load at startup, additive fields only,
   determinism 10x + restart, before/after on 2 .ogg + held-out, pytest +
   `npm run build`, retrain commands in final report). Includes `.opus` accept
-  fix + degenerate-segment guard from Phase 0 bugs.
+  fix + degenerate-segment guard from Phase 0 bugs. — verified 2026-10-26;
+  AMR upload still rejected by the API suffix gate (known limitation, see below).
 
 ## Commands (verified)
 - Public+private baseline (chunked, resumable):
@@ -277,3 +279,60 @@ ENV/PATHS (unchanged): python `C:\Users\rajee\RAFNet\.venv\Scripts\python.exe`
 (3.12, torch 2.14.1+CPU, HF_HUB_OFFLINE=1, CPU only); bundled imageio-ffmpeg;
 `samples/` + `data/` + `models/` git-ignored; private clips never leave the PC;
 committed reports = aggregates / anonymous ids only.
+
+## SESSION 2026-10-26 — PHASES 4.2c / 5 / 6 COMPLETE (resume = commit/report only)
+
+TEST SCORING: `tools/stack_phase4.py --split test` finished (resumed; head +
+rafnet cache reused, mo 147 + all bisher re-scored) and printed
+`wrote scores_phase4_test.json (1347 clips)`. `data/scores_phase4_test.json`
+has all 4 fields for all 1347 clips (0 missing, 0 incomplete).
+
+PHASE 5 (`reports/model_eval.md/.json`, regenerated; old Phase-3 eval backed up
+as `reports/model_eval.phase3-ensemble.*`). FAR-first, fixed 0.5 threshold, no
+tuning on any test group:
+- held-out WhatsApp (private-whatsapp_late, 30 segments): **FAR 0.0333**
+  vs Phase-0 baseline 0.50 (43/86 whole notes).
+- held-out calls (private-call_B, 40 segments): **FAR 0.025**
+  vs baseline 0.41 (116/281 windows).
+- the 2 .ogg originals (13 segments, both represented): **FAR 0.0**
+  vs baseline both whole files SYNTHETIC (0.8899 / 0.9021).
+- unseen generators @0.5: piper:hi-rohan **1.00** detected (150), ElevenLabs
+  **0.80** (25; 4 miss, 4 uncertain), edge:ta-ValluvarNeural **0.75** (60;
+  14 miss, 24 uncertain). Overall TEST FAR 0.0045 / FRR 0.0851 / AUC 0.9978
+  (n=1347; 1112 human / 235 fake).
+- Baselines are file/window-level Phase 0 numbers; current are 4-6 s segments,
+  so granularity differs (stated in the report).
+
+VAL AUC 1.0 / FAR 0.0018 AUDIT (`reports/leakage_phase5.*`,
+`tools/analyze_leakage_phase5.py`): human speakers are disjoint
+(train-val=0, train-test=0, val-test=0) and TEST generators are disjoint
+(train-test=0). BUT VAL fake generators/voices are the SAME 13 as TRAIN
+(train-val generator overlap 13/13) -> VAL 1.0 is in-distribution generator
+memorisation, not generalisation. Dataset id is label-defining (metadata only,
+never a feature); codec gives no VAL separation (all .wav). No trivial audio
+feature separates VAL: best univariate separability 0.697 (noise floor),
+duration 0.616; logistic on TRAIN duration/loudness/bandwidth/noise
+floor/flatness/zcr gives VAL AUC 0.677 / TEST AUC 0.773. So the VAL result is
+explained by generator overlap, not cheap acoustic shortcuts. Honest
+generalisation = the TEST unseen-generator/private rows above.
+
+PHASE 6 (`reports/phase6_verify.*`, re-run):
+- `.opus` accepted + decodes (renamed .ogg -> clip.opus OK).
+- degenerate guard: 0/800/1599 samples -> ValueError (no crash).
+- determinism: 10 in-process repeats -> 1 digest; fresh-interpreter restart ->
+  same digest (`a23f2b3b1b70a7e4`), match=true.
+- v1 vs v2 on the 2 private .ogg: v1 SYNTHETIC/UNCERTAIN; v2 REAL/REAL
+  (History failure fixed). v2 on held-out unseen Valluvar: 1 of 2 scored
+  examples still REAL (honest: v2 is stronger on real/compressed, weaker on
+  some unseen TTS).
+- codec probe: Opus 24k OK (v2 REAL). AMR-NB probe FAILED at the API suffix
+  gate: `.amr` is not in `ALLOWED_SUFFIXES` (known limitation; Opus/.opus path
+  is the one required by this phase). Phone-call .amr still needs a decode
+  path before production upload if that format must be accepted.
+- pytest: **430 passed, 3 skipped** (105 s). `frontend`: `npm run build`
+  (`tsc && vite build`) succeeded in 3.25 s; frontend untouched.
+- Disk C: 37.15 GB free at end (10 GB floor held). Private clips stayed local.
+
+NEXT: commit code + reports (not done automatically in this session). No phase
+work remains; optional future work is AMR upload decode support and a final
+human-readable project summary.

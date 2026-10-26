@@ -1,0 +1,157 @@
+{
+  "generated_at": "2026-10-26T15:02:11.532580+00:00",
+  "opus_accept": {
+    "suffix_allowed": true,
+    "lossy": true,
+    "decode_ok": [
+      {
+        "name": ".ogg",
+        "sr": 16000,
+        "dur": 57.78,
+        "is_lossy": true
+      },
+      {
+        "name": ".ogg",
+        "sr": 16000,
+        "dur": 37.8,
+        "is_lossy": true
+      }
+    ],
+    "decode_err": [],
+    "renamed_opus_decode": {
+      "sr": 16000,
+      "dur": 57.78
+    }
+  },
+  "artifacts": {
+    "rafnet_loaded": true,
+    "head_loaded": true,
+    "head_error": null
+  },
+  "degenerate_guard": {
+    "empty": "ValueError: degenerate audio segment: 0 samples at 16 kHz after preprocessing (minimum 1600 ",
+    "tiny": "ValueError: degenerate audio segment: 800 samples at 16 kHz after preprocessing (minimum 160",
+    "just_under": "ValueError: degenerate audio segment: 1599 samples at 16 kHz after preprocessing (minimum 16"
+  },
+  "determinism_in_process": {
+    "repeats": 10,
+    "unique_digests": 1,
+    "digest": "a23f2b3b1b70a7e4",
+    "scores": {
+      "rafnet": 0.8899,
+      "mo": 0.9999,
+      "bisher": 0.0027,
+      "head": 0.0839,
+      "p_v1": 0.9847,
+      "verdict_v1": "SYNTHETIC",
+      "p_v2": 0.0,
+      "verdict_v2": "REAL"
+    },
+    "stable": true
+  },
+  "determinism_restart": {
+    "rc": 0,
+    "digest": "a23f2b3b1b70a7e4",
+    "in_process_digest": "a23f2b3b1b70a7e4",
+    "match": true
+  },
+  "before_after": [
+    {
+      "id": "wa_ogg_1",
+      "group": "private_whatsapp_opus",
+      "dur_s": 57.78,
+      "rafnet": 0.8899,
+      "mo": 0.9999,
+      "bisher": 0.0027,
+      "head": 0.0839,
+      "p_v1": 0.9847,
+      "verdict_v1": "SYNTHETIC",
+      "p_v2": 0.0,
+      "verdict_v2": "REAL"
+    },
+    {
+      "id": "wa_ogg_2",
+      "group": "private_whatsapp_opus",
+      "dur_s": 37.8,
+      "rafnet": 0.9021,
+      "mo": 0.0,
+      "bisher": 0.0024,
+      "head": 0.0577,
+      "p_v1": 0.0568,
+      "verdict_v1": "UNCERTAIN",
+      "p_v2": 0.0,
+      "verdict_v2": "REAL"
+    },
+    {
+      "id": "fleurs_en_train_00895",
+      "group": "fleurs-en",
+      "y": 0,
+      "rafnet": 0.8264,
+      "mo": 0.9999,
+      "bisher": 0.002,
+      "head": 0.0138,
+      "p_v1": 0.9845,
+      "verdict_v1": "SYNTHETIC",
+      "p_v2": 0.0,
+      "verdict_v2": "REAL"
+    },
+    {
+      "id": "fleurs_en_train_00911",
+      "group": "fleurs-en",
+      "y": 0,
+      "rafnet": 0.8239,
+      "mo": 0.0,
+      "bisher": 0.002,
+      "head": 0.0593,
+      "p_v1": 0.0561,
+      "verdict_v1": "UNCERTAIN",
+      "p_v2": 0.0,
+      "verdict_v2": "REAL"
+    },
+    {
+      "id": "edge-Valluvar-000",
+      "group": "fake-edge",
+      "y": 1,
+      "rafnet": 0.9098,
+      "mo": 1.0,
+      "bisher": 0.0024,
+      "head": 0.4326,
+      "p_v1": 0.9847,
+      "verdict_v1": "SYNTHETIC",
+      "p_v2": 0.011,
+      "verdict_v2": "REAL"
+    },
+    {
+      "id": "edge-Valluvar-001",
+      "group": "fake-edge",
+      "y": 1,
+      "rafnet": 0.8647,
+      "mo": 1.0,
+      "bisher": 0.0073,
+      "head": 0.7417,
+      "p_v1": 0.9848,
+      "verdict_v1": "SYNTHETIC",
+      "p_v2": 0.9917,
+      "verdict_v2": "SYNTHETIC"
+    }
+  ],
+  "codec_probe": [
+    {
+      "id": "fleurs_en_train_00895",
+      "codec": "opus_24k",
+      "rafnet": 0.8346,
+      "mo": 1.0,
+      "bisher": 0.002,
+      "head": 0.0153,
+      "p_v1": 0.9845,
+      "verdict_v1": "SYNTHETIC",
+      "p_v2": 0.0,
+      "verdict_v2": "REAL"
+    },
+    {
+      "id": "fleurs_en_train_00895",
+      "codec": "amr_nb",
+      "error": "ValueError: Unsupported audio format '.amr'. Allowed: ['.flac', '.m4a', '.mp3', '.mp4', '.oga', '.ogg', '.opus',"
+    }
+  ]
+}

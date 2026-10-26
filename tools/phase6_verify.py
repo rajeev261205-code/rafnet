@@ -123,6 +123,37 @@ def main() -> int:
                "scores": runs[0], "stable": len(digs) == 1}
     report["determinism_in_process"] = det
 
+    # 3b. restart test: a fresh interpreter must reproduce the same digest
+    restart = {}
+    if oggs:
+        code = (
+            "import json, sys\n"
+            "from pathlib import Path\n"
+            "from tools.phase6_verify import _decode_path, _score_clip, _digest\n"
+            "from rafnet.soc.head4 import load_head\n"
+            "from rafnet.soc.model_adapter import load_voice_model\n"
+            f"p = Path({str(oggs[0])!r})\n"
+            "d = _decode_path(p)\n"
+            "m = load_voice_model(); h = load_head()\n"
+            "s = _score_clip(m, h, d.samples, d.sample_rate)\n"
+            "print(json.dumps({'digest': _digest(s), 'scores': s}, sort_keys=True))\n"
+        )
+        try:
+            env = dict(os.environ, HF_HUB_OFFLINE="1", MOCK_INFERENCE="false")
+            proc = subprocess.run([sys.executable, "-c", code], cwd=str(ROOT),
+                                  env=env, capture_output=True, text=True,
+                                  timeout=600)
+            line = [ln for ln in proc.stdout.splitlines() if ln.strip().startswith("{")]
+            got = json.loads(line[-1]) if line else {}
+            restart = {"rc": proc.returncode, "digest": got.get("digest"),
+                       "in_process_digest": det.get("digest"),
+                       "match": got.get("digest") == det.get("digest")}
+            if proc.returncode != 0:
+                restart["stderr_tail"] = proc.stderr[-300:]
+        except Exception as exc:
+            restart = {"error": f"{type(exc).__name__}: {str(exc)[:200]}"}
+    report["determinism_restart"] = restart
+
     # 4. before/after v1 vs v2
     rows = []
     if oggs:
@@ -182,6 +213,8 @@ def main() -> int:
           "## Degenerate-segment guard (<1600 samples)", json.dumps(report["degenerate_guard"]), "",
           "## Determinism (10 in-process repeats, full score path)",
           json.dumps(report["determinism_in_process"]), "",
+          "## Determinism (fresh-interpreter restart)",
+          json.dumps(report["determinism_restart"]), "",
           "## Before/after (v1 3-feature vs v2 4-feature with head)",
           "| id | group | y | rafnet | mo | bisher | head | p_v1 | v1 | p_v2 | v2 |",
           "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |"]

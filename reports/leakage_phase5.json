@@ -1,0 +1,286 @@
+{
+  "generated_at": "2026-10-26T14:49:21.258286+00:00",
+  "feature_errors": 0,
+  "split_id_overlap": {
+    "train_val": 0,
+    "train_test": 0,
+    "val_test": 0
+  },
+  "disjointness": {
+    "human_speakers": {
+      "train": 2155,
+      "val": 462,
+      "test": 464,
+      "train_val_overlap": 0,
+      "train_test_overlap": 0,
+      "val_test_overlap": 0
+    },
+    "fake_generators": {
+      "train": 13,
+      "val": 13,
+      "test": 3,
+      "train_val_overlap": 13,
+      "train_test_overlap": 0,
+      "val_test_overlap": 0,
+      "val_shared": [
+        "gen-crudeVC:ps",
+        "gen-crudeVC:ts",
+        "gen-edge:en-IN-NeerjaNeural",
+        "gen-edge:en-IN-PrabhatNeural",
+        "gen-edge:hi-IN-MadhurNeural",
+        "gen-edge:hi-IN-SwaraNeural",
+        "gen-edge:ta-IN-PallaviNeural",
+        "gen-piper:en-amy",
+        "gen-piper:en-ryan",
+        "gen-piper:hi-pratham",
+        "gen-piper:hi-priyamvada",
+        "gen-sapi:david",
+        "gen-sapi:zira"
+      ],
+      "test_unseen": [
+        "gen-edge:ta-IN-ValluvarNeural",
+        "gen-elevenlabs",
+        "gen-piper:hi-rohan"
+      ]
+    }
+  },
+  "source_vs_label": {
+    "val": {
+      "fake-crudeVC": {
+        "human": 0,
+        "fake": 116
+      },
+      "fake-edge": {
+        "human": 0,
+        "fake": 45
+      },
+      "fake-piper": {
+        "human": 0,
+        "fake": 88
+      },
+      "fake-sapi": {
+        "human": 0,
+        "fake": 30
+      },
+      "fleurs-en": {
+        "human": 263,
+        "fake": 0
+      },
+      "fleurs-hi": {
+        "human": 61,
+        "fake": 0
+      },
+      "fleurs-ta": {
+        "human": 33,
+        "fake": 0
+      },
+      "slr118": {
+        "human": 373,
+        "fake": 0
+      },
+      "slr12": {
+        "human": 195,
+        "fake": 0
+      },
+      "slr65": {
+        "human": 169,
+        "fake": 0
+      }
+    },
+    "test": {
+      "fake-edge": {
+        "human": 0,
+        "fake": 60
+      },
+      "fake-elevenlabs": {
+        "human": 0,
+        "fake": 25
+      },
+      "fake-piper": {
+        "human": 0,
+        "fake": 150
+      },
+      "fleurs-en": {
+        "human": 213,
+        "fake": 0
+      },
+      "fleurs-hi": {
+        "human": 63,
+        "fake": 0
+      },
+      "fleurs-ta": {
+        "human": 37,
+        "fake": 0
+      },
+      "private-phone": {
+        "human": 40,
+        "fake": 0
+      },
+      "private-whatsapp": {
+        "human": 30,
+        "fake": 0
+      },
+      "slr118": {
+        "human": 369,
+        "fake": 0
+      },
+      "slr12": {
+        "human": 210,
+        "fake": 0
+      },
+      "slr65": {
+        "human": 150,
+        "fake": 0
+      }
+    }
+  },
+  "codec_vs_label": {
+    "val": {
+      "wav": {
+        "human": 1094,
+        "fake": 279
+      }
+    },
+    "test": {
+      "mp3": {
+        "human": 0,
+        "fake": 25
+      },
+      "wav": {
+        "human": 1112,
+        "fake": 210
+      }
+    }
+  },
+  "val_univariate": {
+    "duration_s": {
+      "auc": 0.3844,
+      "separability": 0.6156,
+      "real_mean": 7.5187,
+      "fake_mean": 6.7797
+    },
+    "rms_dbfs": {
+      "auc": 0.6646,
+      "separability": 0.6646,
+      "real_mean": -25.136,
+      "fake_mean": -21.2322
+    },
+    "peak": {
+      "auc": 0.6448,
+      "separability": 0.6448,
+      "real_mean": 0.5565,
+      "fake_mean": 0.705
+    },
+    "rolloff_hz": {
+      "auc": 0.4969,
+      "separability": 0.5031,
+      "real_mean": 1269.1973,
+      "fake_mean": 1246.6953
+    },
+    "flatness": {
+      "auc": 0.5215,
+      "separability": 0.5215,
+      "real_mean": 0.0264,
+      "fake_mean": 0.0246
+    },
+    "zcr": {
+      "auc": 0.5,
+      "separability": 0.5,
+      "real_mean": 0.117,
+      "fake_mean": 0.1159
+    },
+    "noise_floor_dbfs": {
+      "auc": 0.6973,
+      "separability": 0.6973,
+      "real_mean": -62.8579,
+      "fake_mean": -54.5446
+    },
+    "snr_db": {
+      "auc": 0.3563,
+      "separability": 0.6437,
+      "real_mean": 42.3246,
+      "fake_mean": 37.6349
+    },
+    "crest_db": {
+      "auc": 0.3679,
+      "separability": 0.6321,
+      "real_mean": 17.9512,
+      "fake_mean": 16.7963
+    }
+  },
+  "test_univariate": {
+    "duration_s": {
+      "auc": 0.3256,
+      "separability": 0.6744,
+      "real_mean": 7.0438,
+      "fake_mean": 6.0047
+    },
+    "rms_dbfs": {
+      "auc": 0.8353,
+      "separability": 0.8353,
+      "real_mean": -24.0947,
+      "fake_mean": -16.5957
+    },
+    "peak": {
+      "auc": 0.7717,
+      "separability": 0.7717,
+      "real_mean": 0.5709,
+      "fake_mean": 0.8475
+    },
+    "rolloff_hz": {
+      "auc": 0.3491,
+      "separability": 0.6509,
+      "real_mean": 1247.2563,
+      "fake_mean": 996.8249
+    },
+    "flatness": {
+      "auc": 0.5657,
+      "separability": 0.5657,
+      "real_mean": 0.0219,
+      "fake_mean": 0.0225
+    },
+    "zcr": {
+      "auc": 0.2798,
+      "separability": 0.7202,
+      "real_mean": 0.1151,
+      "fake_mean": 0.0866
+    },
+    "noise_floor_dbfs": {
+      "auc": 0.3589,
+      "separability": 0.6411,
+      "real_mean": -62.3114,
+      "fake_mean": -70.1746
+    },
+    "snr_db": {
+      "auc": 0.7987,
+      "separability": 0.7987,
+      "real_mean": 42.8038,
+      "fake_mean": 58.0797
+    },
+    "crest_db": {
+      "auc": 0.1987,
+      "separability": 0.8013,
+      "real_mean": 17.4176,
+      "fake_mean": 14.8086
+    }
+  },
+  "shortcut_model_train_audio_features": {
+    "val": {
+      "n": 1373,
+      "auc": 0.6768,
+      "far_human_at_0.5": 0.3227,
+      "detection_fake_at_0.5": 0.5735
+    },
+    "test": {
+      "n": 1347,
+      "auc": 0.7733,
+      "far_human_at_0.5": 0.4308,
+      "detection_fake_at_0.5": 0.8553
+    }
+  },
+  "notes": [
+    "dataset id (source) is label-defining by construction: human clips come from human datasets and synthetic clips from fake datasets, so it must never be used as an inference feature.",
+    "VAL fake generators are the SAME voices/families as TRAIN (only human speakers are disjoint); VAL AUC 1.0 therefore measures in-distribution generator memorisation, not generalisation.",
+    "TEST fake generators and private groups are disjoint from TRAIN; the stack's per-group TEST numbers are the honest generalisation measure."
+  ]
+}

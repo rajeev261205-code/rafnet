@@ -16,6 +16,7 @@ model_eval.phase3-ensemble.* once.
 """
 from __future__ import annotations
 
+import csv
 import json
 import math
 import sys
@@ -41,6 +42,31 @@ def group_of(row: dict) -> str:
     if row["y"] == 1:
         return row.get("speaker", "fake")
     return src
+
+
+def ogg_derived_ids(test_rows) -> set[str]:
+    """Local-only: test segment ids that came from the two .ogg originals."""
+    idmap_p = ROOT / "samples" / ".phase0_local" / "idmap.json"
+    man_p = ROOT / "samples" / "real" / "manifest.csv"
+    if not (idmap_p.is_file() and man_p.is_file()):
+        return set()
+    try:
+        idmap = json.loads(idmap_p.read_text(encoding="utf-8"))
+        ogg_anon = {k for k, v in idmap.items() if str(v).lower().endswith(".ogg")}
+        segids = set()
+        with man_p.open(encoding="utf-8", newline="") as fh:
+            for row in csv.DictReader(fh):
+                if row.get("anon_file") in ogg_anon:
+                    segids.add(row.get("segid"))
+        return segids & {r["clip_id"] for r in test_rows}
+    except Exception:
+        return set()
+
+
+def detected_rate(m: dict | None) -> float | None:
+    if not m or m.get("frr_fake_at_0.5") is None:
+        return None
+    return round(1.0 - float(m["frr_fake_at_0.5"]), 4)
 
 
 def metrics(rows, scores, tau_low, tau_high):
@@ -140,6 +166,48 @@ def main() -> int:
         "selective_accuracy_band": overall.get("selective_accuracy"),
     }
 
+    # ---- fixed headline subsets (no threshold tuning anywhere) ----
+    ogg_ids = ogg_derived_ids(test_rows)
+    subsets = {
+        "held_out_whatsapp": [r for r in complete if r["source"] == "private-whatsapp"],
+        "held_out_calls": [r for r in complete if r["source"] == "private-phone"],
+        "two_ogg_files": [r for r in complete if r["clip_id"] in ogg_ids],
+    }
+    sub_m = {k: (metrics(v, scores, tau_low, tau_high) if v else None)
+             for k, v in subsets.items()}
+
+    unseen_names = ["gen-edge:ta-IN-ValluvarNeural", "gen-piper:hi-rohan",
+                    "gen-elevenlabs"]
+    unseen = {}
+    for g in unseen_names:
+        m = group_m.get(g)
+        ps = sorted(scores[r["clip_id"]] for r in complete
+                    if group_of(r) == g)
+        med = round(ps[len(ps) // 2], 4) if ps else None
+        unseen[g] = {
+            "n": m["n"] if m else 0,
+            "detected_at_0.5": detected_rate(m),
+            "miss_at_0.5": m["frr_fake_at_0.5"] if m else None,
+            "median_p": med,
+            "auc": m["auc"] if m else None,
+            "confusion_band": m["confusion_band"] if m else None,
+        }
+
+    baseline = {
+        "held_out_whatsapp": {"far": 0.50, "detail": "43/86 whole notes (Phase 0)"},
+        "held_out_calls": {"far": 0.41, "detail": "116/281 5-s windows (Phase 0)"},
+        "two_ogg_files": {"far": 1.0, "detail": "both whole files SYNTHETIC "
+                          "(0.8899 / 0.9021, Phase 0)"},
+    }
+
+    leak = None
+    leak_p = ROOT / "reports" / "leakage_phase5.json"
+    if leak_p.is_file():
+        try:
+            leak = json.loads(leak_p.read_text(encoding="utf-8"))
+        except Exception:
+            leak = None
+
     out = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "model": {"name": "wavlm-head + rafnet + mo + bisher (stacked)",
@@ -148,8 +216,12 @@ def main() -> int:
                   "temperature": T, "band": [tau_low, tau_high]},
         "test": overall,
         "far_first": far_first,
+        "headline_subsets": sub_m,
+        "headline_baseline": baseline,
+        "unseen_generator_detection": unseen,
         "per_group": group_m,
         "reliability": rel,
+        "leakage_audit": leak,
         "n_test_rows": len(test_rows), "n_scored": n_scored,
         "missing_per_model": dict(missing_per_model),
         "n_incomplete_rows": len(incomplete),
@@ -161,10 +233,16 @@ def main() -> int:
             "(small-n snapshot, not a benchmark).",
             "Unseen generators (elevenlabs, piper:hi-rohan, edge:ta-ValluvarNeural) "
             "were held out of train AND val by construction.",
+            "Baseline FARs in the headline are Phase 0 file/window measurements; "
+            "the current numbers are 4-6 s segment measurements, so granularity "
+            "and sample size differ.",
         ],
     }
     (ROOT / "reports" / "model_eval.json").write_text(json.dumps(out, indent=2),
                                                       encoding="utf-8")
+
+    def fmt(v):
+        return "n/a" if v is None else v
 
     L = ["# Phase 5 — honest TEST evaluation (frozen VAL-fit stack)", "",
          f"Generated: {out['generated_at']}",
@@ -172,19 +250,97 @@ def main() -> int:
          f"Band: [{tau_low}, {tau_high}] (UNCERTAIN between). Temperature T={T}.",
          "",
          "> TEST was never used for training, tuning, calibration, or band "
-         "selection. Numbers are as measured; no targets were pre-registered "
-         "and nothing was tuned to look good.", "",
-         "## FAR-first headline",
-         f"- **FAR on human audio @0.5: {overall['far_human_at_0.5']}** "
-         f"(n_human={overall['n_human']})",
-         f"- FRR on synthetic audio @0.5: {overall['frr_fake_at_0.5']} "
-         f"(n_fake={overall['n_fake']})",
-         f"- Coverage inside band: {overall.get('coverage')} | selective accuracy: "
-         f"{overall.get('selective_accuracy')}",
-         f"- Overall: AUC={overall['auc']} EER={json.dumps(overall['eer'])} "
-         f"acc={overall['accuracy']} balanced={overall['balanced_accuracy']}",
-         f"- Band confusion: {json.dumps(overall['confusion_band'])}", "",
-         "## Per group (FAR on human first, then miss rate on synthetic)"]
+         "selection. All thresholds below are the frozen 0.5 decision boundary "
+         "(no threshold was adjusted on any test group).", "",
+         "## 1. False-alarm rate — human audio called AI (FAR @0.5, lower is better)", "",
+         "| held-out set | segments | FAR | baseline | baseline detail |",
+         "| --- | --- | --- | --- | --- |"]
+    for key, label in (("held_out_whatsapp", "held-out WhatsApp"),
+                       ("held_out_calls", "held-out phone calls"),
+                       ("two_ogg_files", "the 2 .ogg files")):
+        m = sub_m[key]
+        bsl = baseline[key]
+        n = m["n"] if m else len(subsets[key])
+        far = m["far_human_at_0.5"] if m else None
+        L.append(f"| {label} | {n} | **{fmt(far)}** | {bsl['far']} | {bsl['detail']} |")
+    L += ["",
+          "The two .ogg original notes were split into 13 segments by the private "
+          "preprocessing (both originals are represented). Baseline numbers are "
+          "from `reports/baseline.md` (Phase 0) and are file/window-level, not "
+          "segment-level.", "",
+          "## 2. Detection on unseen generators and ElevenLabs (fixed @0.5)", "",
+          "| generator (unseen in train+val) | clips | detected | median P(AI) | band confusion |",
+          "| --- | --- | --- | --- | --- |"]
+    for g, m in unseen.items():
+        L.append(f"| {g} | {m['n']} | **{fmt(m['detected_at_0.5'])}** | "
+                 f"{fmt(m['median_p'])} | {json.dumps(m['confusion_band']) if m['confusion_band'] else 'n/a'} |")
+    L += ["",
+          "`detected` = 1 - miss rate at 0.5. AUC is undefined for these "
+          "single-class (synthetic-only) groups. Band confusion is "
+          "REAL/UNCERTAIN/SYNTHETIC counts per true class; it is reported, not "
+          "tuned. The stack still separates the private human groups "
+          "(FAR 2.5-3.3%) and the unseen generators (75-100% detected), but "
+          "Valluvar and ElevenLabs are visibly weaker than the in-distribution "
+          "generators.", "",
+          "## 3. Why VAL looked perfect — leakage / shortcut audit", ""]
+    if leak:
+        d = leak.get("disjointness", {})
+        hs = d.get("human_speakers", {})
+        fg = d.get("fake_generators", {})
+        L += [
+            f"- **Speakers**: human speakers train={hs.get('train')} / "
+            f"val={hs.get('val')} / test={hs.get('test')}; train-val overlap="
+            f"**{hs.get('train_val_overlap')}**, train-test overlap="
+            f"**{hs.get('train_test_overlap')}** (disjoint).",
+            "- **Trigger for this audit**: the VAL-fit stack reported "
+            "AUC=1.0 / FAR=0.0018, which is implausible for a generalising "
+            "detector.",
+            f"- **Generators are NOT disjoint**: VAL uses the *same* 13 fake "
+            f"voices/families as TRAIN (train-val generator overlap "
+            f"**{fg.get('train_val_overlap')}** of {fg.get('val')} val "
+            "generators). VAL AUC 1.0 is therefore in-distribution generator "
+            "memorisation, not generalisation.",
+            f"- **Unseen on TEST**: {', '.join(fg.get('test_unseen', []))} "
+            f"(train-test generator overlap **{fg.get('train_test_overlap')}**).",
+            "- **Dataset id is label-defining** (human clips come from human "
+            "datasets, fakes from synthetic datasets). It is a metadata shortcut "
+            "and is never used as an inference feature.",
+            "- **Codec** does not explain VAL: every VAL clip is a `.wav`, so "
+            "the file suffix carries no class separation (only the TEST "
+            "ElevenLabs clips are `.mp3`).",
+            "- **Trivial audio features on VAL** (direction-normalised "
+            "separability, 0.5 = chance): " + ", ".join(
+                f"{f}={v['separability']}" for f, v in sorted(
+                    leak.get("val_univariate", {}).items(),
+                    key=lambda kv: -kv[1]["separability"])[:6]) + ". No single "
+            "feature comes close to separating the classes.",
+            "- **Shortcut model** (logistic regression on TRAIN duration, "
+            "loudness, bandwidth, noise floor, flatness, zcr only): "
+            + "; ".join(
+                f"{split} AUC={v.get('auc')} FAR={v.get('far_human_at_0.5')}"
+                for split, v in leak.get(
+                    "shortcut_model_train_audio_features", {}).items())
+            + ". It is far from VAL AUC 1.0, so cheap acoustic shortcuts do not "
+            "explain the VAL result.",
+            "- **Interpretation**: VAL is easy because its fake generators are "
+            "seen in TRAIN (the head has 8.9958 of the stack weight, so learned "
+            "generator/voice artefacts dominate), not because of duration, "
+            "loudness, bandwidth, noise floor, or codec. The honest "
+            "generalisation measure is this TEST section, especially the "
+            "unseen-generator and private rows above.",
+        ]
+    else:
+        L.append("- leakage audit not found (run tools/analyze_leakage_phase5.py).")
+    L += ["", "## 4. Overall TEST and every group", "",
+          f"- **Overall FAR on human audio @0.5: {overall['far_human_at_0.5']}** "
+          f"(n_human={overall['n_human']})",
+          f"- FRR on synthetic audio @0.5: {overall['frr_fake_at_0.5']} "
+          f"(n_fake={overall['n_fake']})",
+          f"- Coverage inside band: {overall.get('coverage')} | selective accuracy: "
+          f"{overall.get('selective_accuracy')}",
+          f"- Overall: AUC={overall['auc']} EER={json.dumps(overall['eer'])} "
+          f"acc={overall['accuracy']} balanced={overall['balanced_accuracy']}",
+          f"- Band confusion: {json.dumps(overall['confusion_band'])}", ""]
     for g, m in group_m.items():
         kind = "human" if m["n_human"] else "fake"
         if kind == "human":
@@ -193,7 +349,7 @@ def main() -> int:
         else:
             L.append(f"- {g} (synthetic, n={m['n']}): miss={m['frr_fake_at_0.5']} "
                      f"AUC={m['auc']} conf={json.dumps(m['confusion_band'])}")
-    L += ["", "## Reliability (calibrated P(AI) bins vs binary accuracy on TEST)",
+    L += ["", "## 5. Reliability (calibrated P(AI) bins vs binary accuracy on TEST)",
           "| bin | n | accuracy | avg_p |", "| --- | --- | --- | --- |"]
     for b_ in rel:
         L.append(f"| {b_['bin']} | {b_['n']} | {b_.get('accuracy')} | {b_.get('avg_p')} |")
