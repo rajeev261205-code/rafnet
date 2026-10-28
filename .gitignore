@@ -52,3 +52,7 @@ frontend/design-ref/
 
 samples/
 data/
+
+frontend/.vite/
+*.egg-info/
+*.log
