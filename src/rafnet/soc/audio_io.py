@@ -11,7 +11,11 @@ import io
 from dataclasses import dataclass
 
 MAX_AUDIO_BYTES = 25 * 1024 * 1024  # 25 MB
-ALLOWED_SUFFIXES = {".wav", ".flac", ".ogg", ".oga", ".mp3", ".m4a", ".mp4", ".webm"}
+ALLOWED_SUFFIXES = {".wav", ".flac", ".ogg", ".oga", ".opus", ".mp3", ".m4a", ".mp4", ".webm"}
+# Lossy containers/codecs: band-limiting and codec noise floor are intrinsic to
+# the encoding, NOT evidence of replay. Layer 3 must exclude band-limit/codec
+# trip-wires for these (see forensics.liveness_layer `source` handling).
+LOSSY_SUFFIXES = {".mp3", ".m4a", ".mp4", ".ogg", ".oga", ".opus", ".webm"}
 
 
 @dataclass
@@ -21,6 +25,13 @@ class DecodedAudio:
     duration_seconds: float
     num_channels: int
     original_suffix: str
+    is_lossy: bool = False  # True when the container/codec is lossy
+
+
+def is_lossy_suffix(suffix: str) -> bool:
+    """True for lossy containers/codecs whose spectra are band-limited by design."""
+    s = suffix.lower()
+    return (s if s.startswith(".") else "." + s) in LOSSY_SUFFIXES
 
 
 def validate_filename(filename: str) -> str:
@@ -49,21 +60,18 @@ def decode_audio(data: bytes, filename: str) -> DecodedAudio:
         channels = 1 if arr.ndim == 1 else arr.shape[1]
         if arr.ndim == 2:
             arr = arr.mean(axis=1).astype(np.float32)
+        suffix = safe_name.rsplit(".", 1)[-1].lower()
         return DecodedAudio(
             samples=arr,
             sample_rate=int(sr),
             duration_seconds=float(len(arr) / sr) if sr else 0.0,
             num_channels=int(channels),
-            original_suffix=safe_name.rsplit(".", 1)[-1].lower(),
+            original_suffix=suffix,
+            is_lossy=is_lossy_suffix(suffix),
         )
     except Exception as sf_err:
-        try:
-
-            with open(f"/tmp/soc_upload_{abs(hash(filename))}.bin", "wb") as _:
-                pass
-        except Exception:
-            pass
-        # Minimal WAV parse fallback so .wav works even without soundfile
+        # Minimal WAV parse fallback so .wav works even without soundfile.
+        # (No temp files: decode fully in memory from the uploaded bytes.)
         if safe_name.lower().endswith(".wav"):
             import wave
 
@@ -74,7 +82,7 @@ def decode_audio(data: bytes, filename: str) -> DecodedAudio:
                 arr = np.frombuffer(raw, dtype=dtype).astype(np.float32)
                 scale = float(2 ** (8 * sw - 1))
                 arr = (arr / scale).reshape(-1, n).mean(axis=1)
-                return DecodedAudio(arr, int(fr), float(len(arr) / fr), int(n), "wav")
+                return DecodedAudio(arr, int(fr), float(len(arr) / fr), int(n), "wav", False)
         raise ValueError(f"Could not decode audio '{safe_name}': {sf_err}")
 
 

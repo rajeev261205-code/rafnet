@@ -1,0 +1,72 @@
+{
+  "id": "MattyB95/AST-ASVspoof2019-Synthetic-Voice-Detection",
+  "files": [
+    {
+      "file": "samples/real/260-123286-0012.flac",
+      "y": 0,
+      "p": 1.0,
+      "ms": 1542.7,
+      "labels": [
+        "Bonafide",
+        "Spoof"
+      ]
+    },
+    {
+      "file": "samples/real/6930-81414-0025.flac",
+      "y": 0,
+      "p": 0.9993,
+      "ms": 1518.6,
+      "labels": [
+        "Bonafide",
+        "Spoof"
+      ]
+    },
+    {
+      "file": "samples/fake/sapi_david_2.wav",
+      "y": 1,
+      "p": 1.0,
+      "ms": 1504.9,
+      "labels": [
+        "Bonafide",
+        "Spoof"
+      ]
+    },
+    {
+      "file": "samples/fake/sapi_zira_2.wav",
+      "y": 1,
+      "p": 1.0,
+      "ms": 1521.2,
+      "labels": [
+        "Bonafide",
+        "Spoof"
+      ]
+    },
+    {
+      "file": "samples/fake/chatgpt_voice/rafnet_ai_voice_test.wav",
+      "y": 1,
+      "p": 1.0,
+      "ms": 1511.9,
+      "labels": [
+        "Bonafide",
+        "Spoof"
+      ]
+    },
+    {
+      "file": "samples/fake/windows_tts/tts_test.wav",
+      "y": 1,
+      "p": 1.0,
+      "ms": 1512.0,
+      "labels": [
+        "Bonafide",
+        "Spoof"
+      ]
+    }
+  ],
+  "auc": 0.75,
+  "eer": {
+    "eer": 0.25,
+    "threshold": 1.0,
+    "far": 0.5,
+    "frr": 0.0
+  }
+}

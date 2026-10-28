@@ -16,7 +16,7 @@ No files from other workstreams were modified for this comparison.
   migration + RLS + seed script ready.
 - Gaps: needs Supabase project, sklearn 1.9.1 prod runtime, deploy, GPU pass.
 
-## Option B — Node/Express backend (`aegisvoice-frontend/backend/`, parallel workstream)
+## Option B — Node/Express backend (`rafnet-frontend/backend/`, parallel workstream)
 
 - Status: under active development (own package.json, tsconfig, vitest +
   supertest, SQLite via `node:sqlite`, needs Node ≥ 22).

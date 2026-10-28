@@ -88,6 +88,7 @@ def main() -> int:
         check("health 200", s == 200, f"status={s}")
         check("health has model_loaded", isinstance(health.get("model_loaded"), bool))
         print(f"  model={health.get('model')} mock_mode={health.get('mock_mode')}")
+        mock_mode = bool(health.get("mock_mode"))
     except Exception as exc:
         check("backend reachable", False, str(exc))
         return 1
@@ -121,18 +122,29 @@ def main() -> int:
     s, cr = post_json("/api/live/chunk", {"session_id": ls["session_id"], "sample_rate": 16000, "samples": chunk})
     check("live chunk analyzed", s == 200 and cr.get("status") == "analyzed", str(cr)[:120])
 
-    # Triage path: loud tone -> HIGH/CRITICAL threat -> acknowledge -> verify.
+    # Triage path: HIGH/CRITICAL threat -> acknowledge -> verify.
+    # The mock is intentionally neutral (always UNCERTAIN, never a threat),
+    # so on mock backends assert that honest neutral result and skip triage
+    # (threat plumbing is covered by pytest with explicit stub models).
     s, loud = post_wav(amplitude=20000)
     check("loud analyze 200", s == 200, f"status={s}")
-    check("loud is HIGH/CRITICAL", loud.get("risk_level") in ("HIGH", "CRITICAL"), str(loud.get("risk_level")))
-    s, threats = get("/api/threats")
-    check("threats include loud analysis", s == 200 and any(
-        t.get("analysis_id") == loud["id"] for t in threats.get("items", [])), f"status={s}")
-    tid = next(t["id"] for t in threats["items"] if t["analysis_id"] == loud["id"])
-    s, triaged = patch_json(f"/api/threats/{tid}", {"status": "acknowledged"})
-    check("triage PATCH 200", s == 200 and triaged.get("status") == "acknowledged", f"status={s}")
-    s, got = get(f"/api/threats/{tid}")
-    check("triage persisted", s == 200 and got.get("status") == "acknowledged")
+    if mock_mode:
+        check("mock stays neutral on loud input",
+              loud.get("prediction") == "UNCERTAIN" and loud.get("mock") is True,
+              str({k: loud.get(k) for k in ("prediction", "mock")}))
+        print("SKIP triage on mock backend (neutral mock makes no threats; see pytest)")
+        loud = None
+    else:
+        check("loud is HIGH/CRITICAL", loud.get("risk_level") in ("HIGH", "CRITICAL"), str(loud.get("risk_level")))
+    if loud is not None:
+        s, threats = get("/api/threats")
+        check("threats include loud analysis", s == 200 and any(
+            t.get("analysis_id") == loud["id"] for t in threats.get("items", [])), f"status={s}")
+        tid = next(t["id"] for t in threats["items"] if t["analysis_id"] == loud["id"])
+        s, triaged = patch_json(f"/api/threats/{tid}", {"status": "acknowledged"})
+        check("triage PATCH 200", s == 200 and triaged.get("status") == "acknowledged", f"status={s}")
+        s, got = get(f"/api/threats/{tid}")
+        check("triage persisted", s == 200 and got.get("status") == "acknowledged")
 
     if FAILURES:
         print(f"\n{len(FAILURES)} FAILURES: {FAILURES}")

@@ -1,0 +1,1760 @@
+{
+  "generated_at": "2026-10-15T16:10:06.722913+00:00",
+  "model": {
+    "name": "ensemble-mo+bisher+rafnet",
+    "stacking": "models/stacking.json (VAL-fit, frozen)",
+    "taus": [
+      0.05,
+      0.55
+    ]
+  },
+  "test": {
+    "n": 80,
+    "accuracy": 0.9375,
+    "balanced_accuracy": 0.9375,
+    "binary_at_0.5": {
+      "accuracy": 0.9375,
+      "precision": 0.907,
+      "recall": 0.975,
+      "f1": 0.9398,
+      "tp": 39,
+      "tn": 36,
+      "fp": 4,
+      "fn": 1,
+      "n": 80
+    },
+    "false_alarm_rate_on_human": 0.1,
+    "auc": 0.9953,
+    "eer": {
+      "eer": 0.0375,
+      "threshold": 0.9845,
+      "far": 0.05,
+      "frr": 0.025
+    },
+    "confusion_band": {
+      "real": {
+        "REAL": 0,
+        "UNCERTAIN": 36,
+        "SYNTHETIC": 4
+      },
+      "fake": {
+        "REAL": 0,
+        "UNCERTAIN": 1,
+        "SYNTHETIC": 39
+      }
+    },
+    "coverage": 0.5375,
+    "selective_accuracy": 0.907,
+    "n_certain": 43,
+    "n_total": 80
+  },
+  "my_samples": {
+    "n": 19,
+    "accuracy": 1.0,
+    "balanced_accuracy": 1.0,
+    "binary_at_0.5": {
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "tp": 15,
+      "tn": 4,
+      "fp": 0,
+      "fn": 0,
+      "n": 19
+    },
+    "false_alarm_rate_on_human": 0.0,
+    "auc": 1.0,
+    "eer": {
+      "eer": 0.0,
+      "threshold": 0.9846,
+      "far": 0.0,
+      "frr": 0.0
+    },
+    "confusion_band": {
+      "real": {
+        "REAL": 0,
+        "UNCERTAIN": 4,
+        "SYNTHETIC": 0
+      },
+      "fake": {
+        "REAL": 0,
+        "UNCERTAIN": 0,
+        "SYNTHETIC": 15
+      }
+    },
+    "coverage": 0.7895,
+    "selective_accuracy": 1.0,
+    "n_certain": 15,
+    "n_total": 19
+  },
+  "test_plus_my": {
+    "n": 99,
+    "accuracy": 0.9495,
+    "balanced_accuracy": 0.9455,
+    "binary_at_0.5": {
+      "accuracy": 0.9495,
+      "precision": 0.931,
+      "recall": 0.9818,
+      "f1": 0.9558,
+      "tp": 54,
+      "tn": 40,
+      "fp": 4,
+      "fn": 1,
+      "n": 99
+    },
+    "false_alarm_rate_on_human": 0.0909,
+    "auc": 0.9965,
+    "eer": {
+      "eer": 0.0318,
+      "threshold": 0.9845,
+      "far": 0.0455,
+      "frr": 0.0182
+    },
+    "confusion_band": {
+      "real": {
+        "REAL": 0,
+        "UNCERTAIN": 40,
+        "SYNTHETIC": 4
+      },
+      "fake": {
+        "REAL": 0,
+        "UNCERTAIN": 1,
+        "SYNTHETIC": 54
+      }
+    },
+    "coverage": 0.5859,
+    "selective_accuracy": 0.931,
+    "n_certain": 58,
+    "n_total": 99
+  },
+  "per_group": {
+    "clean_human_librispeech": {
+      "n": 44,
+      "accuracy": 0.9091,
+      "balanced_accuracy": null,
+      "binary_at_0.5": {
+        "accuracy": 0.9091,
+        "precision": 0.0,
+        "recall": null,
+        "f1": null,
+        "tp": 0,
+        "tn": 40,
+        "fp": 4,
+        "fn": 0,
+        "n": 44
+      },
+      "false_alarm_rate_on_human": 0.0909,
+      "auc": null,
+      "eer": {
+        "eer": null,
+        "threshold": null,
+        "note": "needs both classes"
+      },
+      "confusion_band": {
+        "real": {
+          "REAL": 0,
+          "UNCERTAIN": 40,
+          "SYNTHETIC": 4
+        },
+        "fake": {
+          "REAL": 0,
+          "UNCERTAIN": 0,
+          "SYNTHETIC": 0
+        }
+      },
+      "coverage": 0.0909,
+      "selective_accuracy": 0.0,
+      "n_certain": 4,
+      "n_total": 44
+    },
+    "voice_conversion_crudeVC": {
+      "n": 40,
+      "accuracy": 0.975,
+      "balanced_accuracy": null,
+      "binary_at_0.5": {
+        "accuracy": 0.975,
+        "precision": 1.0,
+        "recall": 0.975,
+        "f1": 0.9873,
+        "tp": 39,
+        "tn": 0,
+        "fp": 0,
+        "fn": 1,
+        "n": 40
+      },
+      "false_alarm_rate_on_human": null,
+      "auc": null,
+      "eer": {
+        "eer": null,
+        "threshold": null,
+        "note": "needs both classes"
+      },
+      "confusion_band": {
+        "real": {
+          "REAL": 0,
+          "UNCERTAIN": 0,
+          "SYNTHETIC": 0
+        },
+        "fake": {
+          "REAL": 0,
+          "UNCERTAIN": 1,
+          "SYNTHETIC": 39
+        }
+      },
+      "coverage": 0.975,
+      "selective_accuracy": 1.0,
+      "n_certain": 39,
+      "n_total": 40
+    },
+    "windows_sapi_tts": {
+      "n": 4,
+      "accuracy": 1.0,
+      "balanced_accuracy": null,
+      "binary_at_0.5": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 4,
+        "tn": 0,
+        "fp": 0,
+        "fn": 0,
+        "n": 4
+      },
+      "false_alarm_rate_on_human": null,
+      "auc": null,
+      "eer": {
+        "eer": null,
+        "threshold": null,
+        "note": "needs both classes"
+      },
+      "confusion_band": {
+        "real": {
+          "REAL": 0,
+          "UNCERTAIN": 0,
+          "SYNTHETIC": 0
+        },
+        "fake": {
+          "REAL": 0,
+          "UNCERTAIN": 0,
+          "SYNTHETIC": 4
+        }
+      },
+      "coverage": 1.0,
+      "selective_accuracy": 1.0,
+      "n_certain": 4,
+      "n_total": 4
+    },
+    "assistant_voice_chatgpt": {
+      "n": 1,
+      "accuracy": 1.0,
+      "balanced_accuracy": null,
+      "binary_at_0.5": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 1,
+        "tn": 0,
+        "fp": 0,
+        "fn": 0,
+        "n": 1
+      },
+      "false_alarm_rate_on_human": null,
+      "auc": null,
+      "eer": {
+        "eer": null,
+        "threshold": null,
+        "note": "needs both classes"
+      },
+      "confusion_band": {
+        "real": {
+          "REAL": 0,
+          "UNCERTAIN": 0,
+          "SYNTHETIC": 0
+        },
+        "fake": {
+          "REAL": 0,
+          "UNCERTAIN": 0,
+          "SYNTHETIC": 1
+        }
+      },
+      "coverage": 1.0,
+      "selective_accuracy": 1.0,
+      "n_certain": 1,
+      "n_total": 1
+    },
+    "windows_tts": {
+      "n": 1,
+      "accuracy": 1.0,
+      "balanced_accuracy": null,
+      "binary_at_0.5": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 1,
+        "tn": 0,
+        "fp": 0,
+        "fn": 0,
+        "n": 1
+      },
+      "false_alarm_rate_on_human": null,
+      "auc": null,
+      "eer": {
+        "eer": null,
+        "threshold": null,
+        "note": "needs both classes"
+      },
+      "confusion_band": {
+        "real": {
+          "REAL": 0,
+          "UNCERTAIN": 0,
+          "SYNTHETIC": 0
+        },
+        "fake": {
+          "REAL": 0,
+          "UNCERTAIN": 0,
+          "SYNTHETIC": 1
+        }
+      },
+      "coverage": 1.0,
+      "selective_accuracy": 1.0,
+      "n_certain": 1,
+      "n_total": 1
+    },
+    "windows_sapi_tts_extended": {
+      "n": 9,
+      "accuracy": 1.0,
+      "balanced_accuracy": null,
+      "binary_at_0.5": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 9,
+        "tn": 0,
+        "fp": 0,
+        "fn": 0,
+        "n": 9
+      },
+      "false_alarm_rate_on_human": null,
+      "auc": null,
+      "eer": {
+        "eer": null,
+        "threshold": null,
+        "note": "needs both classes"
+      },
+      "confusion_band": {
+        "real": {
+          "REAL": 0,
+          "UNCERTAIN": 0,
+          "SYNTHETIC": 0
+        },
+        "fake": {
+          "REAL": 0,
+          "UNCERTAIN": 0,
+          "SYNTHETIC": 9
+        }
+      },
+      "coverage": 1.0,
+      "selective_accuracy": 1.0,
+      "n_certain": 9,
+      "n_total": 9
+    }
+  },
+  "reliability": [
+    {
+      "bin": "0.0-0.1",
+      "n": 41,
+      "accuracy": 0.9756,
+      "avg_p": 0.0563
+    },
+    {
+      "bin": "0.1-0.3",
+      "n": 0
+    },
+    {
+      "bin": "0.3-0.5",
+      "n": 0
+    },
+    {
+      "bin": "0.5-0.7",
+      "n": 0
+    },
+    {
+      "bin": "0.7-0.9",
+      "n": 0
+    },
+    {
+      "bin": "0.9-1.0",
+      "n": 58,
+      "accuracy": 0.931,
+      "avg_p": 0.9923
+    }
+  ],
+  "codec": [
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1284\\1181\\1284-1181-0008.flac",
+      "codec": "opus_24k",
+      "p_clean": 0.0558,
+      "p_codec": 0.0558,
+      "delta": 0.0,
+      "verdict_codec": "UNCERTAIN",
+      "votes": 1,
+      "assumption": "rafnet term held at clean value (weight 0.0719; cited max shift 0.034 -> p_cal < 0.003)"
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1284\\1181\\1284-1181-0008.flac",
+      "codec": "mp3_128k",
+      "p_clean": 0.0558,
+      "p_codec": 0.0558,
+      "delta": 0.0,
+      "verdict_codec": "UNCERTAIN",
+      "votes": 1,
+      "assumption": "rafnet term held at clean value (weight 0.0719; cited max shift 0.034 -> p_cal < 0.003)"
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1284\\1181\\1284-1181-0008.flac",
+      "codec": "amr_nb",
+      "p_clean": 0.0558,
+      "p_codec": 0.0558,
+      "delta": 0.0,
+      "verdict_codec": "UNCERTAIN",
+      "votes": 1,
+      "assumption": "rafnet term held at clean value (weight 0.0719; cited max shift 0.034 -> p_cal < 0.003)"
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1284\\1181\\1284-1181-0008.flac",
+      "codec": "g711_alaw",
+      "p_clean": 0.0558,
+      "p_codec": 0.0558,
+      "delta": 0.0,
+      "verdict_codec": "UNCERTAIN",
+      "votes": 1,
+      "assumption": "rafnet term held at clean value (weight 0.0719; cited max shift 0.034 -> p_cal < 0.003)"
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\2300\\131720\\2300-131720-0027.flac",
+      "codec": "opus_24k",
+      "p_clean": 0.0566,
+      "p_codec": 0.0567,
+      "delta": 0.0001,
+      "verdict_codec": "UNCERTAIN",
+      "votes": 1,
+      "assumption": "rafnet term held at clean value (weight 0.0719; cited max shift 0.034 -> p_cal < 0.003)"
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\2300\\131720\\2300-131720-0027.flac",
+      "codec": "mp3_128k",
+      "p_clean": 0.0566,
+      "p_codec": 0.0567,
+      "delta": 0.0001,
+      "verdict_codec": "UNCERTAIN",
+      "votes": 1,
+      "assumption": "rafnet term held at clean value (weight 0.0719; cited max shift 0.034 -> p_cal < 0.003)"
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\2300\\131720\\2300-131720-0027.flac",
+      "codec": "amr_nb",
+      "p_clean": 0.0566,
+      "p_codec": 0.0567,
+      "delta": 0.0001,
+      "verdict_codec": "UNCERTAIN",
+      "votes": 1,
+      "assumption": "rafnet term held at clean value (weight 0.0719; cited max shift 0.034 -> p_cal < 0.003)"
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\2300\\131720\\2300-131720-0027.flac",
+      "codec": "g711_alaw",
+      "p_clean": 0.0566,
+      "p_codec": 0.0567,
+      "delta": 0.0001,
+      "verdict_codec": "UNCERTAIN",
+      "votes": 1,
+      "assumption": "rafnet term held at clean value (weight 0.0719; cited max shift 0.034 -> p_cal < 0.003)"
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1580\\141083\\1580-141083-0024.flac",
+      "codec": "opus_24k",
+      "p_clean": 0.0558,
+      "p_codec": 0.0558,
+      "delta": 0.0,
+      "verdict_codec": "UNCERTAIN",
+      "votes": 1,
+      "assumption": "rafnet term held at clean value (weight 0.0719; cited max shift 0.034 -> p_cal < 0.003)"
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1580\\141083\\1580-141083-0024.flac",
+      "codec": "mp3_128k",
+      "p_clean": 0.0558,
+      "p_codec": 0.0558,
+      "delta": 0.0,
+      "verdict_codec": "UNCERTAIN",
+      "votes": 1,
+      "assumption": "rafnet term held at clean value (weight 0.0719; cited max shift 0.034 -> p_cal < 0.003)"
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1580\\141083\\1580-141083-0024.flac",
+      "codec": "amr_nb",
+      "p_clean": 0.0558,
+      "p_codec": 0.0571,
+      "delta": 0.0013,
+      "verdict_codec": "UNCERTAIN",
+      "votes": 1,
+      "assumption": "rafnet term held at clean value (weight 0.0719; cited max shift 0.034 -> p_cal < 0.003)"
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1580\\141083\\1580-141083-0024.flac",
+      "codec": "g711_alaw",
+      "p_clean": 0.0558,
+      "p_codec": 0.0558,
+      "delta": 0.0,
+      "verdict_codec": "UNCERTAIN",
+      "votes": 1,
+      "assumption": "rafnet term held at clean value (weight 0.0719; cited max shift 0.034 -> p_cal < 0.003)"
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\6829\\68771\\6829-68771-0019.flac",
+      "codec": "opus_24k",
+      "p_clean": 0.9836,
+      "p_codec": 0.9844,
+      "delta": 0.0008,
+      "verdict_codec": "SYNTHETIC",
+      "votes": 2,
+      "assumption": "rafnet term held at clean value (weight 0.0719; cited max shift 0.034 -> p_cal < 0.003)"
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\6829\\68771\\6829-68771-0019.flac",
+      "codec": "mp3_128k",
+      "p_clean": 0.9836,
+      "p_codec": 0.9839,
+      "delta": 0.0003,
+      "verdict_codec": "SYNTHETIC",
+      "votes": 2,
+      "assumption": "rafnet term held at clean value (weight 0.0719; cited max shift 0.034 -> p_cal < 0.003)"
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\6829\\68771\\6829-68771-0019.flac",
+      "codec": "amr_nb",
+      "p_clean": 0.9836,
+      "p_codec": 0.0557,
+      "delta": -0.9279,
+      "verdict_codec": "UNCERTAIN",
+      "votes": 1,
+      "assumption": "rafnet term held at clean value (weight 0.0719; cited max shift 0.034 -> p_cal < 0.003)"
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\6829\\68771\\6829-68771-0019.flac",
+      "codec": "g711_alaw",
+      "p_clean": 0.9836,
+      "p_codec": 0.7685,
+      "delta": -0.2151,
+      "verdict_codec": "SYNTHETIC",
+      "votes": 2,
+      "assumption": "rafnet term held at clean value (weight 0.0719; cited max shift 0.034 -> p_cal < 0.003)"
+    }
+  ],
+  "unseen_generators": "my_samples generators (SAPI David/Zira, Windows-TTS, ChatGPT voice) never in train; public-real FAR 0.0/0.0 for kept models per reports/candidates_public.json (cited, not re-run).",
+  "missing_groups": [
+    "whatsapp_opus_human",
+    "phone_line_human",
+    "hindi_tamil_speech",
+    "commercial_tts",
+    "real_voice_conversion"
+  ],
+  "rows_test": [
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1284\\1181\\1284-1181-0008.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0558,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.002,
+      "p_ra": 0.7835
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\2300\\131720\\2300-131720-0027.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0566,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.002,
+      "p_ra": 0.895
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1580\\141083\\1580-141083-0024.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0558,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.002,
+      "p_ra": 0.7848
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\6829\\68771\\6829-68771-0019.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.9836,
+      "verdict": "SYNTHETIC",
+      "votes": 2,
+      "agreement": 0.6667,
+      "p_mo": 0.9933,
+      "p_bi": 0.0021,
+      "p_ra": 0.7623
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1284\\1180\\1284-1180-0011.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0562,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.002,
+      "p_ra": 0.8399
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1580\\141083\\1580-141083-0041.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0558,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.002,
+      "p_ra": 0.7856
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\2830\\3980\\2830-3980-0014.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.056,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.002,
+      "p_ra": 0.8127
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\2830\\3980\\2830-3980-0005.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0564,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0001,
+      "p_bi": 0.002,
+      "p_ra": 0.8626
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1284\\1181\\1284-1181-0001.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0564,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.0021,
+      "p_ra": 0.8567
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\5105\\28233\\5105-28233-0006.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0558,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.002,
+      "p_ra": 0.7832
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1284\\1181\\1284-1181-0018.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0563,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.002,
+      "p_ra": 0.8512
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1580\\141083\\1580-141083-0012.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0561,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.0021,
+      "p_ra": 0.8252
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1580\\141083\\1580-141083-0033.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0563,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.0021,
+      "p_ra": 0.8461
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\2830\\3980\\2830-3980-0053.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.056,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.002,
+      "p_ra": 0.8133
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1580\\141084\\1580-141084-0037.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0558,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.002,
+      "p_ra": 0.7871
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\2830\\3979\\2830-3979-0011.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0561,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.002,
+      "p_ra": 0.8278
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1284\\1180\\1284-1180-0024.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0561,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.002,
+      "p_ra": 0.8278
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\2300\\131720\\2300-131720-0026.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0567,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.0021,
+      "p_ra": 0.8984
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\2300\\131720\\2300-131720-0033.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0566,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.0021,
+      "p_ra": 0.8886
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1580\\141084\\1580-141084-0024.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.056,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.0021,
+      "p_ra": 0.8053
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1580\\141083\\1580-141083-0020.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.9434,
+      "verdict": "SYNTHETIC",
+      "votes": 2,
+      "agreement": 0.6667,
+      "p_mo": 0.8067,
+      "p_bi": 0.002,
+      "p_ra": 0.8856
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1284\\134647\\1284-134647-0002.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0564,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.0021,
+      "p_ra": 0.8611
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1284\\1181\\1284-1181-0021.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0561,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0001,
+      "p_bi": 0.002,
+      "p_ra": 0.8212
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\2830\\3980\\2830-3980-0036.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.056,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0002,
+      "p_bi": 0.002,
+      "p_ra": 0.7962
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\6829\\68769\\6829-68769-0053.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.9846,
+      "verdict": "SYNTHETIC",
+      "votes": 2,
+      "agreement": 0.6667,
+      "p_mo": 0.9997,
+      "p_bi": 0.0021,
+      "p_ra": 0.8727
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1221\\135766\\1221-135766-0001.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0566,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.0021,
+      "p_ra": 0.8901
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1221\\135767\\1221-135767-0006.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0562,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.002,
+      "p_ra": 0.8331
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1580\\141083\\1580-141083-0013.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0568,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.002,
+      "p_ra": 0.913
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\2830\\3980\\2830-3980-0054.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.056,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.002,
+      "p_ra": 0.8125
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\2830\\3979\\2830-3979-0010.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0564,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.002,
+      "p_ra": 0.8682
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1580\\141083\\1580-141083-0026.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0561,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.002,
+      "p_ra": 0.8254
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\6829\\68771\\6829-68771-0020.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.9845,
+      "verdict": "SYNTHETIC",
+      "votes": 2,
+      "agreement": 0.6667,
+      "p_mo": 0.9996,
+      "p_bi": 0.002,
+      "p_ra": 0.8279
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\5105\\28240\\5105-28240-0004.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.056,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.002,
+      "p_ra": 0.8102
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\5105\\28241\\5105-28241-0006.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0565,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0002,
+      "p_bi": 0.0021,
+      "p_ra": 0.8652
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\2830\\3980\\2830-3980-0029.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.056,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.002,
+      "p_ra": 0.8149
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\2300\\131720\\2300-131720-0037.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.056,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.002,
+      "p_ra": 0.8127
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1284\\1180\\1284-1180-0010.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0564,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.002,
+      "p_ra": 0.8648
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\2830\\3980\\2830-3980-0063.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0562,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.002,
+      "p_ra": 0.8332
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\1221\\135767\\1221-135767-0013.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0563,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.002,
+      "p_ra": 0.8468
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\5105\\28240\\5105-28240-0022.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0559,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.002,
+      "p_ra": 0.7927
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-1284_000.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9988,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 1.0,
+      "p_bi": 0.9368,
+      "p_ra": 0.862
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-1284_001.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9928,
+      "verdict": "SYNTHETIC",
+      "votes": 2,
+      "agreement": 0.6667,
+      "p_mo": 1.0,
+      "p_bi": 0.2781,
+      "p_ra": 0.917
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-1284_002.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9865,
+      "verdict": "SYNTHETIC",
+      "votes": 2,
+      "agreement": 0.6667,
+      "p_mo": 0.9999,
+      "p_bi": 0.0584,
+      "p_ra": 0.7489
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-1580_003.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9887,
+      "verdict": "SYNTHETIC",
+      "votes": 2,
+      "agreement": 0.6667,
+      "p_mo": 1.0,
+      "p_bi": 0.1147,
+      "p_ra": 0.9007
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-6829_004.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.999,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 1.0,
+      "p_bi": 0.9954,
+      "p_ra": 0.8943
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-1580_005.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9968,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 0.9999,
+      "p_bi": 0.5943,
+      "p_ra": 0.6348
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-2830_006.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9847,
+      "verdict": "SYNTHETIC",
+      "votes": 2,
+      "agreement": 0.6667,
+      "p_mo": 0.9999,
+      "p_bi": 0.0036,
+      "p_ra": 0.8664
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-2300_007.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9988,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 1.0,
+      "p_bi": 0.9273,
+      "p_ra": 0.9321
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-2300_008.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9974,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 1.0,
+      "p_bi": 0.6532,
+      "p_ra": 0.9118
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-5105_009.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9887,
+      "verdict": "SYNTHETIC",
+      "votes": 2,
+      "agreement": 0.6667,
+      "p_mo": 1.0,
+      "p_bi": 0.1151,
+      "p_ra": 0.9093
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-2830_010.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9949,
+      "verdict": "SYNTHETIC",
+      "votes": 2,
+      "agreement": 0.6667,
+      "p_mo": 1.0,
+      "p_bi": 0.4075,
+      "p_ra": 0.8781
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-2830_011.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9886,
+      "verdict": "SYNTHETIC",
+      "votes": 2,
+      "agreement": 0.6667,
+      "p_mo": 0.9999,
+      "p_bi": 0.1161,
+      "p_ra": 0.8255
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-5105_012.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9848,
+      "verdict": "SYNTHETIC",
+      "votes": 2,
+      "agreement": 0.6667,
+      "p_mo": 0.9997,
+      "p_bi": 0.0066,
+      "p_ra": 0.8945
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-1284_013.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9986,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 0.9992,
+      "p_bi": 0.8889,
+      "p_ra": 0.9213
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-2300_014.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9961,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 1.0,
+      "p_bi": 0.5056,
+      "p_ra": 0.9226
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-1284_015.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9845,
+      "verdict": "SYNTHETIC",
+      "votes": 2,
+      "agreement": 0.6667,
+      "p_mo": 1.0,
+      "p_bi": 0.0027,
+      "p_ra": 0.8251
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-5105_016.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.985,
+      "verdict": "SYNTHETIC",
+      "votes": 2,
+      "agreement": 0.6667,
+      "p_mo": 1.0,
+      "p_bi": 0.0107,
+      "p_ra": 0.8801
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-1580_017.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9884,
+      "verdict": "SYNTHETIC",
+      "votes": 2,
+      "agreement": 0.6667,
+      "p_mo": 1.0,
+      "p_bi": 0.1071,
+      "p_ra": 0.8499
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-1580_018.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9919,
+      "verdict": "SYNTHETIC",
+      "votes": 2,
+      "agreement": 0.6667,
+      "p_mo": 0.9999,
+      "p_bi": 0.2397,
+      "p_ra": 0.8523
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-2300_019.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9977,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 1.0,
+      "p_bi": 0.7023,
+      "p_ra": 0.8923
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-1580_020.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9976,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 0.9999,
+      "p_bi": 0.6957,
+      "p_ra": 0.677
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-5105_021.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9987,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 1.0,
+      "p_bi": 0.9017,
+      "p_ra": 0.8941
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-6829_022.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9983,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 1.0,
+      "p_bi": 0.8191,
+      "p_ra": 0.893
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-6829_023.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9989,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 1.0,
+      "p_bi": 0.9725,
+      "p_ra": 0.8983
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-1580_024.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9845,
+      "verdict": "SYNTHETIC",
+      "votes": 2,
+      "agreement": 0.6667,
+      "p_mo": 1.0,
+      "p_bi": 0.0039,
+      "p_ra": 0.7802
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-6829_025.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9989,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 1.0,
+      "p_bi": 0.977,
+      "p_ra": 0.9085
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-2830_026.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9847,
+      "verdict": "SYNTHETIC",
+      "votes": 2,
+      "agreement": 0.6667,
+      "p_mo": 0.9998,
+      "p_bi": 0.0036,
+      "p_ra": 0.8932
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-5105_027.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9846,
+      "verdict": "SYNTHETIC",
+      "votes": 2,
+      "agreement": 0.6667,
+      "p_mo": 0.9999,
+      "p_bi": 0.005,
+      "p_ra": 0.8301
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-2830_028.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9848,
+      "verdict": "SYNTHETIC",
+      "votes": 2,
+      "agreement": 0.6667,
+      "p_mo": 1.0,
+      "p_bi": 0.0073,
+      "p_ra": 0.84
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-2830_029.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9989,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 1.0,
+      "p_bi": 0.9744,
+      "p_ra": 0.8956
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-1284_030.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.999,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 1.0,
+      "p_bi": 0.9972,
+      "p_ra": 0.895
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-6829_031.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9987,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 1.0,
+      "p_bi": 0.8968,
+      "p_ra": 0.9064
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-1580_032.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9989,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 0.9999,
+      "p_bi": 0.9686,
+      "p_ra": 0.6678
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-1580_033.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9884,
+      "verdict": "SYNTHETIC",
+      "votes": 2,
+      "agreement": 0.6667,
+      "p_mo": 0.9999,
+      "p_bi": 0.1158,
+      "p_ra": 0.7125
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-6829_034.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9989,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 1.0,
+      "p_bi": 0.9812,
+      "p_ra": 0.912
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-1221_035.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9982,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 0.9999,
+      "p_bi": 0.7905,
+      "p_ra": 0.8234
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-2300_036.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9964,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 0.9999,
+      "p_bi": 0.5326,
+      "p_ra": 0.8985
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-2300_037.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.0598,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0021,
+      "p_bi": 0.0183,
+      "p_ra": 0.8861
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-5105_038.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9985,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 1.0,
+      "p_bi": 0.8488,
+      "p_ra": 0.9318
+    },
+    {
+      "file": "data/synth_vc/vc_ts_fast_spk-2830_039.wav",
+      "y": 1,
+      "group": "voice_conversion_crudeVC",
+      "p_cal": 0.9853,
+      "verdict": "SYNTHETIC",
+      "votes": 2,
+      "agreement": 0.6667,
+      "p_mo": 0.9999,
+      "p_bi": 0.0193,
+      "p_ra": 0.8658
+    }
+  ],
+  "rows_my": [
+    {
+      "file": "samples/real/260-123286-0012.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0562,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.002,
+      "p_ra": 0.8323
+    },
+    {
+      "file": "samples/real/4446-2273-0021.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0563,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.002,
+      "p_ra": 0.8439
+    },
+    {
+      "file": "samples/real/5142-33396-0059.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0561,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.0021,
+      "p_ra": 0.818
+    },
+    {
+      "file": "samples/real/6930-81414-0025.flac",
+      "y": 0,
+      "group": "clean_human_librispeech",
+      "p_cal": 0.0559,
+      "verdict": "UNCERTAIN",
+      "votes": 1,
+      "agreement": 0.3333,
+      "p_mo": 0.0,
+      "p_bi": 0.002,
+      "p_ra": 0.7917
+    },
+    {
+      "file": "samples/fake/sapi_david_2.wav",
+      "y": 1,
+      "group": "windows_sapi_tts",
+      "p_cal": 0.9981,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 1.0,
+      "p_bi": 0.7684,
+      "p_ra": 0.8238
+    },
+    {
+      "file": "samples/fake/sapi_david_4.wav",
+      "y": 1,
+      "group": "windows_sapi_tts",
+      "p_cal": 0.9847,
+      "verdict": "SYNTHETIC",
+      "votes": 2,
+      "agreement": 0.6667,
+      "p_mo": 1.0,
+      "p_bi": 0.0062,
+      "p_ra": 0.8099
+    },
+    {
+      "file": "samples/fake/sapi_zira_2.wav",
+      "y": 1,
+      "group": "windows_sapi_tts",
+      "p_cal": 0.9988,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 1.0,
+      "p_bi": 0.9333,
+      "p_ra": 0.8498
+    },
+    {
+      "file": "samples/fake/sapi_zira_4.wav",
+      "y": 1,
+      "group": "windows_sapi_tts",
+      "p_cal": 0.9846,
+      "verdict": "SYNTHETIC",
+      "votes": 2,
+      "agreement": 0.6667,
+      "p_mo": 1.0,
+      "p_bi": 0.0046,
+      "p_ra": 0.8077
+    },
+    {
+      "file": "samples/fake/chatgpt_voice/rafnet_ai_voice_test.wav",
+      "y": 1,
+      "group": "assistant_voice_chatgpt",
+      "p_cal": 0.999,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 1.0,
+      "p_bi": 0.9969,
+      "p_ra": 0.8603
+    },
+    {
+      "file": "samples/fake/windows_tts/tts_test.wav",
+      "y": 1,
+      "group": "windows_tts",
+      "p_cal": 0.999,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 1.0,
+      "p_bi": 0.9955,
+      "p_ra": 0.8262
+    },
+    {
+      "file": "samples/win_tts/sapi_david_0.wav",
+      "y": 1,
+      "group": "windows_sapi_tts_extended",
+      "p_cal": 0.9989,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 1.0,
+      "p_bi": 0.9615,
+      "p_ra": 0.8239
+    },
+    {
+      "file": "samples/win_tts/sapi_david_2.wav",
+      "y": 1,
+      "group": "windows_sapi_tts_extended",
+      "p_cal": 0.9981,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 1.0,
+      "p_bi": 0.7684,
+      "p_ra": 0.8238
+    },
+    {
+      "file": "samples/win_tts/sapi_david_4.wav",
+      "y": 1,
+      "group": "windows_sapi_tts_extended",
+      "p_cal": 0.9847,
+      "verdict": "SYNTHETIC",
+      "votes": 2,
+      "agreement": 0.6667,
+      "p_mo": 1.0,
+      "p_bi": 0.0062,
+      "p_ra": 0.8099
+    },
+    {
+      "file": "samples/win_tts/sapi_zira_0.wav",
+      "y": 1,
+      "group": "windows_sapi_tts_extended",
+      "p_cal": 0.9988,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 1.0,
+      "p_bi": 0.9532,
+      "p_ra": 0.8236
+    },
+    {
+      "file": "samples/win_tts/sapi_zira_1.wav",
+      "y": 1,
+      "group": "windows_sapi_tts_extended",
+      "p_cal": 0.9988,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 1.0,
+      "p_bi": 0.9337,
+      "p_ra": 0.814
+    },
+    {
+      "file": "samples/win_tts/sapi_zira_2.wav",
+      "y": 1,
+      "group": "windows_sapi_tts_extended",
+      "p_cal": 0.9988,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 1.0,
+      "p_bi": 0.9333,
+      "p_ra": 0.8498
+    },
+    {
+      "file": "samples/win_tts/sapi_zira_3.wav",
+      "y": 1,
+      "group": "windows_sapi_tts_extended",
+      "p_cal": 0.999,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 1.0,
+      "p_bi": 0.9981,
+      "p_ra": 0.8158
+    },
+    {
+      "file": "samples/win_tts/sapi_zira_4.wav",
+      "y": 1,
+      "group": "windows_sapi_tts_extended",
+      "p_cal": 0.9846,
+      "verdict": "SYNTHETIC",
+      "votes": 2,
+      "agreement": 0.6667,
+      "p_mo": 1.0,
+      "p_bi": 0.0046,
+      "p_ra": 0.8077
+    },
+    {
+      "file": "samples/win_tts/sapi_zira_5.wav",
+      "y": 1,
+      "group": "windows_sapi_tts_extended",
+      "p_cal": 0.9989,
+      "verdict": "SYNTHETIC",
+      "votes": 3,
+      "agreement": 1.0,
+      "p_mo": 1.0,
+      "p_bi": 0.976,
+      "p_ra": 0.8195
+    }
+  ],
+  "targets": "No numeric targets were pre-registered; numbers reported as measured. Next steps in Honest reading."
+}

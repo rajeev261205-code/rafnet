@@ -1,0 +1,72 @@
+{
+  "id": "Hemgg/Deepfake-audio-detection",
+  "files": [
+    {
+      "file": "samples/real/260-123286-0012.flac",
+      "y": 0,
+      "p": 0.0507,
+      "ms": 307.5,
+      "labels": [
+        "AIVoice",
+        "HumanVoice"
+      ]
+    },
+    {
+      "file": "samples/real/6930-81414-0025.flac",
+      "y": 0,
+      "p": 0.2897,
+      "ms": 256.1,
+      "labels": [
+        "AIVoice",
+        "HumanVoice"
+      ]
+    },
+    {
+      "file": "samples/fake/sapi_david_2.wav",
+      "y": 1,
+      "p": 0.9769,
+      "ms": 386.7,
+      "labels": [
+        "AIVoice",
+        "HumanVoice"
+      ]
+    },
+    {
+      "file": "samples/fake/sapi_zira_2.wav",
+      "y": 1,
+      "p": 0.9774,
+      "ms": 370.0,
+      "labels": [
+        "AIVoice",
+        "HumanVoice"
+      ]
+    },
+    {
+      "file": "samples/fake/chatgpt_voice/rafnet_ai_voice_test.wav",
+      "y": 1,
+      "p": 0.9735,
+      "ms": 363.0,
+      "labels": [
+        "AIVoice",
+        "HumanVoice"
+      ]
+    },
+    {
+      "file": "samples/fake/windows_tts/tts_test.wav",
+      "y": 1,
+      "p": 0.9772,
+      "ms": 372.5,
+      "labels": [
+        "AIVoice",
+        "HumanVoice"
+      ]
+    }
+  ],
+  "auc": 1.0,
+  "eer": {
+    "eer": 0.0,
+    "threshold": 0.9735,
+    "far": 0.0,
+    "frr": 0.0
+  }
+}

@@ -16,9 +16,11 @@ class RateLimiter:
         self.max_requests = max_requests
         self.window = window_seconds
         self._hits: dict[str, deque[float]] = defaultdict(deque)
+        self._last_prune = time.monotonic()
 
     def allow(self, key: str) -> tuple[bool, float]:
         now = time.monotonic()
+        self._prune(now)
         hits = self._hits[key]
         while hits and now - hits[0] > self.window:
             hits.popleft()
@@ -26,6 +28,19 @@ class RateLimiter:
             return False, max(0.0, self.window - (now - hits[0]))
         hits.append(now)
         return True, 0.0
+
+    def _prune(self, now: float) -> None:
+        """Drop idle keys so spoofed IPs cannot grow the map without bound."""
+        if now - self._last_prune < 300.0:
+            return
+        self._last_prune = now
+        stale = [
+            k
+            for k, hits in self._hits.items()
+            if not hits or now - hits[-1] > self.window
+        ]
+        for key in stale:
+            del self._hits[key]
 
 
 def get_analyze_limiter() -> RateLimiter:

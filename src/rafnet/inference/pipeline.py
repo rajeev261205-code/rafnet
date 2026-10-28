@@ -415,7 +415,7 @@ class InferencePipeline(nn.Module):
         
         torch.save(checkpoint, path)
     
-    @torch.no_grad()
+    @torch.inference_mode()
     def predict(
         self,
         audio: torch.Tensor,
@@ -571,7 +571,7 @@ class InferencePipeline(nn.Module):
         
         return output
     
-    @torch.no_grad()
+    @torch.inference_mode()
     def predict_audio_only(
         self,
         audio: torch.Tensor,
@@ -593,7 +593,7 @@ class InferencePipeline(nn.Module):
         finally:
             self.gateway1.config.ablation_mode = original_mode
     
-    @torch.no_grad()
+    @torch.inference_mode()
     def predict_with_network(
         self,
         audio: torch.Tensor,

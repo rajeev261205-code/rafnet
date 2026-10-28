@@ -1,0 +1,107 @@
+{
+  "generated_at": "2026-10-15T16:24:39.457508+00:00",
+  "fake_chunks": [
+    {
+      "chunk": 1,
+      "risk": "HIGH",
+      "pred": "SYNTHETIC",
+      "p_ens": 0.999,
+      "alert": "HIGH",
+      "window": "1/5"
+    },
+    {
+      "chunk": 2,
+      "risk": "MEDIUM",
+      "pred": "UNCERTAIN",
+      "p_ens": 0.9985,
+      "alert": "HIGH",
+      "window": "2/5"
+    },
+    {
+      "chunk": 3,
+      "risk": "MEDIUM",
+      "pred": "UNCERTAIN",
+      "p_ens": 0.9852,
+      "alert": "HIGH",
+      "window": "3/5"
+    },
+    {
+      "chunk": 4,
+      "risk": "HIGH",
+      "pred": "SYNTHETIC",
+      "p_ens": 0.9849,
+      "alert": "HIGH",
+      "window": "4/5"
+    },
+    {
+      "chunk": 5,
+      "risk": "MEDIUM",
+      "pred": "UNCERTAIN",
+      "p_ens": 0.0592,
+      "alert": "REVIEW",
+      "window": "5/5"
+    },
+    {
+      "chunk": 6,
+      "risk": "MEDIUM",
+      "pred": "UNCERTAIN",
+      "p_ens": 0.079,
+      "alert": "REVIEW",
+      "window": "5/5"
+    }
+  ],
+  "real_chunks": [
+    {
+      "chunk": 1,
+      "risk": "MEDIUM",
+      "pred": "UNCERTAIN",
+      "p_ens": 0.0565,
+      "alert": "REVIEW",
+      "window": "1/5"
+    },
+    {
+      "chunk": 2,
+      "risk": "HIGH",
+      "pred": "SYNTHETIC",
+      "p_ens": 0.0584,
+      "alert": "REVIEW",
+      "window": "2/5"
+    },
+    {
+      "chunk": 3,
+      "risk": "HIGH",
+      "pred": "SYNTHETIC",
+      "p_ens": 0.0569,
+      "alert": "REVIEW",
+      "window": "3/5"
+    },
+    {
+      "chunk": 4,
+      "risk": "MEDIUM",
+      "pred": "UNCERTAIN",
+      "p_ens": 0.0561,
+      "alert": "REVIEW",
+      "window": "4/5"
+    },
+    {
+      "chunk": 5,
+      "risk": "MEDIUM",
+      "pred": "UNCERTAIN",
+      "p_ens": 0.9762,
+      "alert": "HIGH",
+      "window": "5/5"
+    },
+    {
+      "chunk": 6,
+      "risk": "MEDIUM",
+      "pred": "UNCERTAIN",
+      "p_ens": 0.9976,
+      "alert": "HIGH",
+      "window": "5/5"
+    }
+  ],
+  "real_never_critical": true,
+  "no_early_critical_before_window": true,
+  "fake_critical_chunks": [],
+  "pass": true
+}

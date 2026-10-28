@@ -255,9 +255,22 @@ class TestLogEndpoint:
 
 class TestAdminEndpoints:
     """Tests for admin endpoints."""
-    
-    def test_fit_classical(self, client, mock_inference_service):
+
+    def test_admin_disabled_by_default(self, client, mock_inference_service, monkeypatch):
+        """Mutating admin endpoints must refuse unauthenticated calls unless opted in."""
+        monkeypatch.delenv("RAFNET_ENABLE_ADMIN", raising=False)
+        response = client.post(
+            "/api/v1/admin/fit-classical",
+            json={
+                "embeddings": [[0.1] * 256, [0.2] * 256],
+                "labels": [0, 1],
+            }
+        )
+        assert response.status_code == 403
+
+    def test_fit_classical(self, client, mock_inference_service, monkeypatch):
         """Test fit classical endpoint."""
+        monkeypatch.setenv("RAFNET_ENABLE_ADMIN", "true")
         response = client.post(
             "/api/v1/admin/fit-classical",
             json={
@@ -268,9 +281,10 @@ class TestAdminEndpoints:
         assert response.status_code == 200
         data = response.json()
         assert data["status"] == "success"
-    
-    def test_fit_quantum(self, client, mock_inference_service):
+
+    def test_fit_quantum(self, client, mock_inference_service, monkeypatch):
         """Test fit quantum endpoint."""
+        monkeypatch.setenv("RAFNET_ENABLE_ADMIN", "true")
         response = client.post(
             "/api/v1/admin/fit-quantum",
             json={"embeddings": [[0.1] * 256, [0.2] * 256]}
@@ -281,8 +295,9 @@ class TestAdminEndpoints:
             # Check what the expected format is
             print(f"Response: {response.json()}")
     
-    def test_fit_calibration(self, client, mock_inference_service):
+    def test_fit_calibration(self, client, mock_inference_service, monkeypatch):
         """Test fit calibration endpoint."""
+        monkeypatch.setenv("RAFNET_ENABLE_ADMIN", "true")
         response = client.post(
             "/api/v1/admin/fit-calibration",
             json={
@@ -296,8 +311,9 @@ class TestAdminEndpoints:
         data = response.json()
         assert data["status"] == "success"
     
-    def test_optimize_thresholds(self, client, mock_inference_service):
+    def test_optimize_thresholds(self, client, mock_inference_service, monkeypatch):
         """Test optimize thresholds endpoint."""
+        monkeypatch.setenv("RAFNET_ENABLE_ADMIN", "true")
         response = client.post(
             "/api/v1/admin/optimize-thresholds",
             json={

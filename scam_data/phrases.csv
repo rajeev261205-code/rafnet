@@ -1,0 +1,35 @@
+text,label,language,notes
+"Hello, I am calling from State Bank head office. Your account will be blocked today itself. Share your OTP with me right now.",scam,en,credentials+threat
+"Your SBI credit card has been suspended. Confirm your card number and CVV immediately to reactivate.",scam,en,credentials
+"This is customer care. Transfer Rs.45000 to account 9810012345 within two hours or the police will arrest you.",scam,en,money+threat
+"You have won a lottery of ten lakh rupees. Send Rs.5000 as processing fee to claim your prize money.",scam,en,prize lure
+"Your KYC is expired. Update it now by installing AnyDesk from the link I am sending you.",scam,en,remote access
+"I am from the income tax department. There is a court case against you. Pay the penalty on this UPI id today.",scam,en,impersonation
+"Your refund of Rs.9999 is approved. Share the OTP you just received to get the money back.",scam,en,refund lure
+"Microsoft technical support here. Your computer has viruses. Download TeamViewer so I can fix it.",scam,en,remote access
+"Main Jio customer care se bol raha hoon. Aapka SIM aaj band ho jayega. OTP batao turant.",scam,hi,SIM threat
+"Aapke bank khaate se paise katne wale hain. Turant apna PIN bataiye warna account block ho jayega.",scam,hi,credentials+threat
+"Badhaai ho! Aapne 25 lakh ki lottery jeeti hai. Prize ke liye pehle Rs.10000 transfer karo.",scam,hi,prize lure
+"CBI se bol raha hoon. Aapke naam se warrant nikla hai. Case khatm karne ke liye paisa bhejo.",scam,hi,arrest threat
+"KYC update ke liye AnyDesk install karo aur screen share karo. Main bank se hoon.",scam,hi,remote access
+"Aapka SBI account band hone wala hai. Aadhaar number aur OTP confirm karo abhi.",scam,hi,credentials
+"Ungal SIM inru deactivate seiya padum. OTP sollunga, udane verify pannunga.",scam,ta,SIM threat
+"Bank manager pesuren. Ungal account block aagum. PIN number sollunga.",scam,ta,credentials
+"Lottery la 10 latcham jeyichirukeenga. Parisu vaanga Rs.5000 anuppunga.",scam,ta,prize lure
+"Police complaint ungal mela irukku. Case close panna panam transfer pannunga.",scam,ta,threat+money
+"Hi mom, I will be home for dinner around seven. Can you keep some rice ready?",benign,en,family
+"The food delivery will arrive in twenty minutes. Please keep the change ready.",benign,en,delivery
+"Your doctor appointment is confirmed for tomorrow at ten in the morning.",benign,en,appointment
+"Never share your OTP with anyone who calls you. Banks never ask for PIN on a call.",benign,en,advisory FP guard
+"Beware of KYC fraud calls. Do not install apps suggested by strangers.",benign,en,advisory FP guard
+"I got an OTP for my own login and entered it in the official app myself.",benign,en,first-person FP guard
+"The meeting is shifted to three pm. Please bring the printed report with you.",benign,en,office
+"Happy birthday! We are cutting the cake at eight, please come early with the kids.",benign,en,family event
+"Your parcel is at the gate. Please collect it in the evening when you are home.",benign,en,delivery
+"Amma, naan evening seven mani ku veetuku varuven. Saapadu ready pannunga.",benign,ta,family
+"Doctor appointment naalaikku morning ten mani ku confirm aayirukku.",benign,ta,appointment
+"OTP yaarukum share pannaadheenga. Bank eppavum phone la PIN kekkaadhu.",benign,ta,advisory FP guard
+"Amma, veetuku pogum bodhu paal vangiduven. Vera edhuvum venuma?",benign,hi,family
+"Kal subah das baje doctor ke paas appointment hai. Time par pahunch jana.",benign,hi,appointment
+"Kisi bhi anjaan call par apna OTP mat batao. Bank kabhi phone par PIN nahi maangta.",benign,hi,advisory FP guard
+"Meeting teen baje tak shift ho gayi hai. Report saath lekar aana.",benign,hi,office

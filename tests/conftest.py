@@ -1,9 +1,11 @@
 import pytest
 import sys
+from pathlib import Path
+
 import numpy as np
 
-# Add src to path
-sys.path.insert(0, '/home/sk/rafnet/src')
+# Add src to path (repo-relative; works on any machine/OS).
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 try:
     import torch
@@ -79,6 +81,16 @@ def synthetic_data():
 
 def pytest_configure(config):
     config.addinivalue_line("markers", "skip_torch: mark test as requiring torch")
+
+
+@pytest.fixture(autouse=True)
+def _isolate_from_real_store(monkeypatch):
+    """Tests must never reach the real store: strip Supabase credentials so
+    get_store() always resolves to a fresh in-memory adapter, even if the
+    developer exported production env vars in their shell."""
+    monkeypatch.delenv("SUPABASE_URL", raising=False)
+    monkeypatch.delenv("SUPABASE_ANON_KEY", raising=False)
+    monkeypatch.delenv("SUPABASE_SERVICE_ROLE_KEY", raising=False)
 
 
 def pytest_runtest_setup(item):

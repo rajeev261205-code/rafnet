@@ -55,9 +55,14 @@ seed `experiments` from `experiments/phase19_report.json` + ablation `results.js
 - Enable RLS on all user tables; policies: owner can SELECT/INSERT/UPDATE own
   `user_id = auth.uid()` rows; no anonymous writes; `models`/`experiments`
   read-only to authenticated users.
+- The backend uses the service-role key (bypasses RLS), so it **also** scopes
+  every query in SQL: `user_id=eq.<uid>` for authenticated callers and
+  `user_id=is.null` for anonymous sessions. No endpoint fetches all rows and
+  post-filters in Python.
 - Never disable RLS for dev convenience; never expose `SERVICE_ROLE_KEY` to frontend.
 
 ## Env separation
 
-Frontend: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
-Backend: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` (server-only).
+Frontend (Vite, public): `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`.
+Backend (server-only): `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`,
+`SUPABASE_ANON_KEY` (token validation).

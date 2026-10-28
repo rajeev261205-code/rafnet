@@ -1,0 +1,72 @@
+{
+  "id": "WWWxp/wav2vec2_spoof_dection1",
+  "files": [
+    {
+      "file": "samples/real/260-123286-0012.flac",
+      "y": 0,
+      "p": 0.4873,
+      "ms": 379.0,
+      "labels": [
+        "bonafide",
+        "spoof"
+      ]
+    },
+    {
+      "file": "samples/real/6930-81414-0025.flac",
+      "y": 0,
+      "p": 0.485,
+      "ms": 259.2,
+      "labels": [
+        "bonafide",
+        "spoof"
+      ]
+    },
+    {
+      "file": "samples/fake/sapi_david_2.wav",
+      "y": 1,
+      "p": 0.4855,
+      "ms": 378.3,
+      "labels": [
+        "bonafide",
+        "spoof"
+      ]
+    },
+    {
+      "file": "samples/fake/sapi_zira_2.wav",
+      "y": 1,
+      "p": 0.4807,
+      "ms": 383.2,
+      "labels": [
+        "bonafide",
+        "spoof"
+      ]
+    },
+    {
+      "file": "samples/fake/chatgpt_voice/rafnet_ai_voice_test.wav",
+      "y": 1,
+      "p": 0.4975,
+      "ms": 382.5,
+      "labels": [
+        "bonafide",
+        "spoof"
+      ]
+    },
+    {
+      "file": "samples/fake/windows_tts/tts_test.wav",
+      "y": 1,
+      "p": 0.4851,
+      "ms": 426.9,
+      "labels": [
+        "bonafide",
+        "spoof"
+      ]
+    }
+  ],
+  "auc": 0.5,
+  "eer": {
+    "eer": 0.5,
+    "threshold": 0.4855,
+    "far": 0.5,
+    "frr": 0.5
+  }
+}

@@ -29,11 +29,13 @@ class LFCCExtractor(nn.Module):
         self.register_buffer("mel_basis", torch.from_numpy(
             librosa.filters.mel(sr=config.sample_rate, n_fft=config.n_fft, n_mels=config.n_lfcc, fmin=config.fmin, fmax=config.fmax)
         ).float())
+        # Precomputed once (identical values to the per-call construction).
+        self.register_buffer("hann_window", torch.hann_window(config.win_length))
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         spec = torch.stft(
             x, n_fft=self.config.n_fft, hop_length=self.config.hop_length,
-            win_length=self.config.win_length, window=torch.hann_window(self.config.win_length).to(x.device),
+            win_length=self.config.win_length, window=self.hann_window.to(x.device),
             return_complex=True
         )
         power_spec = spec.abs().pow(2)
@@ -50,11 +52,13 @@ class MFCCExtractor(nn.Module):
         self.register_buffer("mel_basis", torch.from_numpy(
             librosa.filters.mel(sr=config.sample_rate, n_fft=config.n_fft, n_mels=config.n_mels, fmin=config.fmin, fmax=config.fmax)
         ).float())
+        # Precomputed once (identical values to the per-call construction).
+        self.register_buffer("hann_window", torch.hann_window(config.win_length))
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         spec = torch.stft(
             x, n_fft=self.config.n_fft, hop_length=self.config.hop_length,
-            win_length=self.config.win_length, window=torch.hann_window(self.config.win_length).to(x.device),
+            win_length=self.config.win_length, window=self.hann_window.to(x.device),
             return_complex=True
         )
         power_spec = spec.abs().pow(2)
@@ -92,11 +96,13 @@ class SpectralExtractor(nn.Module):
     def __init__(self, config: HandcraftedConfig):
         super().__init__()
         self.config = config
+        # Precomputed once (identical values to the per-call construction).
+        self.register_buffer("hann_window", torch.hann_window(config.win_length))
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         spec = torch.stft(
             x, n_fft=self.config.n_fft, hop_length=self.config.hop_length,
-            win_length=self.config.win_length, window=torch.hann_window(self.config.win_length).to(x.device),
+            win_length=self.config.win_length, window=self.hann_window.to(x.device),
             return_complex=True
         )
         magnitude = spec.abs()  # (batch, freq, time)
@@ -162,6 +168,25 @@ class ProsodicExtractor(nn.Module):
         return torch.cat([f0_stats, energy_stats], dim=-1)
 
 
+def _autocorr_full_fft(y: np.ndarray) -> np.ndarray:
+    """Full autocorrelation via FFT (Wiener-Khinchin), matching np.correlate(y, y, mode='full').
+
+    Direct correlation is O(N^2) — minutes on a 30 s clip. The FFT form is
+    O(N log N) (~ms) with the same values up to floating-point noise (~1e-7
+    relative in float64), which the downstream rounded outputs absorb.
+    """
+    n = int(len(y))
+    if n == 0:
+        return np.zeros(1, dtype=np.float64)
+    size = 1 << (2 * n - 1).bit_length()
+    spectrum = np.fft.rfft(np.asarray(y, dtype=np.float64), n=size)
+    circ = np.fft.irfft(np.abs(spectrum) ** 2, n=size)
+    # Circular lags 0..n-1 are first; negative lags -(n-1)..-1 wrap at the
+    # end (unpolluted: zero padding covers indices >= n). Reorder to the
+    # np.correlate(..., mode='full') layout: [-(n-1) .. +(n-1)].
+    return np.concatenate([circ[size - (n - 1):], circ[:n]])
+
+
 class VoiceQualityExtractor(nn.Module):
     def __init__(self, config: HandcraftedConfig):
         super().__init__()
@@ -193,7 +218,7 @@ class VoiceQualityExtractor(nn.Module):
             else:
                 shimmer_list.append(0.0)
             
-            autocorr = np.correlate(y, y, mode='full')
+            autocorr = _autocorr_full_fft(y)
             autocorr = autocorr[len(autocorr)//2:]
             peaks = np.where((autocorr[1:-1] > autocorr[:-2]) & (autocorr[1:-1] > autocorr[2:]))[0] + 1
             if len(peaks) > 1:

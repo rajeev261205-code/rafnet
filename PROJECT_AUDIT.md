@@ -1,8 +1,8 @@
-# PROJECT_AUDIT.md — Aegis Voice SOC / RAFNet (full audit 2026-10-08)
+# PROJECT_AUDIT.md — RAFNet (full audit 2026-10-08)
 
 Sources: `D:\RAJEEV\DOCUMENTS\SYMPOSIUM & HACKTHON\SAIRAM\rafnet` (authoritative,
-mirrored at `C:\Users\rajee\rafnet\rafnet`), Stitch `stitch_aegis_voice_soc_dashboard`
-(15 screens), `C:\Users\rajee\aegisvoice-frontend` (Next.js 16 scaffold).
+mirrored at `C:\Users\rajee\rafnet\rafnet`), `frontend/design-ref/screens`
+(reference screens), `frontend/` (Vite scaffold).
 `rafnet.zip` (~560MB) = rafnet tree + venv (venv excluded).
 
 ## 1. Architecture
@@ -35,7 +35,7 @@ model adapter + risk engine separation. See ARCHITECTURE.md, API.md.
 
 Stitch: 15 static HTML screens (SOC dashboard, live console x3, forensic x3, call
 sessions x3, threat history x3, telemetry/forensics) — visual reference only.
-Next.js scaffold (`aegisvoice-frontend`, Next 16.4/React 19/Tailwind 4): routes
+Vite scaffold (`frontend`, React 19/Tailwind 4): routes
 overview, live, analyze, sessions, history, models, network, fusion, research, settings.
 `services/api.ts` was MOCK-ONLY (fake 2s analyze, setInterval realtime) with
 `data/mock.ts` demo metrics (98.4% etc, `isDemo:true`) — NOT model outputs.

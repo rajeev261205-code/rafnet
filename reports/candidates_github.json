@@ -1,0 +1,135 @@
+{
+  "generated_at": "2026-10-15T14:29:37.698680+00:00",
+  "repos": {
+    "SSL_Anti-spoofing": {
+      "exists": true,
+      "full_name": "TakHemlata/SSL_Anti-spoofing",
+      "description": "This repository includes the code to reproduce our paper \"Automatic speaker verification spoofing and deepfake detection using wav2vec 2.0 and data augmentation\". ",
+      "license": "MIT",
+      "default_branch": "main",
+      "pushed_at": "2023-09-26T04:35:06Z"
+    },
+    "AASIST": {
+      "exists": true,
+      "full_name": "clovaai/aasist",
+      "description": "Official PyTorch implementation of \"AASIST: Audio Anti-Spoofing using Integrated Spectro-Temporal Graph Attention Networks\"",
+      "license": "MIT",
+      "default_branch": "main",
+      "pushed_at": "2023-06-25T13:15:51Z"
+    },
+    "RawNet2_ASVspoof_baseline": {
+      "exists": false,
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    }
+  },
+  "backbones": {
+    "facebook/wav2vec2-xls-r-300m": {
+      "exists": true,
+      "license": null,
+      "pipeline": null,
+      "has_pytorch_bin": true,
+      "has_safetensors": false,
+      "arch": [
+        "Wav2Vec2ForPreTraining"
+      ],
+      "note": "config verified; weights NOT downloaded (bandwidth); for GPU notebook / embedding-head training"
+    },
+    "microsoft/wavlm-large": {
+      "exists": true,
+      "license": null,
+      "pipeline": "feature-extraction",
+      "has_pytorch_bin": true,
+      "has_safetensors": false,
+      "arch": [
+        "WavLMModel"
+      ],
+      "note": "config verified; weights NOT downloaded (bandwidth); for GPU notebook / embedding-head training"
+    },
+    "openai/whisper-small": {
+      "exists": true,
+      "license": null,
+      "pipeline": "automatic-speech-recognition",
+      "has_pytorch_bin": true,
+      "has_safetensors": true,
+      "arch": [
+        "WhisperForConditionalGeneration"
+      ],
+      "note": "config verified; weights NOT downloaded (bandwidth); for GPU notebook / embedding-head training"
+    },
+    "openai/whisper-medium": {
+      "exists": true,
+      "license": null,
+      "pipeline": "automatic-speech-recognition",
+      "has_pytorch_bin": true,
+      "has_safetensors": true,
+      "arch": [
+        "WhisperForConditionalGeneration"
+      ],
+      "note": "config verified; weights NOT downloaded (bandwidth); for GPU notebook / embedding-head training"
+    }
+  },
+  "speechbrain": {
+    "installed": false,
+    "hub_exists": true,
+    "license": "apache-2.0 (tag)",
+    "files": [
+      ".gitattributes",
+      "README.md",
+      "classifier.ckpt",
+      "config.json",
+      "embedding_model.ckpt",
+      "example1.wav",
+      "example2.flac",
+      "hyperparams.yaml",
+      "label_encoder.txt",
+      "mean_var_norm_emb.ckpt"
+    ],
+    "note": "Hub repo verified; speechbrain package NOT installed in .venv \u2014 enrollment biometric stays 'not installed' until `pip install speechbrain` (additive, Phase 5)."
+  },
+  "repo_contents": {
+    "SSL_Anti-spoofing_root": {
+      "repo": "TakHemlata/SSL_Anti-spoofing",
+      "path": "",
+      "entries": [
+        ".gitignore",
+        "DF-keys-stage-1",
+        "LA-keys-stage-1",
+        "LICENSE",
+        "README.md",
+        "RawBoost.py",
+        "Scores",
+        "Simplified_CM_solution.py",
+        "core_scripts",
+        "data_utils_SSL.py",
+        "database",
+        "eval_metric_LA.py",
+        "eval_metrics_DF.py",
+        "evaluate_2021_DF.py",
+        "evaluate_2021_LA.py",
+        "fairseq-a54021305d6b3c4c5959ac9395135f63202db8f1",
+        "main_SSL_DF.py",
+        "main_SSL_LA.py",
+        "model.py",
+        "requirements.txt"
+      ]
+    },
+    "AASIST_root": {
+      "repo": "clovaai/aasist",
+      "path": "",
+      "entries": [
+        ".gitignore",
+        "LICENSE",
+        "NOTICE",
+        "README.md",
+        "config",
+        "data_utils.py",
+        "download_dataset.py",
+        "evaluation.py",
+        "main.py",
+        "models",
+        "requirements.txt",
+        "utils.py"
+      ]
+    }
+  }
+}

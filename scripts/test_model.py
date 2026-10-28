@@ -40,7 +40,7 @@ def main() -> int:
         print("FAIL: numpy not installed. Run: pip install -r requirements.txt")
         return 2
 
-    print("== Aegis/RAFNet model smoke test ==")
+    print("== RAFNet model smoke test ==")
     print(f"ROOT={ROOT}")
 
     # Checkpoint presence (static, no torch needed)

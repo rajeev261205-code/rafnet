@@ -1,77 +1,173 @@
-import React, { useState, useEffect } from 'react';
-import { analysisService } from '../services/api';
-import { AnalysisResult } from '../types';
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { api } from "../services/api";
+import type { AnalyzeResponse, DashboardResponse } from "../types";
+import { Gauge, Panel } from "../components/ui";
+import { VerdictBadge } from "../components/Verdict";
+import type { VerdictLabel } from "../types";
 
-const Dashboard: React.FC = () => {
-  const [history, setHistory] = useState<AnalysisResult[]>([]);
-  const [loading, setLoading] = useState(true);
+function Stat({ label, value, color }: { label: string; value: number; color: string }): React.JSX.Element {
+  return (
+    <div className="soc-panel p-5">
+      <div className="mono text-xs uppercase tracking-widest" style={{ color: "#7d93b2" }}>
+        {label}
+      </div>
+      <div className="mono mt-1 text-3xl font-semibold" style={{ color }}>
+        {value}
+      </div>
+    </div>
+  );
+}
+
+export default function Dashboard(): React.JSX.Element {
+  const [data, setData] = useState<DashboardResponse | null>(null);
+  const [items, setItems] = useState<AnalyzeResponse[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [historyError, setHistoryError] = useState<string | null>(null);
 
   useEffect(() => {
-    analysisService.getHistory()
-      .then(setHistory)
-      .finally(() => setLoading(false));
+    api.dashboard().then(setData).catch((e: Error) => setError(e.message));
+    api.history(100, 0).then((h) => setItems(h.items)).catch((e: Error) => setHistoryError(e.message));
   }, []);
 
-  const stats = {
-    total: history.length,
-    synthetic: history.filter(h => h.prediction === 'SYNTHETIC').length,
-    real: history.filter(h => h.prediction === 'REAL').length,
-    highRisk: history.filter(h => h.risk_score > 70).length,
-  };
+  if (error) return <div className="soc-panel p-6 text-red-300">Dashboard unavailable: {error}</div>;
+  if (!data) return <div className="soc-panel p-6" style={{ color: "#7d93b2" }}>Loading live SOC metrics…</div>;
+
+  const latencies = (items ?? []).map((r) => r.processing_time_ms).filter((v) => Number.isFinite(v));
+  const avgLatency = latencies.length > 0 ? latencies.reduce((a, b) => a + b, 0) / latencies.length : null;
+  const verdictMix = new Map<VerdictLabel | "legacy", number>();
+  for (const r of items ?? []) {
+    const label = (r.verdict?.label ?? "legacy") as VerdictLabel | "legacy";
+    verdictMix.set(label, (verdictMix.get(label) ?? 0) + 1);
+  }
 
   return (
-    <div className="p-8 bg-slate-900 text-white min-h-screen">
-      <h1 className="text-3xl font-bold mb-6">SOC Command Center</h1>
-      
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <StatCard label="Total Analyses" value={stats.total} color="text-blue-400" />
-        <StatCard label="Synthetic" value={stats.synthetic} color="text-red-400" />
-        <StatCard label="Authentic" value={stats.real} color="text-green-400" />
-        <StatCard label="High Risk" value={stats.highRisk} color="text-yellow-400" />
+    <div>
+      <div className="mb-5 flex items-center gap-3">
+        <h1 className="text-2xl font-bold">Overview</h1>
+        {data.mock_mode && (
+          <span className="soc-chip mono" style={{ color: "#fbbf24" }}>
+            MOCK MODE — not a real prediction
+          </span>
+        )}
       </div>
 
-      <div className="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden">
-        <table className="w-full text-left">
-          <thead className="bg-slate-700 text-slate-300">
-            <tr>
-              <th className="p-4">File</th>
-              <th className="p-4">Prediction</th>
-              <th className="p-4">Risk Score</th>
-              <th className="p-4">Confidence</th>
-              <th className="p-4">Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {history.map((item) => (
-              <tr key={item.id} className="border-t border-slate-700 hover:bg-slate-750">
-                <td className="p-4">{item.audio_name}</td>
-                <td className="p-4">
-                  <span className={`px-2 py-1 rounded text-xs font-bold ${
-                    item.prediction === 'SYNTHETIC' ? 'bg-red-900 text-red-200' : 'bg-green-900 text-green-200'
-                  }`}>
-                    {item.prediction}
-                  </span>
-                </td>
-                <td className="p-4 font-mono">{item.risk_score}</td>
-                <td className="p-4">{(item.confidence * 100).toFixed(1)}%</td>
-                <td className="p-4 text-slate-400 text-sm">{new Date(item.created_at).toLocaleString()}</td>
+      <div className="grid grid-cols-2 gap-4 xl:grid-cols-5">
+        <Stat label="Total analyses" value={data.total_analyses} color="#22d3ee" />
+        <Stat label="Synthetic" value={data.synthetic_detections} color="#f87171" />
+        <Stat label="Authentic" value={data.authentic_detections} color="#34d399" />
+        <Stat label="Uncertain" value={data.uncertain_detections} color="#fbbf24" />
+        <Stat label="High-risk events" value={data.high_risk_events} color="#f87171" />
+      </div>
+
+      <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <Panel title="Verdict mix (latest 100 analyses)">
+          {historyError ? (
+            <div className="text-sm text-red-300">History unavailable: {historyError}</div>
+          ) : items === null ? (
+            <div className="text-sm" style={{ color: "#7d93b2" }}>Loading…</div>
+          ) : items.length === 0 ? (
+            <div className="text-sm" style={{ color: "#7d93b2" }}>
+              No analyses yet. Upload audio or start Live Detection.
+            </div>
+          ) : (
+            <ul className="mono space-y-2 text-xs">
+              {[...verdictMix.entries()].map(([label, count]) => (
+                <li key={label} className="flex items-center gap-2">
+                  {label === "legacy" ? (
+                    <span style={{ color: "#7d93b2" }}>legacy (no verdict)</span>
+                  ) : (
+                    <VerdictBadge label={label} />
+                  )}
+                  <span className="flex-1" />
+                  <span>{count}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Panel>
+        <Panel title="Average latency (measured)">
+          <div className="mono text-3xl font-semibold" style={{ color: "#22d3ee" }}>
+            {avgLatency === null ? "—" : `${avgLatency.toFixed(0)} ms`}
+          </div>
+          <div className="mono mt-1 text-xs" style={{ color: "#7d93b2" }}>
+            {latencies.length === 0
+              ? "Not available — measured per analysis from processing_time_ms."
+              : `mean backend processing_time_ms over ${latencies.length} analyses (measured, not claimed).`}
+          </div>
+        </Panel>
+        <Panel title="Model status">
+          <ul className="mono space-y-2 text-xs">
+            <li className="flex justify-between gap-4">
+              <span style={{ color: "#7d93b2" }}>loaded</span>
+              <span>{String(data.model_loaded)}</span>
+            </li>
+            <li className="flex justify-between gap-4">
+              <span style={{ color: "#7d93b2" }}>version</span>
+              <span>{data.model_version}</span>
+            </li>
+            <li className="flex justify-between gap-4">
+              <span style={{ color: "#7d93b2" }}>mock mode</span>
+              <span style={{ color: data.mock_mode ? "#fbbf24" : undefined }}>
+                {String(data.mock_mode)}
+              </span>
+            </li>
+          </ul>
+          <Link to="/models" className="mono mt-3 inline-block text-xs" style={{ color: "#22d3ee" }}>
+            Model Intelligence →
+          </Link>
+        </Panel>
+      </div>
+
+      <div className="mt-4 flex justify-center">
+        <Gauge
+          value={data.total_analyses === 0 ? 0 : (data.high_risk_events / data.total_analyses) * 100}
+          label="high-risk share"
+          size={150}
+        />
+      </div>
+
+      <div className="soc-panel mt-5 overflow-x-auto">
+        <div className="mono px-4 pt-4 text-xs uppercase tracking-widest" style={{ color: "#7d93b2" }}>
+          Recent analyses
+        </div>
+        {data.recent.length === 0 ? (
+          <div className="p-6" style={{ color: "#7d93b2" }}>
+            No analyses yet. Upload audio or start Live Detection.
+          </div>
+        ) : (
+          <table className="soc-table w-full">
+            <thead>
+              <tr>
+                <th>File</th>
+                <th>Prediction</th>
+                <th>Confidence</th>
+                <th>Risk</th>
+                <th>Time</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        {history.length === 0 && !loading && (
-          <div className="p-8 text-center text-slate-500">No analysis history available.</div>
+            </thead>
+            <tbody>
+              {data.recent.map((r) => (
+                <tr key={r.id}>
+                  <td className="mono">
+                    <Link to={`/history/${r.id}`} style={{ color: "#22d3ee" }}>
+                      {r.audio_name}
+                    </Link>
+                  </td>
+                  <td className={`pred-${r.prediction} font-semibold`}>{r.prediction}</td>
+                  <td className="mono">{(r.confidence * 100).toFixed(1)}%</td>
+                  <td className="mono">
+                    {r.risk_score} / {r.risk_level}
+                  </td>
+                  <td className="mono text-xs" style={{ color: "#7d93b2" }}>
+                    {new Date(r.created_at).toLocaleString()}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         )}
       </div>
     </div>
   );
-};
-
-const StatCard = ({ label, value, color }: any) => (
-  <div className="bg-slate-800 p-6 rounded-xl border border-slate-700">
-    <p className="text-slate-400 text-sm">{label}</p>
-    <p className={`text-3xl font-bold ${color}`}>{value}</p>
-  </div>
-);
-
-export default Dashboard;
+}

@@ -34,8 +34,9 @@ from dataclasses import dataclass, asdict
 from scipy.stats import pearsonr, spearmanr
 
 # Add src to path
+import os
 import sys
-sys.path.insert(0, '/home/sk/rafnet/src')
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src"))
 
 from rafnet.fusion.gateway2 import Gateway2, Gateway2Config, FixedFusionGateway2
 

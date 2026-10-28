@@ -1,0 +1,294 @@
+{
+  "generated_at": "2026-10-15T14:36:26.979107+00:00",
+  "cases": [
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\672\\122797\\672-122797-0066.flac",
+      "label": "HUMAN_LIVE",
+      "chain": "opus_24k",
+      "in_s": 4.82,
+      "out_s": 4.82,
+      "peak": 0.5808
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\672\\122797\\672-122797-0066.flac",
+      "label": "HUMAN_LIVE",
+      "chain": "mp3_128k",
+      "in_s": 4.82,
+      "out_s": 4.82,
+      "peak": 0.574
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\672\\122797\\672-122797-0066.flac",
+      "label": "HUMAN_LIVE",
+      "chain": "amr_nb",
+      "in_s": 4.82,
+      "out_s": 4.84,
+      "peak": 0.5609
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\672\\122797\\672-122797-0066.flac",
+      "label": "HUMAN_LIVE",
+      "chain": "aac_32k",
+      "in_s": 4.82,
+      "out_s": 4.86,
+      "peak": 0.592
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\672\\122797\\672-122797-0066.flac",
+      "label": "HUMAN_LIVE",
+      "chain": "g711_alaw",
+      "in_s": 4.82,
+      "out_s": 4.82,
+      "peak": 0.5781
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\672\\122797\\672-122797-0066.flac",
+      "label": "HUMAN_LIVE",
+      "chain": "resample_8k",
+      "in_s": 4.82,
+      "out_s": 4.82,
+      "peak": 0.5293
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\672\\122797\\672-122797-0066.flac",
+      "label": "HUMAN_LIVE",
+      "chain": "reverb",
+      "in_s": 4.82,
+      "out_s": 4.82,
+      "peak": 0.6044
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\672\\122797\\672-122797-0066.flac",
+      "label": "HUMAN_LIVE",
+      "chain": "noise_15db",
+      "in_s": 4.82,
+      "out_s": 4.82,
+      "peak": 0.5929
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\672\\122797\\672-122797-0066.flac",
+      "label": "HUMAN_LIVE",
+      "chain": "packetloss_05",
+      "in_s": 4.82,
+      "out_s": 4.82,
+      "peak": 0.6044
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\237\\126133\\237-126133-0016.flac",
+      "label": "HUMAN_LIVE",
+      "chain": "opus_24k",
+      "in_s": 4.25,
+      "out_s": 4.25,
+      "peak": 0.2924
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\237\\126133\\237-126133-0016.flac",
+      "label": "HUMAN_LIVE",
+      "chain": "mp3_128k",
+      "in_s": 4.25,
+      "out_s": 4.25,
+      "peak": 0.271
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\237\\126133\\237-126133-0016.flac",
+      "label": "HUMAN_LIVE",
+      "chain": "amr_nb",
+      "in_s": 4.25,
+      "out_s": 4.26,
+      "peak": 0.3008
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\237\\126133\\237-126133-0016.flac",
+      "label": "HUMAN_LIVE",
+      "chain": "aac_32k",
+      "in_s": 4.25,
+      "out_s": 4.29,
+      "peak": 0.2924
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\237\\126133\\237-126133-0016.flac",
+      "label": "HUMAN_LIVE",
+      "chain": "g711_alaw",
+      "in_s": 4.25,
+      "out_s": 4.25,
+      "peak": 0.2824
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\237\\126133\\237-126133-0016.flac",
+      "label": "HUMAN_LIVE",
+      "chain": "resample_8k",
+      "in_s": 4.25,
+      "out_s": 4.25,
+      "peak": 0.2485
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\237\\126133\\237-126133-0016.flac",
+      "label": "HUMAN_LIVE",
+      "chain": "reverb",
+      "in_s": 4.25,
+      "out_s": 4.25,
+      "peak": 0.2847
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\237\\126133\\237-126133-0016.flac",
+      "label": "HUMAN_LIVE",
+      "chain": "noise_15db",
+      "in_s": 4.25,
+      "out_s": 4.25,
+      "peak": 0.285
+    },
+    {
+      "file": "data\\raw\\LibriSpeech\\test-clean\\237\\126133\\237-126133-0016.flac",
+      "label": "HUMAN_LIVE",
+      "chain": "packetloss_05",
+      "in_s": 4.25,
+      "out_s": 4.25,
+      "peak": 0.2706
+    },
+    {
+      "file": "data/synth_vc/vc_ps_up_spk-1320_000.wav",
+      "label": "AI_VOICE_CLONE_OR_CONVERSION",
+      "chain": "opus_24k",
+      "in_s": 6.0,
+      "out_s": 6.0,
+      "peak": 0.4801
+    },
+    {
+      "file": "data/synth_vc/vc_ps_up_spk-1320_000.wav",
+      "label": "AI_VOICE_CLONE_OR_CONVERSION",
+      "chain": "mp3_128k",
+      "in_s": 6.0,
+      "out_s": 6.0,
+      "peak": 0.4646
+    },
+    {
+      "file": "data/synth_vc/vc_ps_up_spk-1320_000.wav",
+      "label": "AI_VOICE_CLONE_OR_CONVERSION",
+      "chain": "amr_nb",
+      "in_s": 6.0,
+      "out_s": 6.02,
+      "peak": 0.4442
+    },
+    {
+      "file": "data/synth_vc/vc_ps_up_spk-1320_000.wav",
+      "label": "AI_VOICE_CLONE_OR_CONVERSION",
+      "chain": "aac_32k",
+      "in_s": 6.0,
+      "out_s": 6.02,
+      "peak": 0.4805
+    },
+    {
+      "file": "data/synth_vc/vc_ps_up_spk-1320_000.wav",
+      "label": "AI_VOICE_CLONE_OR_CONVERSION",
+      "chain": "g711_alaw",
+      "in_s": 6.0,
+      "out_s": 6.0,
+      "peak": 0.5029
+    },
+    {
+      "file": "data/synth_vc/vc_ps_up_spk-1320_000.wav",
+      "label": "AI_VOICE_CLONE_OR_CONVERSION",
+      "chain": "resample_8k",
+      "in_s": 6.0,
+      "out_s": 6.0,
+      "peak": 0.4552
+    },
+    {
+      "file": "data/synth_vc/vc_ps_up_spk-1320_000.wav",
+      "label": "AI_VOICE_CLONE_OR_CONVERSION",
+      "chain": "reverb",
+      "in_s": 6.0,
+      "out_s": 6.0,
+      "peak": 0.4892
+    },
+    {
+      "file": "data/synth_vc/vc_ps_up_spk-1320_000.wav",
+      "label": "AI_VOICE_CLONE_OR_CONVERSION",
+      "chain": "noise_15db",
+      "in_s": 6.0,
+      "out_s": 6.0,
+      "peak": 0.4901
+    },
+    {
+      "file": "data/synth_vc/vc_ps_up_spk-1320_000.wav",
+      "label": "AI_VOICE_CLONE_OR_CONVERSION",
+      "chain": "packetloss_05",
+      "in_s": 6.0,
+      "out_s": 6.0,
+      "peak": 0.4892
+    },
+    {
+      "file": "data/synth_vc/vc_ps_down_spk-7729_001.wav",
+      "label": "AI_VOICE_CLONE_OR_CONVERSION",
+      "chain": "opus_24k",
+      "in_s": 5.62,
+      "out_s": 5.62,
+      "peak": 0.4156
+    },
+    {
+      "file": "data/synth_vc/vc_ps_down_spk-7729_001.wav",
+      "label": "AI_VOICE_CLONE_OR_CONVERSION",
+      "chain": "mp3_128k",
+      "in_s": 5.62,
+      "out_s": 5.62,
+      "peak": 0.391
+    },
+    {
+      "file": "data/synth_vc/vc_ps_down_spk-7729_001.wav",
+      "label": "AI_VOICE_CLONE_OR_CONVERSION",
+      "chain": "amr_nb",
+      "in_s": 5.62,
+      "out_s": 5.64,
+      "peak": 0.3575
+    },
+    {
+      "file": "data/synth_vc/vc_ps_down_spk-7729_001.wav",
+      "label": "AI_VOICE_CLONE_OR_CONVERSION",
+      "chain": "aac_32k",
+      "in_s": 5.62,
+      "out_s": 5.63,
+      "peak": 0.4077
+    },
+    {
+      "file": "data/synth_vc/vc_ps_down_spk-7729_001.wav",
+      "label": "AI_VOICE_CLONE_OR_CONVERSION",
+      "chain": "g711_alaw",
+      "in_s": 5.62,
+      "out_s": 5.62,
+      "peak": 0.4141
+    },
+    {
+      "file": "data/synth_vc/vc_ps_down_spk-7729_001.wav",
+      "label": "AI_VOICE_CLONE_OR_CONVERSION",
+      "chain": "resample_8k",
+      "in_s": 5.62,
+      "out_s": 5.62,
+      "peak": 0.4049
+    },
+    {
+      "file": "data/synth_vc/vc_ps_down_spk-7729_001.wav",
+      "label": "AI_VOICE_CLONE_OR_CONVERSION",
+      "chain": "reverb",
+      "in_s": 5.62,
+      "out_s": 5.62,
+      "peak": 0.4114
+    },
+    {
+      "file": "data/synth_vc/vc_ps_down_spk-7729_001.wav",
+      "label": "AI_VOICE_CLONE_OR_CONVERSION",
+      "chain": "noise_15db",
+      "in_s": 5.62,
+      "out_s": 5.62,
+      "peak": 0.4196
+    },
+    {
+      "file": "data/synth_vc/vc_ps_down_spk-7729_001.wav",
+      "label": "AI_VOICE_CLONE_OR_CONVERSION",
+      "chain": "packetloss_05",
+      "in_s": 5.62,
+      "out_s": 5.62,
+      "peak": 0.4114
+    }
+  ],
+  "contract": "Label-blind: identical chain set/seeds distribution for HUMAN_LIVE and AI_* train rows; never applied to val/test/my_samples."
+}

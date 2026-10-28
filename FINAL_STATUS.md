@@ -1,4 +1,21 @@
-# FINAL_STATUS.md — Aegis Voice SOC (2026-10-08, Phase 24)
+# FINAL_STATUS.md — RAFNet (2026-10-08, Phase 25)
+
+## Completed — Phase 25 (this session): Render full-inference image
+
+- User deployed SOC-only to Render live (`rafnet.onrender.com`, verified from
+  their logs: image built, service live, `running SOC-only`, `/` 200).
+- Rewrote `Dockerfile` as the full-ML production image: torch CPU first (own
+  index), `requirements-ml.txt`, WavLM baked in at build time (no re-download
+  on ephemeral-disk restarts), `$PORT` handling kept. RAM warning embedded:
+  ≥ 1 GB minimum, 2 GB+ recommended — 512 MB free tier will OOM.
+- Fixed `requirements-ml.txt`: removed invalid inline `--index-url` syntax
+  (torch now installed first by Docker), kept sklearn==1.9.1 training pin,
+  added boot-proven deps. `pip install --dry-run` resolves cleanly.
+- `DEPLOYMENT.md` gained a Render section from the live log: upgrade RAM,
+  push to rebuild, required env (incl. `CORS_ORIGINS` = Vercel URL),
+  log lines to expect, health gate, free-tier sleep caveat.
+- Verification: requirements dry-run resolves; no product code changed
+  (Docker/requirements/docs only), all greens stand.
 
 ## Decision recorded — backend posture: C (keep both)
 
@@ -82,7 +99,7 @@ real-model path; Node verdicts must never be presented as RAFNet output.
 - Surveyed the other scaffolding in this repo: `backend/app/*` +
   `frontend/src/*` under `C:\Users\rajee\rafnet\rafnet` date from 09:49–09:53
   (the earlier concurrent session, idle since) — untouched, as is the Node
-  backend in `aegisvoice-frontend/backend/`. Three structures currently coexist;
+   backend in `rafnet-frontend/backend/`. Three structures currently coexist;
   the reconcile decision is still yours.
 - Verification: nothing changed, so all greens stand (full suite 343/3/0,
   SOC 18/18 × 3 runtimes, `npm test` 5/5, build 20 routes, ruff clean,
@@ -151,7 +168,7 @@ real-model path; Node verdicts must never be presented as RAFNet output.
   `API.md` now records the exact priming behavior instead of "legacy broken".
 - `requirements-ml.txt` completed with the boot-proven deps (pandas, omegaconf,
   tqdm, matplotlib). Local venvs used for verification live under
-  `%LOCALAPPDATA%\Temp\opencode\` (`aegis-venv` full ML, `soc-venv` SOC-only);
+   `%LOCALAPPDATA%\Temp\opencode\` (`rafnet-venv` full ML, `soc-venv` SOC-only);
   recreate via `requirements-ml.txt` / `requirements-soc.txt`.
 - Verification: no product code changed this phase (docs + requirements only);
   prior greens stand (full suite 341/16, frontend 20 + 5 vitest).
@@ -287,7 +304,7 @@ real-model path; Node verdicts must never be presented as RAFNet output.
   `requirements-ml.txt`, `supabase/README.md` runbook, bare auth pages (no SOC
   chrome on /login + /register), ARCHITECTURE boot-mode notes.
 - Coexistence note: a parallel workstream is building a Node/Express backend in
-  `aegisvoice-frontend/backend/` (own package.json/tsconfig, `node:sqlite`).
+   `rafnet-frontend/backend/` (own package.json/tsconfig, `node:sqlite`).
   Untouched except excluding `backend/` from the Next tsconfig (it has its own
   build config) so `next build` stays green. Its `backend/.env` is theirs.
 - Verification: pytest 13/13, frontend build 19 routes, compileall clean,
@@ -474,6 +491,6 @@ Run migration + `seed.py --apply` in a real Supabase project and set
 (local shims retire there); latency/GPU pass; multi-replica bus/store
 (Redis/Postgres LISTEN); Vercel + backend deploy with health gate
 (`model_loaded:true, mock_mode:false`). Reconcile with the parallel Node-backend
-workstream (`aegisvoice-frontend/backend/`: same routes + `/api/analyses*`
+workstream (`rafnet-frontend/backend/`: same routes + `/api/analyses*`
 aliases, compatible records, DSP-heuristic detector + SQLite, needs Node ≥ 22)
 on the canonical backend choice — Python/RAFNet is the real-model path per spec.

@@ -1,4 +1,4 @@
-"""Verify a provisioned Supabase project for Aegis Voice SOC (stdlib only).
+"""Verify a provisioned Supabase project for RAFNet (stdlib only).
 
 Checks (no writes except an optional seed dry-run read):
 1. REST reachable with the service_role key.

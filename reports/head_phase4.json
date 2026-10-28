@@ -1,0 +1,193 @@
+{
+  "generated_at": "2026-10-18T17:35:54.055942+00:00",
+  "config": {
+    "train_tags": "clean,aug0",
+    "val_tag": "clean",
+    "epochs": 80,
+    "patience": 12,
+    "batch": 256,
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "mid": 256,
+    "dropout": 0.2,
+    "seed": 17,
+    "limit": 0
+  },
+  "n_train_rows": 13018,
+  "n_train_real": 9834,
+  "n_train_fake": 3184,
+  "n_val_rows": 1373,
+  "class_weights": {
+    "real": 0.6619,
+    "fake": 2.0443
+  },
+  "best_epoch": 1,
+  "best_val_auc": 1.0,
+  "val_clean": {
+    "n": 1373,
+    "auc": 1.0,
+    "eer": {
+      "eer": 0.0,
+      "threshold": 0.7989,
+      "far": 0.0,
+      "frr": 0.0
+    },
+    "binary_at_0.5": {
+      "accuracy": 0.9854,
+      "precision": 0.9331,
+      "recall": 1.0,
+      "f1": 0.9654,
+      "tp": 279,
+      "tn": 1074,
+      "fp": 20,
+      "fn": 0,
+      "n": 1373
+    },
+    "far_human_at_0.5": 0.0183,
+    "band": [
+      0.45,
+      0.75
+    ],
+    "strict_accuracy": 0.9788783685360525,
+    "confusion": {
+      "real": {
+        "REAL": 1065,
+        "UNCERTAIN": 29,
+        "SYNTHETIC": 0
+      },
+      "fake": {
+        "REAL": 0,
+        "UNCERTAIN": 0,
+        "SYNTHETIC": 279
+      }
+    },
+    "coverage": 0.9789,
+    "selective_accuracy": 1.0,
+    "n_certain": 1344,
+    "n_total": 1373
+  },
+  "val_aug0_untuned": {
+    "n": 1373,
+    "auc": 0.971,
+    "eer": {
+      "eer": 0.0896,
+      "threshold": 0.6628,
+      "far": 0.0896,
+      "frr": 0.0896
+    },
+    "binary_at_0.5": {
+      "accuracy": 0.8835,
+      "precision": 0.6413,
+      "recall": 0.9677,
+      "f1": 0.7714,
+      "tp": 270,
+      "tn": 943,
+      "fp": 151,
+      "fn": 9,
+      "n": 1373
+    },
+    "far_human_at_0.5": 0.138,
+    "band": [
+      0.45,
+      0.75
+    ],
+    "strict_accuracy": 0.8492352512745812,
+    "confusion": {
+      "real": {
+        "REAL": 925,
+        "UNCERTAIN": 105,
+        "SYNTHETIC": 64
+      },
+      "fake": {
+        "REAL": 7,
+        "UNCERTAIN": 31,
+        "SYNTHETIC": 241
+      }
+    },
+    "coverage": 0.9009,
+    "selective_accuracy": 0.9426,
+    "n_certain": 1237,
+    "n_total": 1373
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.4592,
+      "val_auc": 1.0,
+      "val_far": 0.0183
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.0751,
+      "val_auc": 1.0,
+      "val_far": 0.0009
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.0245,
+      "val_auc": 1.0,
+      "val_far": 0.0
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.0145,
+      "val_auc": 1.0,
+      "val_far": 0.0
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.0126,
+      "val_auc": 1.0,
+      "val_far": 0.0
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.0083,
+      "val_auc": 1.0,
+      "val_far": 0.0
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.0035,
+      "val_auc": 1.0,
+      "val_far": 0.0
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.0028,
+      "val_auc": 1.0,
+      "val_far": 0.0
+    },
+    {
+      "epoch": 9,
+      "train_loss": 0.0022,
+      "val_auc": 1.0,
+      "val_far": 0.0
+    },
+    {
+      "epoch": 10,
+      "train_loss": 0.0013,
+      "val_auc": 1.0,
+      "val_far": 0.0
+    },
+    {
+      "epoch": 11,
+      "train_loss": 0.002,
+      "val_auc": 1.0,
+      "val_far": 0.0009
+    },
+    {
+      "epoch": 12,
+      "train_loss": 0.0048,
+      "val_auc": 1.0,
+      "val_far": 0.0
+    },
+    {
+      "epoch": 13,
+      "train_loss": 0.0264,
+      "val_auc": 1.0,
+      "val_far": 0.0
+    }
+  ],
+  "note": "VAL is clean-only and never TEST. aug0 val shown for robustness only. Class weights from train. No test rows read by this script."
+}

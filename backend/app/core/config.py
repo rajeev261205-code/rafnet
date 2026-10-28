@@ -3,7 +3,7 @@ from pydantic_settings import BaseSettings
 from typing import Optional
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "Aegis Voice SOC"
+    PROJECT_NAME: str = "RAFNet"
     API_V1_STR: str = "/api/v1"
     
     # Supabase

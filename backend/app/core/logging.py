@@ -10,8 +10,8 @@ def setup_logging():
             logging.StreamHandler(sys.stdout)
         ]
     )
-    logger = logging.getLogger("aegis_soc")
-    logger.info("Aegis Voice SOC Backend Logging Initialized")
+    logger = logging.getLogger("rafnet_soc")
+    logger.info("RAFNet Backend Logging Initialized")
     return logger
 
 logger = setup_logging()

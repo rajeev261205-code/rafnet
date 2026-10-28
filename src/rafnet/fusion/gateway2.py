@@ -185,7 +185,9 @@ class Gateway2(nn.Module):
             "p_c": p_c.squeeze(-1),
             "p_q": p_q.squeeze(-1),
             "beta_raw_mean": beta_raw.mean().item(),
-            "beta_raw_std": beta_raw.std().item(),
+            # Single-sample batches have no meaningful std (and torch warns
+            # about degrees of freedom <= 0) — report 0.0 instead of NaN.
+            "beta_raw_std": beta_raw.std().item() if beta_raw.numel() > 1 else 0.0,
             **extra,
         }
         return info

@@ -1,4 +1,4 @@
-# ARCHITECTURE.md — Aegis Voice SOC (real integration)
+# ARCHITECTURE.md — RAFNet (real integration)
 
 ```
 Vercel (Next.js frontend) --HTTPS--> FastAPI backend --+--> RAFNet InferencePipeline (real model)
@@ -12,9 +12,9 @@ Vercel (Next.js frontend) --HTTPS--> FastAPI backend --+--> RAFNet InferencePipe
   - Existing JSON-frame API: `src/rafnet/api/*` -> `/api/v1/*` (unchanged)
   - NEW SOC adapter: `src/rafnet/soc/*` -> `/api/analyze`, `/api/analysis/{id}`,
     `/api/dashboard`, `/api/models`, `/api/health`
-- Frontend: `C:\Users\rajee\aegisvoice-frontend` (Next.js 16)
-  - `src/services/api.ts` -> env-driven (`NEXT_PUBLIC_BACKEND_URL`), typed, mock fallback flagged
-- Designs: Stitch `stitch_aegis_voice_soc_dashboard/*.html` (visual reference only)
+- Frontend: `frontend/` (Vite + React + TS)
+  - `src/services/api.ts` -> env-driven (`VITE_API_URL`), typed, mock fallback flagged
+- Designs: `frontend/design-ref/screens/*.png` (visual reference only, gitignored)
 
 ## Request flow (file upload)
 
@@ -35,7 +35,7 @@ reported honestly by `/api/health`). Production ML runtime: `requirements-ml.txt
 
 ## Deployment fit
 
-- Frontend: Vercel (static/SSR, `NEXT_PUBLIC_*` only).
+- Frontend: Vercel (Vite static build, `VITE_*` only).
 - Backend/ML: persistent Python host (Railway/Render/Fly/GPU box) — NOT Vercel
   serverless (94M WavLM + torch + 700ms-1200ms CPU inference unsuitable).
 - Supabase: Auth + Postgres; server key stays backend-only.

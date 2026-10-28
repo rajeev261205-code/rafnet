@@ -1,0 +1,76 @@
+{
+ "generated_at": "2026-10-16T15:47:33.994524+00:00",
+ "sampler_chains_per_class": 10000,
+ "audio_chains": 60,
+ "batch_failures": 0,
+ "nan_outputs": 0,
+ "example_chains": [
+  "fleurs_en_train_00739 y=0: codec=g711 rate=44.1k noise=white20 reverb=none gain=-6dB loss=none",
+  "slr12_dev_clean_00595 y=0: codec=opus_24k rate=none noise=none reverb=rt60_02 gain=-3dB loss=none",
+  "slr12_dev_other_00187 y=0: codec=none rate=none noise=none reverb=none gain=+5dB loss=none",
+  "slr118_hi_dev_01186 y=0: codec=mp3_64k rate=44.1k noise=none reverb=none gain=+0dB loss=drop1",
+  "slr118_hi_dev_00835 y=0: codec=mp3_128k rate=none noise=pink25 reverb=rt60_02 gain=+1dB loss=none"
+ ],
+ "codec_labels": [
+  "none",
+  "opus_12k",
+  "opus_24k",
+  "opus_32k",
+  "amr_nb",
+  "g711",
+  "mp3_64k",
+  "mp3_128k",
+  "aac_32k"
+ ],
+ "contingency_codec_vs_label": {
+  "rows_real_fake": [
+   [
+    1057,
+    1094,
+    1151,
+    1155,
+    1114,
+    1107,
+    1127,
+    1100,
+    1095
+   ],
+   [
+    1129,
+    1133,
+    1150,
+    1072,
+    1058,
+    1102,
+    1087,
+    1111,
+    1158
+   ]
+  ],
+  "chi2": 10.142,
+  "dof": 8,
+  "p_value": 0.2552,
+  "independent": true
+ },
+ "contingency_noise_vs_label": {
+  "rows_real_fake": [
+   [
+    4008,
+    5992
+   ],
+   [
+    4070,
+    5930
+   ]
+  ],
+  "cols": [
+   "no_noise",
+   "noise"
+  ],
+  "chi2": 0.798,
+  "dof": 1,
+  "p_value": 0.3716,
+  "independent": true
+ },
+ "note": "chi-square p>0.05 => augmentation type independent of label (label-blind by construction; this is the measured proof). Same CODECS/RATES/NOISE distribution feeds Phase-4 training batches."
+}

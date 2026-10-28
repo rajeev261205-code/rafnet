@@ -35,11 +35,13 @@ try:
         "AudioInput",
         "NetworkTelemetryInput",
     ]
-except ImportError as _exc:  # torch / heavy deps missing — SOC-only mode
+except ImportError as exc:  # torch / heavy deps missing — SOC-only mode
+    # NOTE: `exc` is deleted at block exit, so persist it for __getattr__.
+    _IMPORT_ERROR = exc
     __all__ = ["app"]
 
     def __getattr__(name: str) -> Any:
         raise ImportError(
-            f"rafnet.api.{name} requires the legacy torch stack ({_exc}); "
+            f"rafnet.api.{name} requires the legacy torch stack ({_IMPORT_ERROR}); "
             "the SOC API (rafnet.soc) works without it."
         )

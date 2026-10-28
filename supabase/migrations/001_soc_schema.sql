@@ -1,4 +1,4 @@
--- Aegis Voice SOC schema — run in Supabase SQL editor (or supabase db push).
+-- RAFNet schema — run in Supabase SQL editor (or supabase db push).
 -- Enables RLS on every user table; owner-only access; models/experiments read-only.
 
 -- profiles ---------------------------------------------------------------

@@ -1,0 +1,72 @@
+{
+  "id": "MelodyMachine/Deepfake-audio-detection",
+  "files": [
+    {
+      "file": "samples/real/260-123286-0012.flac",
+      "y": 0,
+      "p": 0.0004,
+      "ms": 306.6,
+      "labels": [
+        "fake",
+        "real"
+      ]
+    },
+    {
+      "file": "samples/real/6930-81414-0025.flac",
+      "y": 0,
+      "p": 0.0001,
+      "ms": 246.6,
+      "labels": [
+        "fake",
+        "real"
+      ]
+    },
+    {
+      "file": "samples/fake/sapi_david_2.wav",
+      "y": 1,
+      "p": 0.9999,
+      "ms": 385.0,
+      "labels": [
+        "fake",
+        "real"
+      ]
+    },
+    {
+      "file": "samples/fake/sapi_zira_2.wav",
+      "y": 1,
+      "p": 0.9999,
+      "ms": 371.6,
+      "labels": [
+        "fake",
+        "real"
+      ]
+    },
+    {
+      "file": "samples/fake/chatgpt_voice/rafnet_ai_voice_test.wav",
+      "y": 1,
+      "p": 0.9968,
+      "ms": 372.9,
+      "labels": [
+        "fake",
+        "real"
+      ]
+    },
+    {
+      "file": "samples/fake/windows_tts/tts_test.wav",
+      "y": 1,
+      "p": 0.9999,
+      "ms": 382.0,
+      "labels": [
+        "fake",
+        "real"
+      ]
+    }
+  ],
+  "auc": 1.0,
+  "eer": {
+    "eer": 0.0,
+    "threshold": 0.9968,
+    "far": 0.0,
+    "frr": 0.0
+  }
+}

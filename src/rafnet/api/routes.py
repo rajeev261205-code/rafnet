@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends, status, Request
 from fastapi.responses import JSONResponse
 from typing import List, Optional
 import logging
+import os
 from datetime import datetime
 
 from rafnet.api.schemas import (
@@ -67,11 +68,11 @@ async def predict(
             status_code=status.HTTP_504_GATEWAY_TIMEOUT,
             detail="Inference timeout"
         )
-    except Exception as e:
-        logger.exception(f"Prediction error: {e}")
+    except Exception:
+        logger.exception("Prediction error")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Prediction failed: {str(e)}"
+            detail="Prediction failed"
         )
 
 
@@ -94,11 +95,11 @@ async def predict_batch(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail="Inference engine not ready"
         )
-    except Exception as e:
-        logger.exception(f"Batch prediction error: {e}")
+    except Exception:
+        logger.exception("Batch prediction error")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Batch prediction failed: {str(e)}"
+            detail="Batch prediction failed"
         )
 
 
@@ -165,7 +166,17 @@ async def prediction_log(
     return service.get_prediction_log(limit=limit)
 
 
-# Admin endpoints for model fitting
+# Admin endpoints for model fitting — MUTATE the live model. Disabled by
+# default; enable only for local retraining via RAFNET_ENABLE_ADMIN=true.
+# Never expose these unauthenticated in production.
+def _require_admin() -> None:
+    if os.getenv("RAFNET_ENABLE_ADMIN", "false").lower() != "true":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Admin endpoints are disabled (set RAFNET_ENABLE_ADMIN=true for local retraining)",
+        )
+
+
 @router.post(
     "/admin/fit-classical",
     status_code=status.HTTP_200_OK,
@@ -178,13 +189,14 @@ async def fit_classical(
     service: InferenceService = Depends(get_service),
 ) -> dict:
     """Fit classical branch on embeddings."""
+    _require_admin()
     try:
         import numpy as np
         service.fit_classical(np.array(embeddings, dtype=np.float32), np.array(labels, dtype=np.int64))
         return {"status": "success", "message": "Classical branch fitted"}
-    except Exception as e:
-        logger.exception(f"Fit classical error: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+    except Exception:
+        logger.exception("Fit classical error")
+        raise HTTPException(status_code=500, detail="Classical branch fitting failed")
 
 
 @router.post(
@@ -198,13 +210,14 @@ async def fit_quantum(
     service: InferenceService = Depends(get_service),
 ) -> dict:
     """Fit quantum branch PCA."""
+    _require_admin()
     try:
         import numpy as np
         service.fit_quantum(np.array(embeddings, dtype=np.float32))
         return {"status": "success", "message": "Quantum branch PCA fitted"}
-    except Exception as e:
-        logger.exception(f"Fit quantum error: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+    except Exception:
+        logger.exception("Fit quantum error")
+        raise HTTPException(status_code=500, detail="Quantum branch fitting failed")
 
 
 @router.post(
@@ -221,6 +234,7 @@ async def fit_calibration(
     service: InferenceService = Depends(get_service),
 ) -> dict:
     """Fit calibration on validation data."""
+    _require_admin()
     try:
         import numpy as np
         service.fit_calibration(
@@ -230,9 +244,9 @@ async def fit_calibration(
             np.array(val_labels, dtype=np.int64),
         )
         return {"status": "success", "message": "Calibration fitted"}
-    except Exception as e:
-        logger.exception(f"Fit calibration error: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+    except Exception:
+        logger.exception("Fit calibration error")
+        raise HTTPException(status_code=500, detail="Calibration fitting failed")
 
 
 @router.post(
@@ -249,6 +263,7 @@ async def optimize_thresholds(
     service: InferenceService = Depends(get_service),
 ) -> dict:
     """Optimize decision thresholds on validation data."""
+    _require_admin()
     try:
         import numpy as np
         service.optimize_thresholds(
@@ -258,9 +273,9 @@ async def optimize_thresholds(
             np.array(val_labels, dtype=np.int64),
         )
         return {"status": "success", "message": "Decision thresholds optimized"}
-    except Exception as e:
-        logger.exception(f"Optimize thresholds error: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+    except Exception:
+        logger.exception("Optimize thresholds error")
+        raise HTTPException(status_code=500, detail="Threshold optimization failed")
 
 
 # Exception handlers
@@ -277,12 +292,11 @@ async def http_exception_handler(request: Request, exc: HTTPException) -> JSONRe
 
 async def generic_exception_handler(request: Request, exc: Exception) -> JSONResponse:
     """Handle unexpected exceptions."""
-    logger.exception(f"Unhandled exception: {exc}")
+    logger.exception("Unhandled exception")
     return JSONResponse(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
         content=ErrorResponse(
             error="Internal server error",
-            detail=str(exc),
             timestamp=datetime.utcnow(),
         ).model_dump(),
     )

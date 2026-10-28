@@ -1,8 +1,20 @@
-# README.md — Aegis Voice SOC (RAFNet)
+# README.md — RAFNet
 
 AI-powered Security Operations Center for synthetic/AI-generated voice detection:
 real RAFNet inference (WavLM + handcrafted → Gateway1 → classical/quantum →
-Gateway2 → calibration → decision gate) behind a FastAPI backend and a Next.js SOC UI.
+Gateway2 → calibration → decision gate) behind a FastAPI backend and a Vite + React SOC UI.
+
+## Architecture
+
+```mermaid
+flowchart LR
+    UI[Vite + React SOC UI<br/>:3000] -->|REST + WS| API[FastAPI<br/>:8000]
+    API --> SOC[SOC adapter<br/>analyze / history / threats<br/>live chunks / WS]
+    SOC --> MDL[RAFNetVoiceModel<br/>real inference]
+    SOC --> MEM[(In-memory store<br/>or Supabase REST)]
+    MDL --> PIPE[WavLM frozen + handcrafted<br/>Gateway1 → classical/quantum<br/>Gateway2 → calibration<br/>decision gate]
+    PIPE --> CKPT[(experiments/checkpoints<br/>5 committed files)]
+```
 
 ## Roots
 
@@ -11,9 +23,9 @@ Gateway2 → calibration → decision gate) behind a FastAPI backend and a Next.
   `/api/models`, `/api/history`, `/api/threats`, `/api/calls`, `/api/experiments`,
   `/api/live/*`, `WS /ws/live`). Docs: PROJECT_AUDIT.md, AI_MODEL_SPEC.md,
   ARCHITECTURE.md, API.md, DATABASE.md, RISK_ENGINE.md, DEPLOYMENT.md, FINAL_STATUS.md.
-- Frontend: `C:\Users\rajee\aegisvoice-frontend` (Next.js 16). Service
-  `src/services/api.ts` calls `NEXT_PUBLIC_BACKEND_URL` with flagged mock fallback.
-- Designs: Stitch `stitch_aegis_voice_soc_dashboard/*.html` (reference only).
+- Frontend: `frontend/` (Vite + React + TS, port 3000). Service
+  `src/services/api.ts` calls `VITE_API_URL` with flagged mock fallback.
+- Designs: `frontend/design-ref/screens/*.png` (visual reference only, gitignored).
 
 ## Quickstart — backend (SOC-only, no torch)
 
@@ -33,37 +45,86 @@ Full ML runtime (torch CPU, production needs scikit-learn==1.9.1):
 ## Quickstart — frontend
 
 ```bash
-cd C:\Users\rajee\aegisvoice-frontend
-cp .env.example .env.local   # NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
+cd frontend
+cp .env.example .env.local   # VITE_API_URL=http://localhost:8000
 npm install
 npm run dev                  # or npm run build / npm test
 ```
 
 Open Analyze → upload WAV → real `POST /api/analyze` → verdict + model
-confidence + engine risk + latency. Mock badge shows when backend unreachable and
-`NEXT_PUBLIC_MOCK_FALLBACK=true`.
+confidence + engine risk + latency. If the backend is unreachable the UI shows
+the backend error (no silent fake data); a MOCK badge marks responses when the
+server itself runs with `MOCK_INFERENCE=true`.
+
+## Security defaults
+
+- Development is anonymous-allowed (`SOC_REQUIRE_AUTH=false`); production
+  (`RAFNET_ENV=production`) defaults to auth required and refuses to boot
+  without Supabase keys and an explicit non-wildcard CORS origin list.
+- Ownership is enforced in SQL for every analysis query: authenticated users
+  see their own rows, anonymous callers see anonymous rows, and neither can
+  read, clear, or receive events for the other. WebSocket clients pass the
+  Supabase token as `?token=`, and event replay/streaming is per-owner.
+- Legacy `/api/v1/admin/*` retraining endpoints return 403 unless
+  `RAFNET_ENABLE_ADMIN=true` (local retraining only).
+- CORS allows explicit methods/headers on configured origins; rate limiting
+  uses the direct client IP unless `TRUST_PROXY=true` behind your load balancer.
+- 4xx/5xx responses are generic (no stack traces); server logs carry details.
 
 ## Verify
 
 ```bash
 # backend SOC tests (no torch needed) + lint
-PYTHONPATH=src python -m pytest tests/test_soc.py -v   # 16 passed
+PYTHONPATH=src python -m pytest tests/ -q   # full suite incl. forensic layer tests
 python -m ruff check src/rafnet/soc/ tests/test_soc.py scripts/ supabase/seed.py
 # real-model smoke + latency profile (torch venv) + live-server E2E
 PYTHONPATH=src MOCK_INFERENCE=false python scripts/test_model.py [--wav sample.wav]
 PYTHONPATH=src python scripts/profile_latency.py
 BASE_URL=http://localhost:8000 python scripts/e2e_probe.py
 # frontend
-npm test        # vitest, 5 passed
-npm run lint    # eslint, 0 errors
-npm run build   # 20 routes
+npm test        # vitest DSP unit tests
+npm run build   # tsc + vite build (SPA)
 ```
 
 ## Detection contract
 
 `AnalyzeResponse`: prediction (REAL|UNCERTAIN|SYNTHETIC, model), confidence (model,
 NOT risk), risk_score/risk_level/reasons (engine), model_version, processing_time_ms,
-audio_duration_seconds, probabilities + gateway weights, mock flag, created_at.
+audio_duration_seconds, probabilities + gateway weights, mock flag, created_at,
+plus additive `layers[]` and `verdict` (see LAYERS.md).
+
+## Detection layers (see LAYERS.md)
+
+Every analysis and live chunk returns four layers and a fused verdict:
+
+- Layer 1 Spectral & Vocoder Artifacts — **heuristic** (numpy spectral proxies).
+- Layer 2 Neural Detection (RAFNet) — **model** (real outputs, unchanged).
+- Layer 3 Liveness & Replay — **heuristic** (pause/breath, band-limit, loop,
+  noise-floor, saturation proxies + the input-path signal that flags
+  virtual/loopback capture devices by label).
+- Layer 4 Voice Enrollment Biometric — **unavailable** (no speaker model
+  installed; never invents a similarity).
+
+Verdict labels: HUMAN_LIVE | AI_SYNTHETIC | REPLAY_PRERECORDED |
+EXTERNAL_APP_SUSPECTED | UNCERTAIN, with reasons and limitations. Fusion rules
+and thresholds live in `src/rafnet/soc/layer_config.py` — documented defaults,
+NOT validated. Live mode uses a rolling-window hysteresis so the session
+verdict does not flicker.
+
+## Evaluation
+
+```
+samples/human_live/*.wav        # direct mic recordings
+samples/human_replayed/*.wav    # played through speakers, re-recorded
+samples/tts/*.wav               # text-to-speech output
+samples/voice_changed/*.wav     # voice-conversion output
+.venv/Scripts/python tools/evaluate_layers.py   # -> reports/layer_eval.md + .json
+```
+
+`GET /api/evaluation` serves the report; Model Intelligence shows the measured
+confusion matrix and per-layer accuracy, or "Not evaluated" when no report
+exists. Replay/voice-conversion detection needs labeled data to validate —
+until then treat Layers 1/3 and the verdict as unvalidated heuristics.
 
 ## Honest limitations (see AI_MODEL_SPEC.md / FINAL_STATUS.md)
 

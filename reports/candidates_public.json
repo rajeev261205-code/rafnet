@@ -1,0 +1,280 @@
+{
+  "models": {
+    "mo-thecreator/Deepfake-audio-detection": {
+      "labels": [
+        "fake",
+        "real"
+      ],
+      "fake_index": 0,
+      "public_real": [
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0000.flac",
+          "p_ai": 0.0
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0001.flac",
+          "p_ai": 0.0001
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0002.flac",
+          "p_ai": 0.0008
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1580/141083/1580-141083-0000.flac",
+          "p_ai": 0.0
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1580/141083/1580-141083-0001.flac",
+          "p_ai": 0.0
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1580/141083/1580-141083-0002.flac",
+          "p_ai": 0.0
+        }
+      ],
+      "public_real_far_at_0.5": 0.0,
+      "codec": [
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0000.flac",
+          "codec": "opus_24k",
+          "p_clean": 0.0,
+          "p_codec": 0.0001,
+          "delta": 0.0
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0000.flac",
+          "codec": "mp3_128k",
+          "p_clean": 0.0,
+          "p_codec": 0.0,
+          "delta": -0.0
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0000.flac",
+          "codec": "amr_nb",
+          "p_clean": 0.0,
+          "p_codec": 0.0,
+          "delta": -0.0
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0000.flac",
+          "codec": "g711_alaw",
+          "p_clean": 0.0,
+          "p_codec": 0.0,
+          "delta": -0.0
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0001.flac",
+          "codec": "opus_24k",
+          "p_clean": 0.0001,
+          "p_codec": 0.0007,
+          "delta": 0.0006
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0001.flac",
+          "codec": "mp3_128k",
+          "p_clean": 0.0001,
+          "p_codec": 0.0008,
+          "delta": 0.0007
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0001.flac",
+          "codec": "amr_nb",
+          "p_clean": 0.0001,
+          "p_codec": 0.0142,
+          "delta": 0.0141
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0001.flac",
+          "codec": "g711_alaw",
+          "p_clean": 0.0001,
+          "p_codec": 0.0,
+          "delta": -0.0001
+        }
+      ]
+    },
+    "Hemgg/Deepfake-audio-detection": {
+      "labels": [
+        "AIVoice",
+        "HumanVoice"
+      ],
+      "fake_index": 0,
+      "public_real": [
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0000.flac",
+          "p_ai": 0.7242
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0001.flac",
+          "p_ai": 0.8122
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0002.flac",
+          "p_ai": 0.8028
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1580/141083/1580-141083-0000.flac",
+          "p_ai": 0.622
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1580/141083/1580-141083-0001.flac",
+          "p_ai": 0.6335
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1580/141083/1580-141083-0002.flac",
+          "p_ai": 0.5785
+        }
+      ],
+      "public_real_far_at_0.5": 1.0,
+      "codec": [
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0000.flac",
+          "codec": "opus_24k",
+          "p_clean": 0.7242,
+          "p_codec": 0.7875,
+          "delta": 0.0633
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0000.flac",
+          "codec": "mp3_128k",
+          "p_clean": 0.7242,
+          "p_codec": 0.7224,
+          "delta": -0.0018
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0000.flac",
+          "codec": "amr_nb",
+          "p_clean": 0.7242,
+          "p_codec": 0.951,
+          "delta": 0.2268
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0000.flac",
+          "codec": "g711_alaw",
+          "p_clean": 0.7242,
+          "p_codec": 0.9369,
+          "delta": 0.2127
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0001.flac",
+          "codec": "opus_24k",
+          "p_clean": 0.8122,
+          "p_codec": 0.8851,
+          "delta": 0.0729
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0001.flac",
+          "codec": "mp3_128k",
+          "p_clean": 0.8122,
+          "p_codec": 0.8153,
+          "delta": 0.003
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0001.flac",
+          "codec": "amr_nb",
+          "p_clean": 0.8122,
+          "p_codec": 0.8241,
+          "delta": 0.0119
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0001.flac",
+          "codec": "g711_alaw",
+          "p_clean": 0.8122,
+          "p_codec": 0.969,
+          "delta": 0.1568
+        }
+      ]
+    },
+    "Bisher/wav2vec2_ASV_deepfake_audio_detection": {
+      "labels": [
+        "fake",
+        "real"
+      ],
+      "fake_index": 0,
+      "public_real": [
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0000.flac",
+          "p_ai": 0.0021
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0001.flac",
+          "p_ai": 0.0021
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0002.flac",
+          "p_ai": 0.002
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1580/141083/1580-141083-0000.flac",
+          "p_ai": 0.0021
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1580/141083/1580-141083-0001.flac",
+          "p_ai": 0.0021
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1580/141083/1580-141083-0002.flac",
+          "p_ai": 0.002
+        }
+      ],
+      "public_real_far_at_0.5": 0.0,
+      "codec": [
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0000.flac",
+          "codec": "opus_24k",
+          "p_clean": 0.0021,
+          "p_codec": 0.0021,
+          "delta": 0.0
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0000.flac",
+          "codec": "mp3_128k",
+          "p_clean": 0.0021,
+          "p_codec": 0.0021,
+          "delta": 0.0
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0000.flac",
+          "codec": "amr_nb",
+          "p_clean": 0.0021,
+          "p_codec": 0.0021,
+          "delta": 0.0
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0000.flac",
+          "codec": "g711_alaw",
+          "p_clean": 0.0021,
+          "p_codec": 0.0021,
+          "delta": 0.0
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0001.flac",
+          "codec": "opus_24k",
+          "p_clean": 0.0021,
+          "p_codec": 0.0021,
+          "delta": -0.0
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0001.flac",
+          "codec": "mp3_128k",
+          "p_clean": 0.0021,
+          "p_codec": 0.0021,
+          "delta": 0.0
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0001.flac",
+          "codec": "amr_nb",
+          "p_clean": 0.0021,
+          "p_codec": 0.0021,
+          "delta": 0.0
+        },
+        {
+          "file": "data/raw/LibriSpeech/test-clean/1320/122612/1320-122612-0001.flac",
+          "codec": "g711_alaw",
+          "p_clean": 0.0021,
+          "p_codec": 0.0021,
+          "delta": 0.0
+        }
+      ]
+    }
+  }
+}

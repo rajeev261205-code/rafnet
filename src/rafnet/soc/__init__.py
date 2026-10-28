@@ -1,4 +1,4 @@
-"""Aegis Voice SOC adapter — thin layer over the real RAFNet pipeline.
+"""RAFNet SOC adapter — thin layer over the real RAFNet pipeline.
 
 Source of truth for model behavior remains `src/rafnet/*`.
 This package adds: file-upload audio decoding, VoiceDetectionModel interface,

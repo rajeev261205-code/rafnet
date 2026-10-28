@@ -43,6 +43,8 @@ class VoiceResult:
     audio_duration_seconds: float = 0.0
     mock: bool = False
     debug: dict = field(default_factory=dict)
+    # Measured per-stage timings in ms (pipeline latency_ms passthrough).
+    stage_timings_ms: dict = field(default_factory=dict)
 
 
 class VoiceDetectionModel:
@@ -82,7 +84,12 @@ class RAFNetVoiceModel(VoiceDetectionModel):
 
     def load(self) -> None:
         t0 = time.perf_counter()
+        self._branch_status: dict = {}
+        self._restored: list[str] = []
         try:
+            from .fingerprint import REQUIRED_BRANCHES, log_fingerprint, set_inference_determinism
+
+            set_inference_determinism()
             from rafnet.config.schema import RAFNetConfig
             from rafnet.inference.pipeline import InferencePipeline
 
@@ -98,6 +105,37 @@ class RAFNetVoiceModel(VoiceDetectionModel):
                     if restored:
                         break
             self._restored = restored
+            # Loud fail on partial model: every REQUIRED branch must restore.
+            # Never silently serve 0.5/UNCERTAIN from unfitted branches.
+            missing = [b for b in REQUIRED_BRANCHES if not bool((self._branch_status.get(b) or {}).get("loaded"))]
+            if missing:
+                self._loaded = False
+                self._load_error = (
+                    f"branch(es) failed to load: {', '.join(missing)} "
+                    f"(checkpoint_dir={self.checkpoint_dir}; set MOCK_INFERENCE=true explicitly for dev)"
+                )
+                logger.error("%s", self._load_error)
+                try:
+                    fp = self.fingerprint()
+                    log_fingerprint(fp)
+                except Exception:
+                    pass
+                return
+            # Measured thresholds live in configs/decision_thresholds.json
+            # (weights untouched — only the DecisionGate taus are set).
+            try:
+                from .thresholds import apply_thresholds_to_gate, load_decision_thresholds
+
+                tau_low, tau_high, meta = load_decision_thresholds()
+                if apply_thresholds_to_gate(self._pipeline.decision_gate, tau_low, tau_high):
+                    logger.info(
+                        "Decision thresholds from %s: tau_low=%.4f tau_high=%.4f",
+                        meta.get("source"), tau_low, tau_high,
+                    )
+                    restored = [*restored, f"thresholds:{tau_low:.4f}/{tau_high:.4f}"]
+            except Exception as exc:
+                logger.warning("Threshold config skipped (non-fatal): %s", exc)
+            self._pipeline.eval()
             self._loaded = True
             logger.info(
                 "RAFNetVoiceModel loaded in %.1fms (device=%s, restored=%s)",
@@ -105,6 +143,12 @@ class RAFNetVoiceModel(VoiceDetectionModel):
                 self.device,
                 restored,
             )
+            try:
+                from .fingerprint import log_fingerprint
+
+                log_fingerprint(self.fingerprint())
+            except Exception as exc:
+                logger.warning("fingerprint log skipped: %s", exc)
         except Exception as exc:  # never crash import; report via health
             self._loaded = False
             self._load_error = str(exc)
@@ -118,14 +162,43 @@ class RAFNetVoiceModel(VoiceDetectionModel):
         - gateway2.pth          -> Gateway2 gate_network state subset (strict=False)
         - calibrator.pkl        -> whole-module Calibrator (must report fitted)
         - decision_gate.pkl     -> whole-module DecisionGate (tau from pickle)
-        Missing files degrade gracefully (branches stay unfitted -> 0.5/UNCERTAIN).
+        Any REQUIRED branch that is missing or fails is recorded in
+        self._branch_status and causes load() to fail loudly (never a silent
+        partial model serving 0.5/UNCERTAIN).
         """
         import pickle
 
+        from .fingerprint import sha256_file
+
         restored: list[str] = []
+        status: dict = getattr(self, "_branch_status", {})
+        self._branch_status = status
+
+        def _record(branch: str, path: Path | None, ok: bool, detail: str | None = None) -> None:
+            entry: dict = {"loaded": bool(ok)}
+            if path is not None:
+                entry["file"] = path.name
+                entry["path"] = str(path)
+                try:
+                    entry["bytes"] = path.stat().st_size
+                except Exception:
+                    pass
+                digest = sha256_file(path)
+                if digest:
+                    entry["sha256"] = digest
+            if detail:
+                entry["detail"] = detail
+            status[branch] = entry
 
         def _first(*names: str) -> Path | None:
+            import glob as _glob
+
             for name in names:
+                if any(ch in name for ch in ("*", "?", "[")):
+                    hits = sorted(_glob.glob(str(directory / name)))
+                    if hits:
+                        return Path(hits[0])
+                    continue
                 path = directory / name
                 if path.is_file():
                     return path
@@ -140,9 +213,17 @@ class RAFNetVoiceModel(VoiceDetectionModel):
                 branch = ClassicalBranch.load(str(classical_path))
                 _sklearn_compat_shim(branch)
                 self._pipeline.classical_branch = branch
+                fitted = bool(getattr(branch, "is_fitted", False))
                 restored.append(f"classical:{classical_path.name}")
+                _record("classical", classical_path, fitted, "fitted" if fitted else "unfitted after load")
+                if not fitted:
+                    logger.error("Classical branch unfitted after load (%s)", classical_path.name)
             except Exception as exc:
-                logger.warning("Classical restore skipped (%s): %s", classical_path.name, exc)
+                logger.error("Classical restore failed (%s): %s", classical_path.name, exc)
+                _record("classical", classical_path, False, str(exc)[:300])
+        else:
+            logger.error("Classical checkpoint missing in %s", directory)
+            _record("classical", None, False, "missing file")
 
         # Quantum branch (PCA + fallback head)
         quantum_path = _first("quantum_branch.pkl", "quantum*.pkl")
@@ -153,9 +234,22 @@ class RAFNetVoiceModel(VoiceDetectionModel):
                 qbranch = QuantumBranch.load(str(quantum_path))
                 _pca_compat_shim(qbranch)
                 self._pipeline.quantum_branch = qbranch
+                fitted = bool(getattr(qbranch, "pca_fitted", False))
                 restored.append(f"quantum:{quantum_path.name}")
+                _record(
+                    "quantum",
+                    quantum_path,
+                    fitted,
+                    f"fallback={bool(getattr(qbranch, '_using_fallback', True))}",
+                )
+                if not fitted:
+                    logger.error("Quantum branch PCA unfitted after load (%s)", quantum_path.name)
             except Exception as exc:
-                logger.warning("Quantum restore skipped (%s): %s", quantum_path.name, exc)
+                logger.error("Quantum restore failed (%s): %s", quantum_path.name, exc)
+                _record("quantum", quantum_path, False, str(exc)[:300])
+        else:
+            logger.error("Quantum checkpoint missing in %s", directory)
+            _record("quantum", None, False, "missing file")
 
         # Gateway2 fusion weights (state subset of the shipped OrderedDict)
         gateway2_path = _first("gateway2.pth", "gateway2.pt")
@@ -169,8 +263,19 @@ class RAFNetVoiceModel(VoiceDetectionModel):
                     if subset:
                         self._pipeline.gateway2.load_state_dict(subset, strict=False)
                         restored.append(f"gateway2:{gateway2_path.name}")
+                        _record("gateway2", gateway2_path, True, f"{len(subset)} tensors")
+                    else:
+                        logger.error("Gateway2 checkpoint has no gate_network.* keys (%s)", gateway2_path.name)
+                        _record("gateway2", gateway2_path, False, "no gate_network keys")
+                else:
+                    logger.error("Gateway2 checkpoint not a state dict (%s)", gateway2_path.name)
+                    _record("gateway2", gateway2_path, False, "not a state dict")
             except Exception as exc:
-                logger.warning("Gateway2 restore skipped (%s): %s", gateway2_path.name, exc)
+                logger.error("Gateway2 restore failed (%s): %s", gateway2_path.name, exc)
+                _record("gateway2", gateway2_path, False, str(exc)[:300])
+        else:
+            logger.error("Gateway2 checkpoint missing in %s", directory)
+            _record("gateway2", None, False, "missing file")
 
         # Calibrator (whole module; only useful when it reports fitted)
         calibrator_path = _first("calibrator.pkl")
@@ -181,10 +286,16 @@ class RAFNetVoiceModel(VoiceDetectionModel):
                 if bool(getattr(calibrator, "fitted", False)):
                     self._pipeline.calibrator = calibrator
                     restored.append(f"calibrator:{calibrator_path.name}")
+                    _record("calibrator", calibrator_path, True, "fitted")
                 else:
-                    logger.warning("Calibrator pickle reports unfitted; skipping")
+                    logger.error("Calibrator pickle reports unfitted; failing loudly")
+                    _record("calibrator", calibrator_path, False, "unfitted pickle")
             except Exception as exc:
-                logger.warning("Calibrator restore skipped (%s): %s", calibrator_path.name, exc)
+                logger.error("Calibrator restore failed (%s): %s", calibrator_path.name, exc)
+                _record("calibrator", calibrator_path, False, str(exc)[:300])
+        else:
+            logger.error("Calibrator checkpoint missing in %s", directory)
+            _record("calibrator", None, False, "missing file")
 
         # Decision gate (whole module; thresholds come from the pickle)
         gate_path = _first("decision_gate.pkl")
@@ -194,8 +305,31 @@ class RAFNetVoiceModel(VoiceDetectionModel):
                     gate = pickle.load(f)
                 self._pipeline.decision_gate = gate
                 restored.append(f"decision_gate:{gate_path.name}")
+                try:
+                    tl = float(gate.tau_low.item()) if hasattr(gate.tau_low, "item") else float(gate.tau_low)
+                    th = float(gate.tau_high.item()) if hasattr(gate.tau_high, "item") else float(gate.tau_high)
+                    detail = f"tau {tl:.4f}/{th:.4f}"
+                except Exception:
+                    detail = "thresholds unreadable"
+                _record("decision_gate", gate_path, True, detail)
             except Exception as exc:
-                logger.warning("Decision gate restore skipped (%s): %s", gate_path.name, exc)
+                logger.error("Decision gate restore failed (%s): %s", gate_path.name, exc)
+                _record("decision_gate", gate_path, False, str(exc)[:300])
+        else:
+            logger.error("Decision gate checkpoint missing in %s", directory)
+            _record("decision_gate", None, False, "missing file")
+
+        # Fusion/Gateway1 has no shipped checkpoint: seeded random init +
+        # fixed_audio ablation at inference. Reported for traceability.
+        try:
+            g1 = getattr(self._pipeline, "gateway1", None)
+            status["fusion_gateway1"] = {
+                "loaded": g1 is not None,
+                "file": None,
+                "detail": f"ablation={getattr(getattr(g1, 'config', None), 'ablation_mode', '?')}; no checkpoint (seeded init)",
+            }
+        except Exception:
+            pass
 
         return restored
 
@@ -205,6 +339,11 @@ class RAFNetVoiceModel(VoiceDetectionModel):
     def preprocess(self, audio):
         return audio
 
+    def fingerprint(self) -> dict:
+        from .fingerprint import build_fingerprint
+
+        return build_fingerprint(self)
+
     def predict(self, audio, sample_rate: int = 16000) -> VoiceResult:
         import numpy as np
         import torch
@@ -212,17 +351,34 @@ class RAFNetVoiceModel(VoiceDetectionModel):
         if not self.is_loaded():
             raise RuntimeError(f"Model not loaded: {self._load_error or 'unknown'}")
         t0 = time.perf_counter()
-        arr = np.asarray(audio, dtype=np.float32).reshape(-1)
-        duration = float(len(arr) / sample_rate) if sample_rate else 0.0
-        if sample_rate != 16000:
-            # Linear resample to the model's native 16 kHz (chunk path shares this).
-            old_idx = np.linspace(0, 1, num=len(arr), dtype=np.float32)
-            new_len = max(1, int(round(duration * 16000)))
-            arr = np.interp(
-                np.linspace(0, 1, num=new_len, dtype=np.float32), old_idx, arr
-            ).astype(np.float32)
+        # Deterministic inference contract: eval mode (dropout off), no
+        # augmentation (soc/augment.py is train-only, never imported here),
+        # shared preprocessing on EVERY call so file/live tensors match.
+        try:
+            self._pipeline.eval()
+        except Exception:
+            pass
+        raw = np.asarray(audio, dtype=np.float32)
+        duration = float(raw.reshape(-1).size / sample_rate) if sample_rate else 0.0
+        # Always through the shared contract (mono -> 16k -> clip), even when
+        # already 16 kHz: that path used to skip mono/clip, diverging from
+        # live chunks (which clip in validate_chunk) by up to 0.5 on loud
+        # float audio. No normalization: the model trained without it.
+        from .preprocess import to_model_input
+
+        arr = to_model_input(raw, sample_rate)
+        # Degenerate-segment guard (Phase 0 bug): a 0-sample window reached the
+        # encoder and crashed a conv kernel ("padded input size 0, kernel 10").
+        # Reject it as a validation error (routes map ValueError -> 400) rather
+        # than letting torch throw a 500. 0.1 s is far below any real clip.
+        if arr.size < 1600:
+            raise ValueError(
+                f"degenerate audio segment: {arr.size} samples at 16 kHz after "
+                f"preprocessing (minimum 1600 / 0.1 s)")
+        if not np.isfinite(arr).all():
+            raise ValueError("non-finite samples after preprocessing")
         tensor = torch.from_numpy(arr).unsqueeze(0).to(self.device)  # [1, T]
-        with torch.no_grad():
+        with torch.inference_mode():
             # fixed_audio ablation + dummy network handled inside the pipeline.
             out = self._pipeline.predict_audio_only(tensor)
         d = out.to_dict() if hasattr(out, "to_dict") else dict(out)
@@ -253,19 +409,35 @@ class RAFNetVoiceModel(VoiceDetectionModel):
                 "latency_ms": d.get("latency_ms", {}),
                 "restored": getattr(self, "_restored", []),
             },
+            stage_timings_ms=dict(d.get("latency_ms", {}) or {}),
         )
 
 
 class MockVoiceModel(VoiceDetectionModel):
-    """Explicit dev fallback. Flagged mock=True so UI can badge it."""
+    """Explicit dev fallback. Flagged mock=True so UI can badge it.
+
+    Intentionally NON-diagnostic: always UNCERTAIN at p=0.5. A loudness-based
+    mapping previously manufactured SYNTHETIC verdicts for loud natural
+    speech (and REAL for quiet input) — a dev stub must never fabricate
+    detector-like outputs. Tests needing HIGH/CRITICAL use explicit stubs.
+    """
 
     name = "mock"
 
     def __init__(self) -> None:
         self._loaded = True
+        self.device = "cpu"
+        self._pipeline = None
+        self._branch_status = {"mock": {"loaded": True, "detail": "MOCK_INFERENCE=true (dev only)"}}
+        self._load_error = None
 
     def load(self) -> None:
         self._loaded = True
+
+    def fingerprint(self) -> dict:
+        from .fingerprint import build_fingerprint
+
+        return build_fingerprint(self)
 
     def is_loaded(self) -> bool:
         return True
@@ -278,14 +450,11 @@ class MockVoiceModel(VoiceDetectionModel):
 
         arr = np.asarray(audio, dtype=np.float32).reshape(-1)
         duration = float(len(arr) / sample_rate) if sample_rate else 0.0
-        rms = float(np.sqrt(np.mean(arr**2))) if arr.size else 0.0
-        # Deterministic placeholder derived from signal energy — NOT a model.
-        p_syn = min(0.95, max(0.05, 0.5 + (rms - 0.05) * 2.0))
         return VoiceResult(
-            prediction="UNCERTAIN" if 0.361 < p_syn < 0.861 else ("SYNTHETIC" if p_syn >= 0.861 else "REAL"),
-            confidence=max(p_syn, 1 - p_syn),
-            prob_synthetic=p_syn,
-            prob_real=1 - p_syn,
+            prediction="UNCERTAIN",
+            confidence=0.5,
+            prob_synthetic=0.5,
+            prob_real=0.5,
             model_version="mock-0.0.0",
             processing_time_ms=1.0,
             audio_duration_seconds=duration,
@@ -370,6 +539,17 @@ def _pca_compat_shim(branch: Any) -> None:
         logger.warning("pca compat shim failed (non-fatal): %s", exc)
 
 
+def resolve_checkpoint_dir() -> Path:
+    """Resolve MODEL_CHECKPOINT_DIR (absolute, or repo-root-relative)."""
+    configured = os.getenv("MODEL_CHECKPOINT_DIR", str(CHECKPOINT_DIR_DEFAULT))
+    path = Path(configured)
+    if not path.is_absolute():
+        # Server cwd is src/ (uvicorn rafnet.api.main:app), while .env paths
+        # are written repo-root-relative — anchor them at the repo root.
+        path = CHECKPOINT_DIR_DEFAULT.parent.parent / path
+    return path
+
+
 def load_voice_model() -> VoiceDetectionModel:
     mock = os.getenv("MOCK_INFERENCE", "false").lower() == "true"
     if mock:
@@ -377,7 +557,7 @@ def load_voice_model() -> VoiceDetectionModel:
         model: VoiceDetectionModel = MockVoiceModel()
         model.load()
         return model
-    checkpoint_dir = Path(os.getenv("MODEL_CHECKPOINT_DIR", str(CHECKPOINT_DIR_DEFAULT)))
+    checkpoint_dir = resolve_checkpoint_dir()
     device = os.getenv("RAFNET_DEVICE", "cpu")
     model = RAFNetVoiceModel(checkpoint_dir=checkpoint_dir, device=device)
     model.load()
