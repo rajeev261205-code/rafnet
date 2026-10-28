@@ -29,6 +29,10 @@ export function setAuthTokenGetter(fn: () => string | null): void {
   tokenGetter = fn;
 }
 
+export function getAuthToken(): string | null {
+  return tokenGetter();
+}
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const token = tokenGetter();
   const res = await fetch(`${API_BASE_URL}${path}`, {

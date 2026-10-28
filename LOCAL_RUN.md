@@ -74,9 +74,12 @@ cd frontend; npm test; npm run build
 
 ## Optional: real Supabase auth + persistence
 
-1. Create a Supabase project, run `supabase/migrations/001_soc_schema.sql`.
+1. Create a Supabase project, run `supabase/migrations/*.sql` in order.
 2. Backend `.env`: set `SUPABASE_URL=https://<ref>.supabase.co`,
    `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_ANON_KEY`, `SOC_REQUIRE_AUTH=true`.
+   For a production-like run also set `RAFNET_ENV=production` and
+   `SOC_CORS_ORIGINS=http://localhost:5173` (startup then fails closed unless
+   auth, Supabase, and a non-wildcard origin list are all configured).
 3. Frontend `frontend/.env.local`: set `VITE_SUPABASE_URL`,
    `VITE_SUPABASE_ANON_KEY` (anon key only — never service_role), restart
    `npm run dev`. Without these, the UI uses a labeled DEV MODE login and the

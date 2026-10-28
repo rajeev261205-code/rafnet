@@ -33,6 +33,9 @@ MAX_CHUNK_SAMPLES = 48000 * 2  # 2 s @ 48 kHz upper bound per chunk
 @dataclass
 class LiveSession:
     id: str
+    # Owning principal: Supabase user id, or None for an explicitly isolated
+    # anonymous dev session. Never inferred from a client-supplied id.
+    owner_id: str | None = None
     sample_rate: int = 16000
     created_at: float = field(default_factory=time.monotonic)
     last_seen: float = field(default_factory=time.monotonic)
@@ -86,12 +89,14 @@ class LiveSessionRegistry:
     def __init__(self) -> None:
         self._sessions: dict[str, LiveSession] = {}
 
-    def create(self) -> LiveSession:
+    def create(self, owner_id: str | None = None) -> LiveSession:
         self._evict()
         if len(self._sessions) >= MAX_SESSIONS:
             oldest = min(self._sessions.values(), key=lambda s: s.last_seen)
             del self._sessions[oldest.id]
-        session = LiveSession(id=f"live-{uuid.uuid4().hex[:12]}")
+        session = LiveSession(
+            id=f"live-{uuid.uuid4().hex[:12]}", owner_id=owner_id
+        )
         self._sessions[session.id] = session
         return session
 
@@ -101,6 +106,18 @@ class LiveSessionRegistry:
             return None
         if time.monotonic() - session.last_seen > SESSION_TTL_SECONDS:
             del self._sessions[session_id]
+            return None
+        return session
+
+    def get_for(self, session_id: str, user_id: str | None) -> LiveSession | None:
+        """Return a live session only when it belongs to `user_id`.
+
+        `user_id=None` is the anonymous principal and matches only anonymous
+        sessions. Callers must use this (not `get`) for any client-supplied
+        session id.
+        """
+        session = self.get(session_id)
+        if session is None or session.owner_id != user_id:
             return None
         return session
 

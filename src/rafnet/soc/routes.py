@@ -12,9 +12,16 @@ from typing import Literal
 from fastapi import APIRouter, Depends, File, HTTPException, Request, UploadFile
 from pydantic import BaseModel, Field
 
-from .auth import get_optional_user
+from .audio_io import MAX_AUDIO_BYTES
+from .auth import get_optional_user, is_production
 from .events import get_event_bus
-from .live import WINDOW_SAMPLES, get_live_registry, resample_to_16k, validate_chunk
+from .live import (
+    MAX_CHUNK_SAMPLES,
+    WINDOW_SAMPLES,
+    get_live_registry,
+    resample_to_16k,
+    validate_chunk,
+)
 from .model_adapter import load_voice_model
 from .ratelimit import RateLimiter, get_analyze_limiter, get_chunk_limiter
 from .risk_engine import compute_risk
@@ -82,10 +89,19 @@ async def analyze_audio(
             headers={"Retry-After": f"{retry_after:.0f}"},
         )
     try:
-        data = await file.read()
+        # Read one byte past the cap so an oversized body is rejected without
+        # buffering the whole upload (Content-Length may be absent/chunked).
+        data = await file.read(MAX_AUDIO_BYTES + 1)
+        if len(data) > MAX_AUDIO_BYTES:
+            raise HTTPException(
+                status_code=413,
+                detail=f"Audio file too large (limit {MAX_AUDIO_BYTES} bytes)",
+            )
         return service.analyze_bytes(
             data, file.filename or "upload.wav", user_id=(user or {}).get("id")
         )
+    except HTTPException:
+        raise
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc))
     except RuntimeError as exc:
@@ -124,9 +140,20 @@ def history(
 
 
 @router.get("/analysis/{analysis_id}/events", summary="Recent live events for context")
-def analysis_events(analysis_id: str):
+def analysis_events(
+    analysis_id: str,
+    service: SOCService = Depends(get_soc_service),
+    user: dict | None = Depends(get_optional_user),
+):
+    uid = (user or {}).get("id")
+    # Same access control as the analysis itself: non-owners and anonymous
+    # callers receive a 404, never another user's event stream.
+    if service.get_analysis(analysis_id, user_id=uid) is None:
+        raise HTTPException(status_code=404, detail="Analysis not found")
     bus = get_event_bus()
-    related = [e for e in bus.recent(limit=200) if e.get("id") == analysis_id]
+    related = [
+        e for e in bus.recent(limit=200, user_id=uid) if e.get("id") == analysis_id
+    ]
     return {"analysis_id": analysis_id, "events": related}
 
 
@@ -204,17 +231,26 @@ def call_detail(
 
 
 @router.get("/experiments", summary="Experiment tracking (verbatim report data)")
-def experiments(service: SOCService = Depends(get_soc_service)):
+def experiments(
+    service: SOCService = Depends(get_soc_service),
+    user: dict | None = Depends(get_optional_user),
+):
     return {"items": service.list_experiments()}
 
 
 @router.get("/evaluation", summary="Measured layer evaluation (if an eval report exists)")
-def layer_evaluation(service: SOCService = Depends(get_soc_service)):
+def layer_evaluation(
+    service: SOCService = Depends(get_soc_service),
+    user: dict | None = Depends(get_optional_user),
+):
     return service.layer_evaluation()
 
 
 @router.get("/origin-evaluation", summary="Measured origin-model evaluation (honest unevaluated state if no data)")
-def origin_evaluation(service: SOCService = Depends(get_soc_service)):
+def origin_evaluation(
+    service: SOCService = Depends(get_soc_service),
+    user: dict | None = Depends(get_optional_user),
+):
     return service.origin_evaluation()
 
 
@@ -228,6 +264,7 @@ class CallRiskRequest(BaseModel):
 def call_risk(
     body: CallRiskRequest,
     service: SOCService = Depends(get_soc_service),
+    user: dict | None = Depends(get_optional_user),
 ):
     from .scam import CARRIERS, analyze_call_risk
 
@@ -251,7 +288,10 @@ def call_risk(
 
 
 @router.get("/capabilities", summary="Model/service readiness (API up vs models ready)")
-def capabilities(service: SOCService = Depends(get_soc_service)):
+def capabilities(
+    service: SOCService = Depends(get_soc_service),
+    user: dict | None = Depends(get_optional_user),
+):
     from .capabilities import get_capabilities
 
     return get_capabilities(service.model)
@@ -262,7 +302,10 @@ class AttributionRequest(BaseModel):
 
 
 @router.post("/attribution", summary="AI-provider attribution (unknown unless proven)")
-def attribution(body: AttributionRequest):
+def attribution(
+    body: AttributionRequest,
+    user: dict | None = Depends(get_optional_user),
+):
     from .attribution import attribute_provider
 
     if not isinstance(body.provenance, dict):
@@ -278,18 +321,34 @@ def attribution(body: AttributionRequest):
 
 
 class LiveChunkRequest(BaseModel):
-    session_id: str | None = None
-    sample_rate: int = 16000
-    samples: list[float]
+    session_id: str | None = Field(default=None, max_length=128)
+    sample_rate: int = Field(default=16000, ge=8000, le=48000)
+    samples: list[float] = Field(..., max_length=MAX_CHUNK_SAMPLES)
     input_path: InputPath | None = None
 
 
 @router.post("/live/session", summary="Create a live ingestion session")
-def create_live_session(user: dict | None = Depends(get_optional_user)):
+def create_live_session(
+    request: Request,
+    limiter: RateLimiter = Depends(get_limiter),
+    user: dict | None = Depends(get_optional_user),
+):
+    allowed, retry_after = limiter.allow("session:" + _client_key(request))
+    if not allowed:
+        raise HTTPException(
+            status_code=429,
+            detail=f"Rate limit exceeded. Retry in {retry_after:.0f}s.",
+            headers={"Retry-After": f"{retry_after:.0f}"},
+        )
     from .live import get_live_registry as _registry
 
-    session = _registry().create()
-    get_event_bus().emit("analysis_started", {"session_id": session.id, "source": "live"})
+    uid = (user or {}).get("id")
+    session = _registry().create(owner_id=uid)
+    get_event_bus().emit(
+        "analysis_started",
+        {"session_id": session.id, "source": "live"},
+        user_id=uid,
+    )
     return {"session_id": session.id, "window_samples": WINDOW_SAMPLES}
 
 
@@ -308,10 +367,16 @@ async def ingest_live_chunk(
             detail=f"Rate limit exceeded. Retry in {retry_after:.0f}s.",
             headers={"Retry-After": f"{retry_after:.0f}"},
         )
+    uid = (user or {}).get("id")
     registry = get_live_registry()
-    session = registry.get(body.session_id or "")
-    if session is None:
-        session = registry.create()
+    if body.session_id:
+        # A supplied id must belong to the caller. Never silently fall back to
+        # a new session, which would hide cross-user session-id probing.
+        session = registry.get_for(body.session_id, uid)
+        if session is None:
+            raise HTTPException(status_code=404, detail="Live session not found")
+    else:
+        session = registry.create(owner_id=uid)
     try:
         clean = validate_chunk(body.sample_rate, body.samples)
     except ValueError as exc:
@@ -484,7 +549,9 @@ async def ingest_live_chunk(
         else:
             origin_status = "collecting"
     bus = get_event_bus()
-    bus.emit("processing", {"session_id": session.id, "source": "live"})
+    bus.emit(
+        "processing", {"session_id": session.id, "source": "live"}, user_id=uid
+    )
     bus.emit(
         "detection",
         {
@@ -494,9 +561,14 @@ async def ingest_live_chunk(
             "risk_level": risk.risk_level,
             "source": "live",
         },
+        user_id=uid,
     )
     if risk.risk_level in ("HIGH", "CRITICAL"):
-        bus.emit("threat_detected", {"session_id": session.id, "risk_level": risk.risk_level})
+        bus.emit(
+            "threat_detected",
+            {"session_id": session.id, "risk_level": risk.risk_level},
+            user_id=uid,
+        )
     return {
         "session_id": session.id,
         "status": "analyzed",
@@ -542,12 +614,18 @@ def dashboard(
 
 
 @router.get("/models", response_model=ModelInfo, summary="Actual model information")
-def models(service: SOCService = Depends(get_soc_service)):
+def models(
+    service: SOCService = Depends(get_soc_service),
+    user: dict | None = Depends(get_optional_user),
+):
     return service.model_info()
 
 
 @router.get("/health", summary="SOC health incl. real model status")
-def soc_health(service: SOCService = Depends(get_soc_service)):
+def soc_health(
+    service: SOCService = Depends(get_soc_service),
+    user: dict | None = Depends(get_optional_user),
+):
     loaded = service.model.is_loaded()
     # Surface the load failure explicitly: no silent degradation. Mock mode
     # is only ever on when MOCK_INFERENCE=true was set (see model_adapter).
@@ -557,12 +635,21 @@ def soc_health(service: SOCService = Depends(get_soc_service)):
         error = "MockVoiceModel active without explicit MOCK_INFERENCE=true"
     else:
         error = getattr(service.model, "_load_error", None) or "model failed to load (see server logs)"
-    try:
-        from .fingerprint import build_fingerprint
+    # Environment fingerprints (library versions, checkpoint hashes, host
+    # paths) are diagnostics, not public health data. In production they are
+    # returned only to an authenticated caller; `/healthz` is the anonymous
+    # load-balancer probe.
+    detailed = (not is_production()) or user is not None
+    if detailed:
+        try:
+            from .fingerprint import build_fingerprint
 
-        fingerprint = build_fingerprint(service.model)
-    except Exception as exc:
-        fingerprint = {"error": f"fingerprint unavailable: {exc}"}
+            fingerprint = build_fingerprint(service.model)
+        except Exception as exc:
+            fingerprint = {"error": f"fingerprint unavailable: {exc}"}
+    else:
+        fingerprint = None
+        error = None if loaded else "model failed to load (see server logs)"
     return {
         "status": "ok" if loaded else "degraded",
         "model_loaded": loaded,
@@ -574,20 +661,28 @@ def soc_health(service: SOCService = Depends(get_soc_service)):
 
 
 @router.get("/enrollment", summary="Voice enrollment status (real capability probe)")
-def enrollment_status():
+def enrollment_status(user: dict | None = Depends(get_optional_user)):
     from .speaker import enrollment_status as _status
 
     return _status()
 
 
 @router.post("/enrollment", summary="Enroll a voice sample (unavailable without a speaker model)")
-async def enroll_voice(file: UploadFile = File(...)):
+async def enroll_voice(
+    file: UploadFile = File(...),
+    user: dict | None = Depends(get_optional_user),
+):
     from .speaker import speaker_capability
 
     cap = speaker_capability()
     if not cap["available"]:
         raise HTTPException(status_code=503, detail=cap["reason"])
-    data = await file.read()
+    data = await file.read(MAX_AUDIO_BYTES + 1)
+    if len(data) > MAX_AUDIO_BYTES:
+        raise HTTPException(
+            status_code=413,
+            detail=f"Audio file too large (limit {MAX_AUDIO_BYTES} bytes)",
+        )
     if not data:
         raise HTTPException(status_code=400, detail="Empty audio file")
     # A usable speaker backend is present (checked above); comparison wiring

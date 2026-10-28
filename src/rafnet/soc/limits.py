@@ -35,3 +35,25 @@ class MaxBodySizeMiddleware(BaseHTTPMiddleware):
             except ValueError:
                 pass
         return await call_next(request)
+
+
+class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+    """Defense-in-depth headers for the JSON API and docs.
+
+    No CSP is set here because this service only returns JSON (the frontend is
+    served separately), but MIME sniffing, framing, referrer leakage, and
+    HTTPS downgrade are cheap to prevent. HSTS is production-only so local
+    HTTP development keeps working.
+    """
+
+    async def dispatch(self, request, call_next):
+        response = await call_next(request)
+        response.headers.setdefault("X-Content-Type-Options", "nosniff")
+        response.headers.setdefault("X-Frame-Options", "DENY")
+        response.headers.setdefault("Referrer-Policy", "no-referrer")
+        response.headers.setdefault("Cache-Control", "no-store")
+        if os.getenv("RAFNET_ENV", "").strip().lower() == "production":
+            response.headers.setdefault(
+                "Strict-Transport-Security", "max-age=31536000; includeSubDomains"
+            )
+        return response

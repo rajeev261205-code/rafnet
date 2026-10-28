@@ -72,8 +72,9 @@ class SOCService:
         self.store = store or get_store()
         self.bus = bus or get_event_bus()
         # Threat triage overrides (process-local; Supabase `threats.status`
-        # is the persistent home once provisioned).
-        self._threat_status: dict[str, str] = {}
+        # is the persistent home once provisioned). Keyed by principal +
+        # analysis id so one user's triage can never affect another's threats.
+        self._threat_status: dict[tuple[str | None, str], str] = {}
         # Voice-origin classifier (additive; None => origin:null downstream).
         self.origin_model = None
         try:
@@ -113,25 +114,30 @@ class SOCService:
     def analyze_bytes(self, data: bytes, filename: str, user_id: str | None = None) -> AnalyzeResponse:
         t0 = time.perf_counter()
         safe_name = (filename or "upload.wav").rsplit("/", 1)[-1].rsplit("\\", 1)[-1]
-        self.bus.emit("analysis_started", {"audio_name": safe_name})
+        self.bus.emit("analysis_started", {"audio_name": safe_name}, user_id=user_id)
         timings: dict[str, float] = {}
         try:
             t_decode = time.perf_counter()
             decoded = decode_audio(data, filename)
             timings["decode_ms"] = round((time.perf_counter() - t_decode) * 1000, 1)
         except ValueError:
-            self.bus.emit("error", {"stage": "validation", "audio_name": safe_name})
+            self.bus.emit(
+                "error", {"stage": "validation", "audio_name": safe_name}, user_id=user_id
+            )
             raise
         self.bus.emit(
             "processing",
             {"audio_name": safe_name, "duration_seconds": round(decoded.duration_seconds, 2)},
+            user_id=user_id,
         )
         try:
             t_inf = time.perf_counter()
             result: VoiceResult = self.model.predict(decoded.samples, decoded.sample_rate)
             timings["inference_ms"] = round((time.perf_counter() - t_inf) * 1000, 1)
         except RuntimeError:
-            self.bus.emit("error", {"stage": "inference", "audio_name": safe_name})
+            self.bus.emit(
+                "error", {"stage": "inference", "audio_name": safe_name}, user_id=user_id
+            )
             raise
         risk = compute_risk(result.prediction, result.confidence, result.audio_duration_seconds)
         # Ensemble anti-spoofing (additive Phase 5; never blocks analysis).
@@ -195,7 +201,7 @@ class SOCService:
                                   risk_level="HIGH",
                                   reasons=[*risk.reasons,
                                            f"ensemble SYNTHETIC single-shot "
-                                           f"(p_cal={alert.p_cal}, agreement={alert.agreement}) -> HIGH"]) 
+                                           f"(p_cal={alert.p_cal}, agreement={alert.agreement}) -> HIGH"])
         except Exception:
             logger.warning("ensemble scoring unavailable for %s", safe_name, exc_info=True)
         # Detection layers + verdict (additive; heuristic layers never block analysis).
@@ -295,13 +301,19 @@ class SOCService:
                 "confidence": record.confidence,
                 "risk_level": record.risk_level,
             },
+            user_id=user_id,
         )
         if record.risk_level in ("HIGH", "CRITICAL"):
             self.bus.emit(
                 "threat_detected",
                 {"id": record.id, "risk_score": record.risk_score, "risk_level": record.risk_level},
+                user_id=user_id,
             )
-        self.bus.emit("analysis_completed", {"id": record.id, "prediction": record.prediction})
+        self.bus.emit(
+            "analysis_completed",
+            {"id": record.id, "prediction": record.prediction},
+            user_id=user_id,
+        )
         logger.info(
             "analyze id=%s pred=%s conf=%.3f risk=%s file=%s",
             record.id, record.prediction, record.confidence, record.risk_level, filename,
@@ -309,39 +321,31 @@ class SOCService:
         return record
 
     def get_analysis(self, analysis_id: str, user_id: str | None = None) -> dict | None:
-        row = self.store.get_analysis(analysis_id)
-        if row is None:
-            return None
-        owner = row.get("user_id")
-        # Rows saved with an owner are visible only to that owner.
-        # Anonymous requests (user_id=None) may see legacy anonymous rows only.
-        if owner is not None and owner != user_id:
-            return None
-        return row
+        # Ownership is enforced by the store query itself (in-memory and
+        # Supabase); the store never falls back to "all rows" post-filtering.
+        return self.store.get_analysis(analysis_id, user_id=user_id)
 
     def list_analyses(
         self, limit: int = 50, offset: int = 0, user_id: str | None = None
     ) -> list[dict]:
-        rows = self.store.list_analyses(limit=500, offset=0)
-        if user_id:
-            # Authenticated view: own rows + legacy anonymous rows (local dev).
-            # In production Supabase RLS enforces per-user isolation instead.
-            rows = [r for r in rows if r.get("user_id") in (None, user_id)]
-        return rows[offset : offset + limit]
+        return self.store.list_analyses(limit=limit, offset=offset, user_id=user_id)
 
     def total_count(self, user_id: str | None = None) -> int:
-        if not user_id:
-            return self.store.count()
-        return len(self.list_analyses(limit=100000, user_id=user_id))
+        return self.store.count(user_id=user_id)
 
     def clear_analyses(self, user_id: str | None = None) -> int:
         """Delete the caller's analyses (threats/calls derive from analyses,
         so they vanish too). Also drops process-local triage overrides for
-        threats that no longer exist."""
+        threats that no longer exist. Anonymous and authenticated principals
+        are strictly isolated: neither can delete the other's rows."""
         deleted = self.store.clear(user_id)
-        surviving = {t["id"] for t in self.list_threats(limit=500, user_id=user_id)}
-        for tid in [t for t in self._threat_status if t not in surviving]:
-            del self._threat_status[tid]
+        surviving = {
+            t["analysis_id"] for t in self.list_threats(limit=500, user_id=user_id)
+        }
+        for key in [
+            k for k in self._threat_status if k[0] == user_id and k[1] not in surviving
+        ]:
+            del self._threat_status[key]
         return deleted
 
     # -- derived views -------------------------------------------------
@@ -363,7 +367,11 @@ class SOCService:
             threat_type="synthetic_voice" if row.get("prediction") == "SYNTHETIC" else "uncertain_voice",
             severity="CRITICAL" if row.get("risk_level") == "CRITICAL" else "HIGH",
             confidence=float(row.get("confidence", 0.5)),
-            status=self._threat_status.get(threat_id, "open"),
+            # Key triage by full analysis id and principal: threat ids use only
+            # the first 8 hex chars, which can collide across users.
+            status=self._threat_status.get(
+                (row.get("user_id"), row["id"]), "open"
+            ),
             verdict_label=self._verdict_label(row),
             details={
                 "prob_synthetic": row.get("prob_synthetic"),
@@ -391,9 +399,10 @@ class SOCService:
     ) -> dict | None:
         if status not in ("open", "acknowledged", "closed"):
             raise ValueError("status must be open, acknowledged, or closed")
-        if self.get_threat(threat_id, user_id=user_id) is None:
+        threat = self.get_threat(threat_id, user_id=user_id)
+        if threat is None:
             return None
-        self._threat_status[threat_id] = status
+        self._threat_status[(user_id, threat["analysis_id"])] = status
         return self.get_threat(threat_id, user_id=user_id)
 
     def list_calls(self, limit: int = 50, user_id: str | None = None) -> list[dict]:

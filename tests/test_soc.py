@@ -547,8 +547,12 @@ def test_analysis_detail_scoped_by_owner():
     # Owned rows are hidden from anonymous callers (fail-closed).
     assert service.get_analysis(mine.id) is None
     anon = service.analyze_bytes(_wav_bytes(), "anon.wav")
-    assert service.get_analysis(anon.id, user_id="user-2") is not None
+    # Anonymous rows are a separate principal: authenticated users must not
+    # read them, and anonymous callers cannot see owned rows.
+    assert service.get_analysis(anon.id, user_id="user-2") is None
     assert service.get_analysis(anon.id) is not None
+    assert service.get_analysis(mine.id, user_id="user-2") is None
+    assert service.get_analysis(anon.id, user_id="user-1") is None
 
 
 def test_websocket_rejects_anonymous_when_auth_required(monkeypatch):
@@ -635,7 +639,9 @@ class _FakePostgrest:
                 rows = list(outer.tables[table])
                 for field, values in query.items():
                     wanted = (values[0] or "")
-                    if wanted.startswith("eq."):
+                    if wanted == "is.null":
+                        rows = [r for r in rows if r.get(field) is None]
+                    elif wanted.startswith("eq."):
                         rows = [r for r in rows if str(r.get(field, "")) == wanted[3:]]
                 if query.get("order", [""])[0] == "created_at.desc":
                     rows.sort(key=lambda r: r.get("created_at", ""), reverse=True)
@@ -660,6 +666,28 @@ class _FakePostgrest:
                 body = _json.loads(self.rfile.read(length).decode() or "null")
                 outer.tables[table].append(body)
                 return self._send([body], 201)
+
+            def do_DELETE(self):
+                if self.headers.get("apikey"):
+                    outer.saw_apikey = True
+                table, parsed = self._table()
+                if table not in outer.tables:
+                    return self._send({"error": "no table"}, 404)
+                query = parse_qs(parsed.query)
+                rows = list(outer.tables[table])
+                keep = []
+                removed = []
+                for row in rows:
+                    matches = True
+                    for field, values in query.items():
+                        wanted = values[0] or ""
+                        if wanted == "is.null":
+                            matches = matches and row.get(field) is None
+                        elif wanted.startswith("eq."):
+                            matches = matches and str(row.get(field, "")) == wanted[3:]
+                    (removed if matches else keep).append(row)
+                outer.tables[table] = keep
+                return self._send(removed)
 
         self._server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
         self.url = f"http://127.0.0.1:{self._server.server_address[1]}"
@@ -693,6 +721,32 @@ def test_supabase_store_against_fake_postgrest():
         assert [r["id"] for r in items] == ["b2", "a1"], "created_at.desc order"
         assert [r["id"] for r in store.list_analyses(limit=1, offset=1)] == ["a1"]
         assert store.count() == 2
+    finally:
+        fake.stop()
+
+
+def test_supabase_store_enforces_owner_filters():
+    """Service-role queries must be scoped in SQL, not post-filtered in Python."""
+    from rafnet.soc.store import SupabaseAnalysisStore
+
+    fake = _FakePostgrest()
+    try:
+        store = SupabaseAnalysisStore(fake.url, "test-service-key")
+        store.save_analysis({"id": "alice-1", "user_id": "alice", "prediction": "REAL"})
+        store.save_analysis({"id": "bob-1", "user_id": "bob", "prediction": "SYNTHETIC"})
+        store.save_analysis({"id": "anon-1", "prediction": "UNCERTAIN"})
+        assert store.get_analysis("alice-1", user_id="alice") is not None
+        assert store.get_analysis("alice-1", user_id="bob") is None
+        assert store.get_analysis("alice-1") is None
+        assert store.get_analysis("anon-1") is not None
+        assert [r["id"] for r in store.list_analyses(user_id="alice")] == ["alice-1"]
+        assert [r["id"] for r in store.list_analyses()] == ["anon-1"]
+        assert store.count(user_id="alice") == 1
+        assert store.count() == 1
+        assert store.clear(user_id="alice") == 1
+        assert store.count(user_id="alice") == 0
+        assert store.count(user_id="bob") == 1
+        assert store.count() == 1
     finally:
         fake.stop()
 
@@ -748,8 +802,8 @@ def test_supabase_store_maps_schema_columns():
         assert "model_version" not in posted
         assert "audio_duration_seconds" not in posted
         assert "prob_synthetic" not in posted
-        # Read path rebuilds the app-level shape.
-        back = store.get_analysis("full-1")
+        # Read path rebuilds the app-level shape (scoped to the owner).
+        back = store.get_analysis("full-1", user_id="user-9")
         assert back is not None
         assert back["model_version"] == "1.0.0"
         assert back["audio_duration_seconds"] == 2.0
@@ -994,14 +1048,15 @@ def test_clear_analyses_scoped_and_reported():
     assert isinstance(svc, SOCService)
     svc.analyze_bytes(_wav_bytes(), "anon.wav")
     svc.analyze_bytes(_wav_bytes(), "mine.wav", user_id="alice")
-    assert client.get("/api/history").json()["total"] == 2
-    # Anonymous clear removes legacy anonymous rows only.
+    # Principals are isolated: anonymous history sees only the anonymous row.
+    assert client.get("/api/history").json()["total"] == 1
+    # Anonymous clear removes anonymous rows only.
     r = client.delete("/api/analyses")
     assert r.status_code == 200
     assert r.json() == {"deleted": 1}
     remaining = client.get("/api/history").json()
-    assert remaining["total"] == 1
-    assert remaining["items"][0]["audio_name"] == "mine.wav"
+    assert remaining["total"] == 0
+    assert svc.total_count(user_id="alice") == 1
     # Threat triage overrides for deleted rows are dropped (no crash).
     assert client.get("/api/threats").status_code == 200
 
@@ -1019,6 +1074,23 @@ def test_threat_triage_scoped_to_owner():
     assert svc.set_threat_status(threat_id, "acknowledged", user_id="bob") is None
     updated = svc.set_threat_status(threat_id, "acknowledged", user_id="alice")
     assert updated is not None and updated["status"] == "acknowledged"
+
+
+def test_clear_does_not_drop_another_principals_triage():
+    """Clearing anonymous rows must not erase an authenticated user's triage."""
+    from rafnet.soc.service import SOCService
+
+    svc = SOCService(_FixedThreatModel())
+    svc.analyze_bytes(_loud_wav_bytes(), "alice.wav", user_id="alice")
+    threat_id = svc.list_threats(user_id="alice")[0]["id"]
+    assert svc.set_threat_status(threat_id, "acknowledged", user_id="alice")
+
+    svc.analyze_bytes(_loud_wav_bytes(), "anon.wav")
+    assert svc.clear_analyses() == 1
+
+    alice_threat = svc.get_threat(threat_id, user_id="alice")
+    assert alice_threat is not None
+    assert alice_threat["status"] == "acknowledged"
 
 
 def _load_eval_model_script():

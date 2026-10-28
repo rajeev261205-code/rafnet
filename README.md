@@ -58,9 +58,13 @@ server itself runs with `MOCK_INFERENCE=true`.
 
 ## Security defaults
 
-- Auth is open by default (`SOC_REQUIRE_AUTH=false`, dev mode). Set Supabase
-  keys + `SOC_REQUIRE_AUTH=true` for multi-user isolation; owned rows are
-  fail-closed (invisible to anonymous/strangers).
+- Development is anonymous-allowed (`SOC_REQUIRE_AUTH=false`); production
+  (`RAFNET_ENV=production`) defaults to auth required and refuses to boot
+  without Supabase keys and an explicit non-wildcard CORS origin list.
+- Ownership is enforced in SQL for every analysis query: authenticated users
+  see their own rows, anonymous callers see anonymous rows, and neither can
+  read, clear, or receive events for the other. WebSocket clients pass the
+  Supabase token as `?token=`, and event replay/streaming is per-owner.
 - Legacy `/api/v1/admin/*` retraining endpoints return 403 unless
   `RAFNET_ENABLE_ADMIN=true` (local retraining only).
 - CORS allows explicit methods/headers on configured origins; rate limiting

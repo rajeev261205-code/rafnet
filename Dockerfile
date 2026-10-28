@@ -7,10 +7,16 @@
 # alternative for small instances — but it cannot run the real model.
 FROM python:3.11-slim
 
+# Production is the default for the container: authentication is required and
+# startup fails closed unless SUPABASE_URL + a Supabase key + a non-wildcard
+# SOC_CORS_ORIGINS are supplied. For a throwaway local demo, override with
+# `-e RAFNET_ENV=development -e SOC_REQUIRE_AUTH=false`.
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     MOCK_INFERENCE=false \
     RAFNET_DEVICE=cpu \
+    RAFNET_ENV=production \
+    SOC_REQUIRE_AUTH=true \
     HF_HUB_OFFLINE=0
 
 WORKDIR /app

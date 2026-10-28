@@ -1,16 +1,22 @@
-from fastapi import FastAPI
+import logging
+import os
+from contextlib import asynccontextmanager
+
+from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.utils import get_openapi
 from fastapi.responses import JSONResponse
-from contextlib import asynccontextmanager
-import logging
-import os
 
 # Legacy JSON-frame stack needs torch; the SOC stack (rafnet.soc) does not.
 # Guard the import so the app still boots (SOC-only) on machines without the
 # heavy ML runtime — e.g. mock-mode dev or frontend integration work.
 try:
-    from rafnet.api.routes import router, initialize_service, http_exception_handler, generic_exception_handler
+    from rafnet.api.routes import (
+        generic_exception_handler,
+        http_exception_handler,
+        initialize_service,
+        router,
+    )
     from rafnet.api.service import InferenceService
     from rafnet.config.schema import RAFNetConfig
     from rafnet.inference import LatencyTarget
@@ -42,12 +48,12 @@ def get_config():  # -> RAFNetConfig when legacy stack is available
     if not _LEGACY_AVAILABLE:
         raise RuntimeError(f"Legacy inference stack unavailable: {_LEGACY_ERROR}")
     config = RAFNetConfig()
-    
+
     # Override from environment
     config.device = os.getenv("RAFNET_DEVICE", "cpu")
     config.classical.model_type = os.getenv("RAFNET_CLASSICAL_MODEL", "logistic")
     config.quantum.fallback_mode = os.getenv("RAFNET_QUANTUM_FALLBACK", "classical")
-    
+
     return config
 
 
@@ -74,6 +80,12 @@ async def lifespan(app: FastAPI):
     """Application lifespan manager."""
     # Startup
     logger.info("Starting RAFNet API...")
+
+    # Fail closed before loading any models: production must not boot with
+    # anonymous access, missing Supabase auth config, or wildcard CORS.
+    from rafnet.soc.auth import validate_security_config
+
+    validate_security_config()
 
     if _LEGACY_AVAILABLE:
         config = get_config()
@@ -132,10 +144,10 @@ app = FastAPI(
     title="RAFNet API",
     description="""
     RAFNet (Real-time Audio-Fusion Network) API for synthetic speech detection.
-    
+
     This API provides real-time inference for detecting synthetic vs real speech
     using a multi-modal pipeline combining audio and network telemetry.
-    
+
     ## Pipeline
     ```
     Audio → WavLM + Handcrafted → Audio Encoder
@@ -155,14 +167,17 @@ app = FastAPI(
                     ↓
          Decision: REAL / UNCERTAIN / SYNTHETIC
     ```
-    
+
     ## Latency Targets
     - Total: 700ms (CPU) / 100ms (GPU)
     - Audio Encoder: 600ms (CPU) / 30ms (GPU)
     - Other stages: <20ms each
-    
+
     ## Authentication
-    Currently no authentication required. Add API key middleware for production.
+    Supabase Bearer tokens are validated when `SOC_REQUIRE_AUTH=true` (always
+    enforced when `RAFNET_ENV=production`). Analysis data is scoped to the
+    token owner; anonymous sessions are isolated from authenticated users.
+    WebSocket clients pass the token as `?token=` on `/ws/live`.
     """,
     version="1.0.0",
     lifespan=lifespan,
@@ -171,16 +186,23 @@ app = FastAPI(
     openapi_url="/openapi.json",
 )
 
-# CORS — configured via CORS_ORIGINS (comma-separated). Default locks to local
-# dev origins (both localhost and 127.0.0.1, since browsers treat them as
-# different origins); set CORS_ORIGINS=* explicitly only for throwaway testing.
+# CORS — configured via SOC_CORS_ORIGINS (preferred) or CORS_ORIGINS
+# (comma-separated). Dev defaults to loopback origins (localhost and 127.0.0.1
+# are different origins to browsers). Production must set an explicit list;
+# startup validation rejects "*" there. Credentials are only enabled for a
+# concrete origin list (the wildcard + credentials combination is invalid and
+# rejected by browsers).
+_DEV_CORS_ORIGINS = (
+    "http://localhost:3000,http://127.0.0.1:3000,"
+    "http://localhost:5173,http://127.0.0.1:5173,"
+    "http://localhost:8000,http://127.0.0.1:8000"
+)
+
+
 def _cors_origins() -> list[str]:
-    raw = os.getenv(
-        "CORS_ORIGINS",
-        "http://localhost:3000,http://127.0.0.1:3000,"
-        "http://localhost:5173,http://127.0.0.1:5173,"
-        "http://localhost:8000,http://127.0.0.1:8000",
-    )
+    raw = os.getenv("SOC_CORS_ORIGINS") or os.getenv("CORS_ORIGINS")
+    if raw is None:
+        raw = "" if os.getenv("RAFNET_ENV", "").lower() == "production" else _DEV_CORS_ORIGINS
     origins = [o.strip() for o in raw.split(",") if o.strip()]
     return origins
 
@@ -189,17 +211,18 @@ _cors_origins = _cors_origins()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=_cors_origins,
-    allow_credentials=True,
-    allow_methods=["GET", "POST", "PATCH", "OPTIONS"],
+    allow_credentials="*" not in _cors_origins,
+    allow_methods=["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
     allow_headers=["Authorization", "Content-Type", "Accept", "X-Forwarded-For"],
 )
 
 try:
-    from rafnet.soc.limits import MaxBodySizeMiddleware
+    from rafnet.soc.limits import MaxBodySizeMiddleware, SecurityHeadersMiddleware
 
     app.add_middleware(MaxBodySizeMiddleware)
+    app.add_middleware(SecurityHeadersMiddleware)
 except Exception as exc:  # noqa: BLE001 — never break boot on hardening
-    logger.warning("Body-size guard not mounted: %s", exc)
+    logger.warning("Security middleware not mounted: %s", exc)
 
 # Exception handlers — never leak internals (log full trace server-side).
 async def _not_found_handler(request, exc):  # noqa: ANN001, ANN202
@@ -214,9 +237,15 @@ async def _server_error_handler(request, exc):  # noqa: ANN001, ANN202
 app.add_exception_handler(404, _not_found_handler)
 app.add_exception_handler(500, _server_error_handler)
 
-# Include routes — legacy /api/v1 only when torch stack is present.
+# Include routes — legacy /api/v1 only when torch stack is present. Mount the
+# same optional-auth dependency so enabling SOC_REQUIRE_AUTH also protects the
+# legacy inference endpoints (otherwise they would remain an anonymous bypass).
 if _LEGACY_AVAILABLE and router is not None:
-    app.include_router(router, prefix="/api/v1")
+    from rafnet.soc.auth import get_optional_user
+
+    app.include_router(
+        router, prefix="/api/v1", dependencies=[Depends(get_optional_user)]
+    )
 else:
     logger.warning("Legacy /api/v1 routes disabled: %s", _LEGACY_ERROR)
 
@@ -236,14 +265,14 @@ def custom_openapi():
     """Custom OpenAPI schema."""
     if app.openapi_schema:
         return app.openapi_schema
-    
+
     openapi_schema = get_openapi(
         title="RAFNet API",
         version="1.0.0",
         description=app.description,
         routes=app.routes,
     )
-    
+
     # Add security schemes (for future use)
     openapi_schema["components"]["securitySchemes"] = {
         "APIKeyHeader": {
@@ -256,7 +285,7 @@ def custom_openapi():
             "scheme": "bearer",
         },
     }
-    
+
     app.openapi_schema = openapi_schema
     return app.openapi_schema
 

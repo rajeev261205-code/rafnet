@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { WS_URL } from "../services/api";
+import { getAuthToken, WS_URL } from "../services/api";
 import type { LiveEvent } from "../types";
 
 export type WsStatus = "LIVE" | "RECONNECTING" | "OFFLINE";
@@ -27,7 +27,13 @@ export function useLiveSocket(active: boolean): {
       setStatus((s) => (s === "LIVE" ? s : retryRef.current === 0 ? "RECONNECTING" : "RECONNECTING"));
       let ws: WebSocket;
       try {
-        ws = new WebSocket(WS_URL);
+        // Browsers cannot attach headers to a WebSocket upgrade, so the
+        // backend accepts the Supabase access token as a query parameter.
+        const token = getAuthToken();
+        const url = token
+          ? `${WS_URL}${WS_URL.includes("?") ? "&" : "?"}token=${encodeURIComponent(token)}`
+          : WS_URL;
+        ws = new WebSocket(url);
       } catch {
         schedule();
         return;

@@ -7,7 +7,8 @@
 When env is missing, `get_store()` returns the in-memory adapter and logs why —
 no silent behavior change.
 
-Supabase SQL + RLS lives in `supabase/migrations/001_soc_schema.sql`.
+Supabase SQL + RLS lives in `supabase/migrations/001_soc_schema.sql`; `004`
+bootstraps `profiles` rows for Auth users (required by the `user_id` FKs).
 """
 from __future__ import annotations
 
@@ -19,15 +20,33 @@ from typing import Any, Protocol
 logger = logging.getLogger(__name__)
 
 
+def _owned_by(row: dict[str, Any], user_id: str | None) -> bool:
+    """True when `row` belongs to the caller's principal.
+
+    `user_id=None` is an explicit anonymous principal: it matches only rows
+    with no owner. Unowned/legacy rows are never visible to authenticated
+    users, and owned rows are never visible to anonymous callers.
+    """
+    owner = row.get("user_id")
+    if user_id is None:
+        return owner is None
+    return owner == user_id
+
+
 class AnalysisStore(Protocol):
     def save_analysis(self, record: dict[str, Any]) -> dict[str, Any]: ...
-    def get_analysis(self, analysis_id: str) -> dict[str, Any] | None: ...
-    def list_analyses(self, limit: int = 50, offset: int = 0) -> list[dict[str, Any]]: ...
-    def count(self) -> int: ...
+    def get_analysis(
+        self, analysis_id: str, user_id: str | None = None
+    ) -> dict[str, Any] | None: ...
+    def list_analyses(
+        self, limit: int = 50, offset: int = 0, user_id: str | None = None
+    ) -> list[dict[str, Any]]: ...
+    def count(self, user_id: str | None = None) -> int: ...
+    def clear(self, user_id: str | None = None) -> int: ...
 
 
 class InMemoryAnalysisStore:
-    """Default local/demo adapter — ring buffer, newest first."""
+    """Default local/demo adapter �?" ring buffer, newest first."""
 
     def __init__(self, maxlen: int = 500) -> None:
         self._rows: deque[dict[str, Any]] = deque(maxlen=maxlen)
@@ -36,31 +55,36 @@ class InMemoryAnalysisStore:
         self._rows.appendleft(record)
         return record
 
-    def get_analysis(self, analysis_id: str) -> dict[str, Any] | None:
-        return next((r for r in self._rows if r.get("id") == analysis_id), None)
+    def get_analysis(
+        self, analysis_id: str, user_id: str | None = None
+    ) -> dict[str, Any] | None:
+        return next(
+            (
+                r
+                for r in self._rows
+                if r.get("id") == analysis_id and _owned_by(r, user_id)
+            ),
+            None,
+        )
 
-    def list_analyses(self, limit: int = 50, offset: int = 0) -> list[dict[str, Any]]:
-        rows = list(self._rows)
+    def list_analyses(
+        self, limit: int = 50, offset: int = 0, user_id: str | None = None
+    ) -> list[dict[str, Any]]:
+        rows = [r for r in self._rows if _owned_by(r, user_id)]
         return rows[offset : offset + limit]
 
-    def count(self) -> int:
-        return len(self._rows)
+    def count(self, user_id: str | None = None) -> int:
+        return sum(1 for r in self._rows if _owned_by(r, user_id))
 
     def clear(self, user_id: str | None = None) -> int:
-        """Delete analyses visible to `user_id` (anonymous callers clear
-        legacy anonymous rows only). Returns the number removed. Threat
-        triage overrides live in the service, not the store."""
+        """Delete exactly the caller's analyses (anonymous callers clear
+        anonymous rows only; an authenticated caller never deletes another
+        principal's rows, including unowned/legacy rows)."""
         before = len(self._rows)
-        if user_id is None:
-            self._rows = deque(
-                (r for r in self._rows if r.get("user_id") is not None),
-                maxlen=self._rows.maxlen,
-            )
-        else:
-            self._rows = deque(
-                (r for r in self._rows if r.get("user_id") not in (None, user_id)),
-                maxlen=self._rows.maxlen,
-            )
+        self._rows = deque(
+            (r for r in self._rows if not _owned_by(r, user_id)),
+            maxlen=self._rows.maxlen,
+        )
         return before - len(self._rows)
 
 
@@ -73,7 +97,8 @@ class SupabaseAnalysisStore:
     Column mapping: the app-level record (AnalyzeResponse-shaped) uses
     `model_version` / `audio_duration_seconds` / flat probability fields,
     while the SQL schema (`supabase/migrations/001_soc_schema.sql`, plus
-    002 for verdict/layers/reasons) stores `model_id`, `duration_seconds`,
+    002 for verdict/layers/reasons and 004 for Auth-user profiles) stores
+    `model_id`, `duration_seconds`,
     and nested `probs`/`gateway` jsonb. `_to_row`/`_from_row` translate both
     ways so production rows round-trip without 400s from PostgREST on
     unknown columns and without KeyErrors on read.
@@ -132,22 +157,49 @@ class SupabaseAnalysisStore:
             text = resp.read().decode()
             return self._json.loads(text) if text else []
 
+    @staticmethod
+    def _user_filter(user_id: str | None) -> str:
+        """PostgREST filter for the caller's principal.
+
+        `None` is the anonymous principal and maps to `user_id=is.null`.
+        Authenticated callers map to an exact owner match. Backend queries
+        are always scoped, even though the service-role key bypasses RLS.
+        """
+        return "is.null" if user_id is None else f"eq.{user_id}"
+
     def save_analysis(self, record: dict[str, Any]) -> dict[str, Any]:
         saved = self._rest("analysis_results", method="POST", body=self._to_row(record))
         row = saved[0] if isinstance(saved, list) and saved else record
         return self._from_row(row) if isinstance(row, dict) else record
 
-    def get_analysis(self, analysis_id: str) -> dict[str, Any] | None:
-        rows = self._rest("analysis_results", {"id": f"eq.{analysis_id}", "limit": "1"})
+    def get_analysis(
+        self, analysis_id: str, user_id: str | None = None
+    ) -> dict[str, Any] | None:
+        rows = self._rest(
+            "analysis_results",
+            {
+                "id": f"eq.{analysis_id}",
+                "user_id": self._user_filter(user_id),
+                "limit": "1",
+            },
+        )
         if not rows:
             return None
         row = rows[0]
         return self._from_row(row) if isinstance(row, dict) else None
 
-    def list_analyses(self, limit: int = 50, offset: int = 0) -> list[dict[str, Any]]:
+    def list_analyses(
+        self, limit: int = 50, offset: int = 0, user_id: str | None = None
+    ) -> list[dict[str, Any]]:
         rows: list[dict[str, Any]] = self._rest(
             "analysis_results",
-            {"select": "*", "order": "created_at.desc", "limit": str(limit), "offset": str(offset)},
+            {
+                "select": "*",
+                "user_id": self._user_filter(user_id),
+                "order": "created_at.desc",
+                "limit": str(limit),
+                "offset": str(offset),
+            },
         )
         return [self._from_row(r) if isinstance(r, dict) else r for r in rows]
 
@@ -210,16 +262,20 @@ class SupabaseAnalysisStore:
         out.setdefault("stage_timings_ms", row.get("stage_timings_ms") or {})
         return out
 
-    def count(self) -> int:
-        rows = self._rest("analysis_results", {"select": "id"})
+    def count(self, user_id: str | None = None) -> int:
+        rows = self._rest(
+            "analysis_results",
+            {"select": "id", "user_id": self._user_filter(user_id)},
+        )
         return len(rows) if isinstance(rows, list) else 0
 
     def clear(self, user_id: str | None = None) -> int:
-        """Delete analyses visible to `user_id` via Supabase REST. Anonymous
-        callers delete legacy anonymous rows (`user_id=is.null`) only."""
-        filt = "is.null" if user_id is None else f"eq.{user_id}"
+        """Delete exactly the caller's analyses via Supabase REST. Anonymous
+        callers delete anonymous rows (`user_id=is.null`) only."""
         resp = self._rest(
-            "analysis_results", {"user_id": filt}, method="DELETE",
+            "analysis_results",
+            {"user_id": self._user_filter(user_id)},
+            method="DELETE",
         )
         if isinstance(resp, list):
             return len(resp)

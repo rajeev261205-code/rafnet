@@ -35,7 +35,7 @@ reported honestly by `/api/health`). Production ML runtime: `requirements-ml.txt
 
 ## Deployment fit
 
-- Frontend: Vercel (static/SSR, `NEXT_PUBLIC_*` only).
+- Frontend: Vercel (Vite static build, `VITE_*` only).
 - Backend/ML: persistent Python host (Railway/Render/Fly/GPU box) — NOT Vercel
   serverless (94M WavLM + torch + 700ms-1200ms CPU inference unsuitable).
 - Supabase: Auth + Postgres; server key stays backend-only.
